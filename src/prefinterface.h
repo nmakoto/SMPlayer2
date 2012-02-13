@@ -26,119 +26,129 @@ class Preferences;
 
 class PrefInterface : public PrefWidget, public Ui::PrefInterface
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	PrefInterface( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~PrefInterface();
+    PrefInterface(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PrefInterface();
 
-	virtual QString sectionName();
-	virtual QPixmap sectionIcon();
+    virtual QString sectionName();
+    virtual QPixmap sectionIcon();
 
     // Pass data to the dialog
-    void setData(Preferences * pref);
+    void setData(Preferences *pref);
 
     // Apply changes
-    void getData(Preferences * pref);
+    void getData(Preferences *pref);
 
-	bool languageChanged() { return language_changed; };
-	bool iconsetChanged() { return iconset_changed; };
-	bool recentsChanged() { return recents_changed; };
-	bool styleChanged() { return style_changed; };
-	bool serverPortChanged() { return port_changed; };
+    bool languageChanged() {
+        return language_changed;
+    };
+    bool iconsetChanged() {
+        return iconset_changed;
+    };
+    bool recentsChanged() {
+        return recents_changed;
+    };
+    bool styleChanged() {
+        return style_changed;
+    };
+    bool serverPortChanged() {
+        return port_changed;
+    };
 
-	void setSingleInstanceTabEnabled(bool b);
-	bool singleInstanceTabEnabled();
+    void setSingleInstanceTabEnabled(bool b);
+    bool singleInstanceTabEnabled();
 
 protected:
-	virtual void createHelp();
-	void createLanguageCombo();
+    virtual void createHelp();
+    void createLanguageCombo();
 
-	void setLanguage(QString lang);
-	QString language();
+    void setLanguage(QString lang);
+    QString language();
 
-	void setIconSet(QString set);
-	QString iconSet();
+    void setIconSet(QString set);
+    QString iconSet();
 
-	void setResizeMethod(int v);
-	int resizeMethod();
+    void setResizeMethod(int v);
+    int resizeMethod();
 
-	void setSaveSize(bool b);
-	bool saveSize();
+    void setSaveSize(bool b);
+    bool saveSize();
 
-	void setGUI(QString gui_name);
-	QString GUI();
+    void setGUI(QString gui_name);
+    QString GUI();
 
-	void setStyle(QString style);
-	QString style();
+    void setStyle(QString style);
+    QString style();
 
-	void setUseSingleInstance(bool b);
-	bool useSingleInstance();
+    void setUseSingleInstance(bool b);
+    bool useSingleInstance();
 
-	void setServerPort(int port);
-	int serverPort();
+    void setServerPort(int port);
+    int serverPort();
 
-	void setUseAutoPort(bool b);
-	bool useAutoPort();
+    void setUseAutoPort(bool b);
+    bool useAutoPort();
 
-	void setRecentsMaxItems(int n);
-	int recentsMaxItems();
+    void setRecentsMaxItems(int n);
+    int recentsMaxItems();
 
-	void setSeeking1(int n);
-	int seeking1();
+    void setSeeking1(int n);
+    int seeking1();
 
-	void setSeeking2(int n);
-	int seeking2();
+    void setSeeking2(int n);
+    int seeking2();
 
-	void setSeeking3(int n);
-	int seeking3();
+    void setSeeking3(int n);
+    int seeking3();
 
-	void setSeeking4(int n);
-	int seeking4();
+    void setSeeking4(int n);
+    int seeking4();
 
-	void setUpdateWhileDragging(bool);
-	bool updateWhileDragging();
+    void setUpdateWhileDragging(bool);
+    bool updateWhileDragging();
 
-	void setRelativeSeeking(bool);
-	bool relativeSeeking();
+    void setRelativeSeeking(bool);
+    bool relativeSeeking();
 
-	void setDefaultFont(QString font_desc);
-	QString defaultFont();
+    void setDefaultFont(QString font_desc);
+    QString defaultFont();
 
-	void setHideVideoOnAudioFiles(bool b);
-	bool hideVideoOnAudioFiles();
+    void setHideVideoOnAudioFiles(bool b);
+    bool hideVideoOnAudioFiles();
 
-	// Floating tab
-	void setFloatingAnimated(bool b);
-	bool floatingAnimated();
+    // Floating tab
+    void setFloatingAnimated(bool b);
+    bool floatingAnimated();
 
-	void setFloatingWidth(int percentage);
-	int floatingWidth();
+    void setFloatingWidth(int percentage);
+    int floatingWidth();
 
-	void setFloatingMargin(int pixels);
-	int floatingMargin();
+    void setFloatingMargin(int pixels);
+    int floatingMargin();
 
-	void setDisplayFloatingInCompactMode(bool b);
-	bool displayFloatingInCompactMode();
+    void setDisplayFloatingInCompactMode(bool b);
+    bool displayFloatingInCompactMode();
 
 #ifndef Q_OS_WIN
-	void setFloatingBypassWindowManager(bool b);
-	bool floatingBypassWindowManager();
+    void setFloatingBypassWindowManager(bool b);
+    bool floatingBypassWindowManager();
 #endif
 
 protected slots:
-	void on_changeFontButton_clicked();
-	void changeInstanceImages();
+    void on_changeFontButton_clicked();
+    void changeInstanceImages();
 
 protected:
-	virtual void retranslateStrings();
+    virtual void retranslateStrings();
 
 private:
-	bool language_changed;
-	bool iconset_changed;
-	bool recents_changed;
-	bool style_changed;
-	bool port_changed;
+    bool language_changed;
+    bool iconset_changed;
+    bool recents_changed;
+    bool style_changed;
+    bool port_changed;
 };
 
 #endif

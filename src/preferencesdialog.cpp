@@ -41,186 +41,205 @@
 
 #include "images.h"
 
-PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
-	: QDialog(parent, f )
+PreferencesDialog::PreferencesDialog(QWidget *parent, Qt::WindowFlags f)
+    : QDialog(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 
-	// Setup buttons
-	okButton = buttonBox->button(QDialogButtonBox::Ok);
-	cancelButton = buttonBox->button(QDialogButtonBox::Cancel);
-	applyButton = buttonBox->button(QDialogButtonBox::Apply);
-	helpButton = buttonBox->button(QDialogButtonBox::Help);
-	connect( applyButton, SIGNAL(clicked()), this, SLOT(apply()) );
-	connect( helpButton, SIGNAL(clicked()), this, SLOT(showHelp()) );
-	
+    // Setup buttons
+    okButton = buttonBox->button(QDialogButtonBox::Ok);
+    cancelButton = buttonBox->button(QDialogButtonBox::Cancel);
+    applyButton = buttonBox->button(QDialogButtonBox::Apply);
+    helpButton = buttonBox->button(QDialogButtonBox::Help);
+    connect(applyButton, SIGNAL(clicked()), this, SLOT(apply()));
+    connect(helpButton, SIGNAL(clicked()), this, SLOT(showHelp()));
 
-	setWindowIcon( Images::icon("logo") );
 
-	help_window = new QTextBrowser(this);
-	help_window->setWindowFlags(Qt::Window);
-	help_window->resize(300, 450);
-	//help_window->adjustSize();
-	help_window->setWindowTitle( tr("SMPlayer2 - Help") );
-	help_window->setWindowIcon( Images::icon("logo") );
+    setWindowIcon(Images::icon("logo"));
 
-	page_general = new PrefGeneral;
-	addSection( page_general );
+    help_window = new QTextBrowser(this);
+    help_window->setWindowFlags(Qt::Window);
+    help_window->resize(300, 450);
+    //help_window->adjustSize();
+    help_window->setWindowTitle(tr("SMPlayer2 - Help"));
+    help_window->setWindowIcon(Images::icon("logo"));
 
-	page_drives = new PrefDrives;
-	addSection( page_drives );
+    page_general = new PrefGeneral;
+    addSection(page_general);
 
-	page_performance = new PrefPerformance;
-	addSection( page_performance );
+    page_drives = new PrefDrives;
+    addSection(page_drives);
 
-	page_subtitles = new PrefSubtitles;
-	addSection( page_subtitles );
+    page_performance = new PrefPerformance;
+    addSection(page_performance);
 
-	page_interface = new PrefInterface;
-	addSection( page_interface );
+    page_subtitles = new PrefSubtitles;
+    addSection(page_subtitles);
 
-	page_input = new PrefInput;
-	addSection( page_input );
+    page_interface = new PrefInterface;
+    addSection(page_interface);
 
-	page_playlist = new PrefPlaylist;
-	addSection( page_playlist );
+    page_input = new PrefInput;
+    addSection(page_input);
 
-	page_tv = new PrefTV;
-	addSection( page_tv );
+    page_playlist = new PrefPlaylist;
+    addSection(page_playlist);
+
+    page_tv = new PrefTV;
+    addSection(page_tv);
 
 #if USE_ASSOCIATIONS
-	page_associations = new PrefAssociations;
-	addSection(page_associations);
+    page_associations = new PrefAssociations;
+    addSection(page_associations);
 #endif
 
-	page_advanced = new PrefAdvanced;
-	addSection( page_advanced );
+    page_advanced = new PrefAdvanced;
+    addSection(page_advanced);
 
-	sections->setCurrentRow(General);
+    sections->setCurrentRow(General);
 
-	//adjustSize();
-	retranslateStrings();
+    //adjustSize();
+    retranslateStrings();
 }
 
 PreferencesDialog::~PreferencesDialog()
 {
 }
 
-void PreferencesDialog::showSection(Section s) {
-	qDebug("PreferencesDialog::showSection: %d", s);
+void PreferencesDialog::showSection(Section s)
+{
+    qDebug("PreferencesDialog::showSection: %d", s);
 
-	sections->setCurrentRow(s);
+    sections->setCurrentRow(s);
 }
 
-void PreferencesDialog::retranslateStrings() {
-	retranslateUi(this);
+void PreferencesDialog::retranslateStrings()
+{
+    retranslateUi(this);
 
-	for (int n=0; n < pages->count(); n++) {
-		PrefWidget * w = (PrefWidget*) pages->widget(n);
-		sections->item(n)->setText( w->sectionName() );
-		sections->item(n)->setIcon( w->sectionIcon() );
-	}
+    for (int n = 0; n < pages->count(); n++) {
+        PrefWidget *w = (PrefWidget *) pages->widget(n);
+        sections->item(n)->setText(w->sectionName());
+        sections->item(n)->setIcon(w->sectionIcon());
+    }
 
-	if (help_window->isVisible()) {
-		// Makes the help to retranslate
-		showHelp();
-	}
+    if (help_window->isVisible()) {
+        // Makes the help to retranslate
+        showHelp();
+    }
 
-	help_window->setWindowTitle( tr("SMPlayer2 - Help") );
+    help_window->setWindowTitle(tr("SMPlayer2 - Help"));
 
-	// Qt 4.2 doesn't update the buttons' text
+    // Qt 4.2 doesn't update the buttons' text
 #if QT_VERSION < 0x040300
-	okButton->setText( tr("OK") );
-	cancelButton->setText( tr("Cancel") );
-	applyButton->setText( tr("Apply") );
-	helpButton->setText( tr("Help") );
+    okButton->setText(tr("OK"));
+    cancelButton->setText(tr("Cancel"));
+    applyButton->setText(tr("Apply"));
+    helpButton->setText(tr("Help"));
 #endif
 }
 
-void PreferencesDialog::accept() {
-	hide();
-	help_window->hide();
-	setResult( QDialog::Accepted );
-	emit applied();
+void PreferencesDialog::accept()
+{
+    hide();
+    help_window->hide();
+    setResult(QDialog::Accepted);
+    emit applied();
 }
 
-void PreferencesDialog::apply() {
-	setResult( QDialog::Accepted );
-	emit applied();
+void PreferencesDialog::apply()
+{
+    setResult(QDialog::Accepted);
+    emit applied();
 }
 
-void PreferencesDialog::reject() {
-	hide();
-	help_window->hide();
-	setResult( QDialog::Rejected );
+void PreferencesDialog::reject()
+{
+    hide();
+    help_window->hide();
+    setResult(QDialog::Rejected);
 
-	setResult( QDialog::Accepted );
+    setResult(QDialog::Accepted);
 }
 
-void PreferencesDialog::addSection(PrefWidget *w) {
-	QListWidgetItem *i = new QListWidgetItem( w->sectionIcon(), w->sectionName() );
-	sections->addItem( i );
-	pages->addWidget(w);
+void PreferencesDialog::addSection(PrefWidget *w)
+{
+    QListWidgetItem *i = new QListWidgetItem(w->sectionIcon(), w->sectionName());
+    sections->addItem(i);
+    pages->addWidget(w);
 }
 
-void PreferencesDialog::setData(Preferences * pref) {
-	page_general->setData(pref);
-	page_drives->setData(pref);
-	page_interface->setData(pref);
-	page_performance->setData(pref);
-	page_input->setData(pref);
-	page_subtitles->setData(pref);
-	page_advanced->setData(pref);
-	page_playlist->setData(pref);
-	page_tv->setData(pref);
+void PreferencesDialog::setData(Preferences *pref)
+{
+    page_general->setData(pref);
+    page_drives->setData(pref);
+    page_interface->setData(pref);
+    page_performance->setData(pref);
+    page_input->setData(pref);
+    page_subtitles->setData(pref);
+    page_advanced->setData(pref);
+    page_playlist->setData(pref);
+    page_tv->setData(pref);
 
 #if USE_ASSOCIATIONS
-	page_associations->setData(pref);
+    page_associations->setData(pref);
 #endif
 }
 
-void PreferencesDialog::getData(Preferences * pref) {
-	page_general->getData(pref);
-	page_drives->getData(pref);
-	page_interface->getData(pref);
-	page_performance->getData(pref);
-	page_input->getData(pref);
-	page_subtitles->getData(pref);
-	page_advanced->getData(pref);
-	page_playlist->getData(pref);
-	page_tv->getData(pref);
+void PreferencesDialog::getData(Preferences *pref)
+{
+    page_general->getData(pref);
+    page_drives->getData(pref);
+    page_interface->getData(pref);
+    page_performance->getData(pref);
+    page_input->getData(pref);
+    page_subtitles->getData(pref);
+    page_advanced->getData(pref);
+    page_playlist->getData(pref);
+    page_tv->getData(pref);
 
 #if USE_ASSOCIATIONS
-	page_associations->getData(pref);
+    page_associations->getData(pref);
 #endif
 }
 
-bool PreferencesDialog::requiresRestart() {
-	bool need_restart = page_general->requiresRestart();
-	if (!need_restart) need_restart = page_drives->requiresRestart();
-	if (!need_restart) need_restart = page_interface->requiresRestart();
-	if (!need_restart) need_restart = page_performance->requiresRestart();
-	if (!need_restart) need_restart = page_input->requiresRestart();
-	if (!need_restart) need_restart = page_subtitles->requiresRestart();
-	if (!need_restart) need_restart = page_advanced->requiresRestart();
-	if (!need_restart) need_restart = page_playlist->requiresRestart();
-	if (!need_restart) need_restart = page_tv->requiresRestart();
+bool PreferencesDialog::requiresRestart()
+{
+    bool need_restart = page_general->requiresRestart();
 
-	return need_restart;
+    if (!need_restart) need_restart = page_drives->requiresRestart();
+
+    if (!need_restart) need_restart = page_interface->requiresRestart();
+
+    if (!need_restart) need_restart = page_performance->requiresRestart();
+
+    if (!need_restart) need_restart = page_input->requiresRestart();
+
+    if (!need_restart) need_restart = page_subtitles->requiresRestart();
+
+    if (!need_restart) need_restart = page_advanced->requiresRestart();
+
+    if (!need_restart) need_restart = page_playlist->requiresRestart();
+
+    if (!need_restart) need_restart = page_tv->requiresRestart();
+
+    return need_restart;
 }
 
-void PreferencesDialog::showHelp() {
-	PrefWidget * w = (PrefWidget*) pages->currentWidget();
-	help_window->setHtml( w->help() );
-	help_window->show();
-	help_window->raise();
+void PreferencesDialog::showHelp()
+{
+    PrefWidget *w = (PrefWidget *) pages->currentWidget();
+    help_window->setHtml(w->help());
+    help_window->show();
+    help_window->raise();
 }
 
 // Language change stuff
-void PreferencesDialog::changeEvent(QEvent *e) {
-	if (e->type() == QEvent::LanguageChange) {
-		retranslateStrings();
-	} else {
-		QDialog::changeEvent(e);
-	}
+void PreferencesDialog::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange) {
+        retranslateStrings();
+    } else {
+        QDialog::changeEvent(e);
+    }
 }

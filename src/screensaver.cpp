@@ -21,72 +21,81 @@
 #include <QSysInfo>
 #include <windows.h>
 
-WinScreenSaver::WinScreenSaver() {
-	lowpower = poweroff = screensaver = 0;
-	state_saved = false;
-	modified = false;
-	
-	retrieveState();
+WinScreenSaver::WinScreenSaver()
+{
+    lowpower = poweroff = screensaver = 0;
+    state_saved = false;
+    modified = false;
+
+    retrieveState();
 }
 
-WinScreenSaver::~WinScreenSaver() {
-	restoreState();
+WinScreenSaver::~WinScreenSaver()
+{
+    restoreState();
 }
 
-void WinScreenSaver::retrieveState() {
-	qDebug("WinScreenSaver::retrieveState");
-	
-	if (!state_saved) {
-		if (QSysInfo::WindowsVersion < QSysInfo::WV_VISTA) {
-			// Not supported on Windows Vista
-			SystemParametersInfo(SPI_GETLOWPOWERTIMEOUT, 0, &lowpower, 0);
-			SystemParametersInfo(SPI_GETPOWEROFFTIMEOUT, 0, &poweroff, 0);
-		}
-		SystemParametersInfo(SPI_GETSCREENSAVETIMEOUT, 0, &screensaver, 0);
-		state_saved = true;
-		
-		qDebug("WinScreenSaver::retrieveState: lowpower: %d, poweroff: %d, screensaver: %d", lowpower, poweroff, screensaver);
-	} else {
-		qDebug("WinScreenSaver::retrieveState: state already saved previously, doing nothing");
-	}
+void WinScreenSaver::retrieveState()
+{
+    qDebug("WinScreenSaver::retrieveState");
+
+    if (!state_saved) {
+        if (QSysInfo::WindowsVersion < QSysInfo::WV_VISTA) {
+            // Not supported on Windows Vista
+            SystemParametersInfo(SPI_GETLOWPOWERTIMEOUT, 0, &lowpower, 0);
+            SystemParametersInfo(SPI_GETPOWEROFFTIMEOUT, 0, &poweroff, 0);
+        }
+
+        SystemParametersInfo(SPI_GETSCREENSAVETIMEOUT, 0, &screensaver, 0);
+        state_saved = true;
+
+        qDebug("WinScreenSaver::retrieveState: lowpower: %d, poweroff: %d, screensaver: %d", lowpower, poweroff, screensaver);
+    } else {
+        qDebug("WinScreenSaver::retrieveState: state already saved previously, doing nothing");
+    }
 }
 
-void WinScreenSaver::restoreState() {
-	if (!modified) {
-		qDebug("WinScreenSaver::restoreState: state did not change, doing nothing");
-		return;
-	}
-	
-	if (state_saved) {
-		if (QSysInfo::WindowsVersion < QSysInfo::WV_VISTA) {
-			// Not supported on Windows Vista
-			SystemParametersInfo(SPI_SETLOWPOWERTIMEOUT, lowpower, NULL, 0);
-			SystemParametersInfo(SPI_SETPOWEROFFTIMEOUT, poweroff, NULL, 0);
-		}
-		SystemParametersInfo(SPI_SETSCREENSAVETIMEOUT, screensaver, NULL, 0);
-		
-		qDebug("WinScreenSaver::restoreState: lowpower: %d, poweroff: %d, screensaver: %d", lowpower, poweroff, screensaver);
-	} else {
-		qWarning("WinScreenSaver::restoreState: no data, doing nothing");
-	}
-}
-	
-void WinScreenSaver::disable() {
-	qDebug("WinScreenSaver::disable");
+void WinScreenSaver::restoreState()
+{
+    if (!modified) {
+        qDebug("WinScreenSaver::restoreState: state did not change, doing nothing");
+        return;
+    }
 
-	if (QSysInfo::WindowsVersion < QSysInfo::WV_VISTA) {
-		// Not supported on Windows Vista
-		SystemParametersInfo(SPI_SETLOWPOWERTIMEOUT, 0, NULL, 0);
-		SystemParametersInfo(SPI_SETPOWEROFFTIMEOUT, 0, NULL, 0);
-	}
-	SystemParametersInfo(SPI_SETSCREENSAVETIMEOUT, 0, NULL, 0);
+    if (state_saved) {
+        if (QSysInfo::WindowsVersion < QSysInfo::WV_VISTA) {
+            // Not supported on Windows Vista
+            SystemParametersInfo(SPI_SETLOWPOWERTIMEOUT, lowpower, NULL, 0);
+            SystemParametersInfo(SPI_SETPOWEROFFTIMEOUT, poweroff, NULL, 0);
+        }
 
-	modified = true;
+        SystemParametersInfo(SPI_SETSCREENSAVETIMEOUT, screensaver, NULL, 0);
+
+        qDebug("WinScreenSaver::restoreState: lowpower: %d, poweroff: %d, screensaver: %d", lowpower, poweroff, screensaver);
+    } else {
+        qWarning("WinScreenSaver::restoreState: no data, doing nothing");
+    }
 }
 
-void WinScreenSaver::enable() {
-	qDebug("WinScreenSaver::enable");
+void WinScreenSaver::disable()
+{
+    qDebug("WinScreenSaver::disable");
 
-	restoreState();
+    if (QSysInfo::WindowsVersion < QSysInfo::WV_VISTA) {
+        // Not supported on Windows Vista
+        SystemParametersInfo(SPI_SETLOWPOWERTIMEOUT, 0, NULL, 0);
+        SystemParametersInfo(SPI_SETPOWEROFFTIMEOUT, 0, NULL, 0);
+    }
+
+    SystemParametersInfo(SPI_SETSCREENSAVETIMEOUT, 0, NULL, 0);
+
+    modified = true;
+}
+
+void WinScreenSaver::enable()
+{
+    qDebug("WinScreenSaver::enable");
+
+    restoreState();
 }
 

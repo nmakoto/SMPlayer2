@@ -20,39 +20,46 @@
 #include <QLabel>
 #include <QDateTimeEdit>
 
-SeekWidget::SeekWidget( QWidget* parent, Qt::WindowFlags f)
-	: QWidget(parent, f)
+SeekWidget::SeekWidget(QWidget *parent, Qt::WindowFlags f)
+    : QWidget(parent, f)
 {
-	setupUi(this);
-	time_edit->setDisplayFormat("mm:ss");
+    setupUi(this);
+    time_edit->setDisplayFormat("mm:ss");
 }
 
-SeekWidget::~SeekWidget() {
+SeekWidget::~SeekWidget()
+{
 }
 
-void SeekWidget::setIcon(QPixmap icon) {
-	_image->setText("");
-	_image->setPixmap(icon);
+void SeekWidget::setIcon(QPixmap icon)
+{
+    _image->setText("");
+    _image->setPixmap(icon);
 }
 
-const QPixmap * SeekWidget::icon() const {
-	return _image->pixmap();
+const QPixmap *SeekWidget::icon() const
+{
+    return _image->pixmap();
 }
 
-void SeekWidget::setLabel(QString text) {
-	_label->setText(text);
+void SeekWidget::setLabel(QString text)
+{
+    _label->setText(text);
 }
 
-QString SeekWidget::label() const {
-	return _label->text();
+QString SeekWidget::label() const
+{
+    return _label->text();
 }
 
-void SeekWidget::setTime(int secs) {
-	QTime t;
-	time_edit->setTime(t.addSecs(secs));
+void SeekWidget::setTime(int secs)
+{
+    QTime t;
+    time_edit->setTime(t.addSecs(secs));
 }
 
-int SeekWidget::time() const {
-	QTime t = time_edit->time();
-	return (t.minute() * 60) + t.second();
+int SeekWidget::time() const
+{
+    QTime t = time_edit->time();
+    return (t.minute() * 60) + t.second();
 }

@@ -26,33 +26,33 @@ class Preferences;
 
 class PrefTV : public PrefWidget, public Ui::PrefTV
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	PrefTV( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~PrefTV();
+    PrefTV(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PrefTV();
 
-	virtual QString sectionName();
-	virtual QPixmap sectionIcon();
+    virtual QString sectionName();
+    virtual QPixmap sectionIcon();
 
     // Pass data to the dialog
-    void setData(Preferences * pref);
+    void setData(Preferences *pref);
 
     // Apply changes
-    void getData(Preferences * pref);
+    void getData(Preferences *pref);
 
 protected:
-	virtual void createHelp();
+    virtual void createHelp();
 
-	void setInitialDeinterlace(int ID);
-	int initialDeinterlace();
+    void setInitialDeinterlace(int ID);
+    int initialDeinterlace();
 
-	void setRescan(bool b);
-	bool rescan();
+    void setRescan(bool b);
+    bool rescan();
 
 
 protected:
-	virtual void retranslateStrings();
+    virtual void retranslateStrings();
 };
 
 #endif

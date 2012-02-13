@@ -19,46 +19,52 @@
 #include "filters.h"
 #include <QSettings>
 
-Filters::Filters(QObject * parent) : QObject(parent) 
+Filters::Filters(QObject *parent) : QObject(parent)
 {
-	init();
+    init();
 }
 
-void Filters::init() {
-	list.clear();
+void Filters::init()
+{
+    list.clear();
 
-	// Video
-	list["noise"] = Filter(tr("add noise"), "noise", "9ah:5ah");
-	list["deblock"] = Filter(tr("deblock"), "pp", "vb/hb");
-	list["denoise_normal"] = Filter(tr("normal denoise"), "hqdn3d");
-	list["denoise_soft"] = Filter(tr("soft denoise"), "hqdn3d", "2:1:2");
+    // Video
+    list["noise"] = Filter(tr("add noise"), "noise", "9ah:5ah");
+    list["deblock"] = Filter(tr("deblock"), "pp", "vb/hb");
+    list["denoise_normal"] = Filter(tr("normal denoise"), "hqdn3d");
+    list["denoise_soft"] = Filter(tr("soft denoise"), "hqdn3d", "2:1:2");
 
-	// Audio
-	list["volnorm"] = Filter(tr("volume normalization"), "volnorm", "1");
+    // Audio
+    list["volnorm"] = Filter(tr("volume normalization"), "volnorm", "1");
 }
 
-Filter Filters::item(const QString & key) {
-	return list[key];
+Filter Filters::item(const QString &key)
+{
+    return list[key];
 }
 
-void Filters::save(QSettings *set) {
-	set->beginGroup("filter_options");
+void Filters::save(QSettings *set)
+{
+    set->beginGroup("filter_options");
 
-	QMap<QString, Filter>::iterator i;
-	for (i = list.begin(); i != list.end(); ++i) {
-		set->setValue(i.key(), i.value().options());
-	}
+    QMap<QString, Filter>::iterator i;
 
-	set->endGroup();
+    for (i = list.begin(); i != list.end(); ++i) {
+        set->setValue(i.key(), i.value().options());
+    }
+
+    set->endGroup();
 }
 
-void Filters::load(QSettings *set) {
-	set->beginGroup("filter_options");
+void Filters::load(QSettings *set)
+{
+    set->beginGroup("filter_options");
 
-	QMap<QString, Filter>::iterator i;
-	for (i = list.begin(); i != list.end(); ++i) {
-		i.value().setOptions( set->value(i.key(), i.value().options()).toString() );
-	}
+    QMap<QString, Filter>::iterator i;
 
-	set->endGroup();
+    for (i = list.begin(); i != list.end(); ++i) {
+        i.value().setOptions(set->value(i.key(), i.value().options()).toString());
+    }
+
+    set->endGroup();
 }

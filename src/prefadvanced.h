@@ -27,85 +27,91 @@ class Preferences;
 
 class PrefAdvanced : public PrefWidget, public Ui::PrefAdvanced
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	PrefAdvanced( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~PrefAdvanced();
+    PrefAdvanced(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PrefAdvanced();
 
-	virtual QString sectionName();
-	virtual QPixmap sectionIcon();
+    virtual QString sectionName();
+    virtual QPixmap sectionIcon();
 
     // Pass data to the dialog
-    void setData(Preferences * pref);
+    void setData(Preferences *pref);
 
     // Apply changes
-    void getData(Preferences * pref);
+    void getData(Preferences *pref);
 
 #if REPAINT_BACKGROUND_OPTION
-	bool repaintVideoBackgroundChanged() { return repaint_video_background_changed; };
+    bool repaintVideoBackgroundChanged() {
+        return repaint_video_background_changed;
+    };
 #endif
-	bool monitorAspectChanged() { return monitor_aspect_changed; };
+    bool monitorAspectChanged() {
+        return monitor_aspect_changed;
+    };
 #if USE_COLORKEY
-	bool colorkeyChanged() { return colorkey_changed; };
+    bool colorkeyChanged() {
+        return colorkey_changed;
+    };
 #endif
 
 protected:
-	virtual void createHelp();
+    virtual void createHelp();
 
-	// Advanced
-	void setMonitorAspect(QString asp);
-	QString monitorAspect();
+    // Advanced
+    void setMonitorAspect(QString asp);
+    QString monitorAspect();
 
 #if REPAINT_BACKGROUND_OPTION
-	void setRepaintVideoBackground(bool b);
-	bool repaintVideoBackground();
+    void setRepaintVideoBackground(bool b);
+    bool repaintVideoBackground();
 #endif
 
-	void setUseMplayerWindow(bool v);
-	bool useMplayerWindow();
+    void setUseMplayerWindow(bool v);
+    bool useMplayerWindow();
 
-	void setMplayerAdditionalArguments(QString args);
-	QString mplayerAdditionalArguments();
+    void setMplayerAdditionalArguments(QString args);
+    QString mplayerAdditionalArguments();
 
-	void setMplayerAdditionalVideoFilters(QString s);
-	QString mplayerAdditionalVideoFilters();
+    void setMplayerAdditionalVideoFilters(QString s);
+    QString mplayerAdditionalVideoFilters();
 
-	void setMplayerAdditionalAudioFilters(QString s);
-	QString mplayerAdditionalAudioFilters();
+    void setMplayerAdditionalAudioFilters(QString s);
+    QString mplayerAdditionalAudioFilters();
 
 #if USE_COLORKEY
-	void setColorKey(unsigned int c);
-	unsigned int colorKey();
+    void setColorKey(unsigned int c);
+    unsigned int colorKey();
 #endif
 
-	void setPreferIpv4(bool b);
-	bool preferIpv4();
+    void setPreferIpv4(bool b);
+    bool preferIpv4();
 
-	void setUseIdx(bool);
-	bool useIdx();
+    void setUseIdx(bool);
+    bool useIdx();
 
-	void setUseCorrectPts(Preferences::OptionState value);
-	Preferences::OptionState useCorrectPts();
+    void setUseCorrectPts(Preferences::OptionState value);
+    Preferences::OptionState useCorrectPts();
 
-	void setActionsToRun(QString actions);
-	QString actionsToRun();
+    void setActionsToRun(QString actions);
+    QString actionsToRun();
 
-	void setShowTagInTitle(bool b);
-	bool showTagInTitle();
+    void setShowTagInTitle(bool b);
+    bool showTagInTitle();
 
-	// Log options
-	void setLogMplayer(bool b);
-	bool logMplayer();
+    // Log options
+    void setLogMplayer(bool b);
+    bool logMplayer();
 
-	void setMplayerLogVerbose(bool b);
-	bool mplayerLogVerbose();
+    void setMplayerLogVerbose(bool b);
+    bool mplayerLogVerbose();
 
-	void setLogSmplayer(bool b);
-	bool logSmplayer();
+    void setLogSmplayer(bool b);
+    bool logSmplayer();
 
-	void setLogFilter(QString filter);
-	QString logFilter();
+    void setLogFilter(QString filter);
+    QString logFilter();
 
     void setSaveMplayerLog(bool b);
     bool saveMplayerLog();
@@ -113,22 +119,22 @@ protected:
     void setMplayerLogName(QString filter);
     QString mplayerLogName();
 
-	void setSaveSmplayerLog(bool b);
-	bool saveSmplayerLog();
+    void setSaveSmplayerLog(bool b);
+    bool saveSmplayerLog();
 
 protected:
-	virtual void retranslateStrings();
+    virtual void retranslateStrings();
 
 protected slots:
-	void on_changeButton_clicked();
+    void on_changeButton_clicked();
 
 private:
 #if REPAINT_BACKGROUND_OPTION
-	bool repaint_video_background_changed;
+    bool repaint_video_background_changed;
 #endif
-	bool monitor_aspect_changed;
+    bool monitor_aspect_changed;
 #if USE_COLORKEY
-	bool colorkey_changed;
+    bool colorkey_changed;
 #endif
 };
 

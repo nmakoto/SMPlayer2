@@ -26,19 +26,19 @@ class QSettings;
 class TVSettings : public FileSettingsBase
 {
 public:
-	TVSettings(QString directory);
-	virtual ~TVSettings();
+    TVSettings(QString directory);
+    virtual ~TVSettings();
 
-	virtual bool existSettingsFor(QString filename);
+    virtual bool existSettingsFor(QString filename);
 
-	virtual void loadSettingsFor(QString filename, MediaSettings & mset);
+    virtual void loadSettingsFor(QString filename, MediaSettings &mset);
 
-	virtual void saveSettingsFor(QString filename, MediaSettings & mset);
+    virtual void saveSettingsFor(QString filename, MediaSettings &mset);
 
-	static QString filenameToGroupname(const QString & filename);
+    static QString filenameToGroupname(const QString &filename);
 
 private:
-	QSettings * my_settings;
+    QSettings *my_settings;
 };
 
 #endif

@@ -26,146 +26,163 @@
 #include <QPropertyAnimation>
 #endif
 
-FloatingWidget::FloatingWidget( QWidget * parent )
-	: QWidget( parent, Qt::Window | Qt::FramelessWindowHint |
-                       Qt::WindowStaysOnTopHint )
+FloatingWidget::FloatingWidget(QWidget *parent)
+    : QWidget(parent, Qt::Window | Qt::FramelessWindowHint |
+              Qt::WindowStaysOnTopHint)
 {
 #ifndef OLD_ANIMATION
-	animation = 0;
+    animation = 0;
 #endif
 
-	setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Minimum );
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
-	tb = new QToolBar;
-	tb->setIconSize( Images::icon("play").size() );
-	tb->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
+    tb = new QToolBar;
+    tb->setIconSize(Images::icon("play").size());
+    tb->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	QHBoxLayout *layout = new QHBoxLayout;
-	layout->setSpacing(2);
-	layout->setMargin(2);
-	layout->addWidget(tb);
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->setSpacing(2);
+    layout->setMargin(2);
+    layout->addWidget(tb);
 
-	setLayout(layout);
+    setLayout(layout);
 
-	_margin = 0;
-	_animated = false;
+    _margin = 0;
+    _animated = false;
 #ifdef OLD_ANIMATION
-	animation_timer = new QTimer(this);
-	animation_timer->setInterval(2);
-	connect( animation_timer, SIGNAL(timeout()), this, SLOT(animate()) );
+    animation_timer = new QTimer(this);
+    animation_timer->setInterval(2);
+    connect(animation_timer, SIGNAL(timeout()), this, SLOT(animate()));
 #endif
-	connect( &auto_hide_timer, SIGNAL(timeout()), 
-             this, SLOT(checkUnderMouse()) );
-	setAutoHide(true);
+    connect(&auto_hide_timer, SIGNAL(timeout()),
+            this, SLOT(checkUnderMouse()));
+    setAutoHide(true);
 }
 
-FloatingWidget::~FloatingWidget() {
+FloatingWidget::~FloatingWidget()
+{
 #ifndef OLD_ANIMATION
-	if (animation) delete animation;
+
+    if (animation) delete animation;
+
 #endif
 }
 
 #ifndef Q_OS_WIN
-void FloatingWidget::setBypassWindowManager(bool b) {
-	if (b) {
-		setWindowFlags(windowFlags() | Qt::X11BypassWindowManagerHint);
-	}
-	else {
-		setWindowFlags(windowFlags() & ~Qt::X11BypassWindowManagerHint);
-	}
+void FloatingWidget::setBypassWindowManager(bool b)
+{
+    if (b) {
+        setWindowFlags(windowFlags() | Qt::X11BypassWindowManagerHint);
+    } else {
+        setWindowFlags(windowFlags() & ~Qt::X11BypassWindowManagerHint);
+    }
 }
 #endif
 
-void FloatingWidget::setAutoHide(bool b) { 
-	auto_hide = b;
+void FloatingWidget::setAutoHide(bool b)
+{
+    auto_hide = b;
 
-	if (b) 
-		auto_hide_timer.start(5000);
-	else
-		auto_hide_timer.stop();
+    if (b)
+        auto_hide_timer.start(5000);
+    else
+        auto_hide_timer.stop();
 }
 
 
-void FloatingWidget::showOver(QWidget * widget, int size, Place place) {
-	qDebug("FloatingWidget::showOver");
+void FloatingWidget::showOver(QWidget *widget, int size, Place place)
+{
+    qDebug("FloatingWidget::showOver");
 
-	int w = widget->width() * size / 100;
-	int h = height();
-	resize( w, h );
+    int w = widget->width() * size / 100;
+    int h = height();
+    resize(w, h);
 
-	//qDebug("widget x: %d, y: %d, h: %d, w: %d", widget->x(), widget->y(), widget->width(), widget->height());
+    //qDebug("widget x: %d, y: %d, h: %d, w: %d", widget->x(), widget->y(), widget->width(), widget->height());
 
-	int x = (widget->width() - width() ) / 2;
-	int y;
-	if (place == Top) 
-		y = 0 + _margin;
-	else
-		y = widget->height() - height() - _margin;
+    int x = (widget->width() - width()) / 2;
+    int y;
 
-	QPoint p = widget->mapToGlobal(QPoint(x, y));
+    if (place == Top)
+        y = 0 + _margin;
+    else
+        y = widget->height() - height() - _margin;
 
-	//qDebug("FloatingWidget::showOver: x: %d, y: %d, w: %d, h: %d", x, y, w, h);
-	//qDebug("FloatingWidget::showOver: global x: %d global y: %d", p.x(), p.y());
-	move(p);
+    QPoint p = widget->mapToGlobal(QPoint(x, y));
 
-	if (isAnimated()) {
-		Movement m = Upward;
-		if (place == Top) m = Downward;
-		showAnimated(p, m);
-	} else {
-		show();
-	}
+    //qDebug("FloatingWidget::showOver: x: %d, y: %d, w: %d, h: %d", x, y, w, h);
+    //qDebug("FloatingWidget::showOver: global x: %d global y: %d", p.x(), p.y());
+    move(p);
+
+    if (isAnimated()) {
+        Movement m = Upward;
+
+        if (place == Top) m = Downward;
+
+        showAnimated(p, m);
+    } else {
+        show();
+    }
 }
 
-void FloatingWidget::showAnimated(QPoint final_position, Movement movement) {
+void FloatingWidget::showAnimated(QPoint final_position, Movement movement)
+{
 #ifndef OLD_ANIMATION
-	show();
-	if (!animation) {
-		animation = new QPropertyAnimation(this, "pos");
-	}
-	animation->setDuration(300);
-	animation->setEasingCurve(QEasingCurve::OutBounce);
-	animation->setEndValue(final_position);
-	QPoint initial_position = final_position;
-	if (movement == Upward) {
-		initial_position.setY( initial_position.y() + height() );
-	} else {
-		initial_position.setY( initial_position.y() - height() );
-	}
-	animation->setStartValue(initial_position);
+    show();
 
-	animation->start();
+    if (!animation) {
+        animation = new QPropertyAnimation(this, "pos");
+    }
+
+    animation->setDuration(300);
+    animation->setEasingCurve(QEasingCurve::OutBounce);
+    animation->setEndValue(final_position);
+    QPoint initial_position = final_position;
+
+    if (movement == Upward) {
+        initial_position.setY(initial_position.y() + height());
+    } else {
+        initial_position.setY(initial_position.y() - height());
+    }
+
+    animation->setStartValue(initial_position);
+
+    animation->start();
 #else
-	current_movement = movement;
-	final_y = final_position.y();
+    current_movement = movement;
+    final_y = final_position.y();
 
-	if (movement == Upward) {
-		current_y = final_position.y() + height();
-	} else {
-		current_y = final_position.y() - height();
-	}
+    if (movement == Upward) {
+        current_y = final_position.y() + height();
+    } else {
+        current_y = final_position.y() - height();
+    }
 
-	move(x(), current_y);
-	show();
+    move(x(), current_y);
+    show();
 
-	animation_timer->start();
+    animation_timer->start();
 #endif
 }
 
 #ifdef OLD_ANIMATION
-void FloatingWidget::animate() {
-	if (current_y == final_y) {
-		animation_timer->stop();
-	} else {
-		if (current_movement == Upward) current_y--; else current_y++;
-		move(x(), current_y);
-	}
+void FloatingWidget::animate()
+{
+    if (current_y == final_y) {
+        animation_timer->stop();
+    } else {
+        if (current_movement == Upward) current_y--;
+        else current_y++;
+
+        move(x(), current_y);
+    }
 }
 #endif
 
-void FloatingWidget::checkUnderMouse() {
-	if (auto_hide) {
-		//qDebug("FloatingWidget::checkUnderMouse");
-		if ((isVisible()) && (!underMouse())) hide();
-	}
+void FloatingWidget::checkUnderMouse()
+{
+    if (auto_hide) {
+        //qDebug("FloatingWidget::checkUnderMouse");
+        if ((isVisible()) && (!underMouse())) hide();
+    }
 }

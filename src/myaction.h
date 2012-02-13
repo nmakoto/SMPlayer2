@@ -28,32 +28,32 @@ class MyAction : public QAction
 {
 
 public:
-	//! Creates a new MyAction with name \a name. If \a autoadd is true 
-	//! the action will be added to the parent
-	MyAction ( QObject * parent, const char * name, bool autoadd = true );
+    //! Creates a new MyAction with name \a name. If \a autoadd is true
+    //! the action will be added to the parent
+    MyAction(QObject *parent, const char *name, bool autoadd = true);
 
-	//! Creates a new MyAction. If \a autoadd is true 
-	//! the action will be added to the parent
-	MyAction ( QObject * parent, bool autoadd = true );
+    //! Creates a new MyAction. If \a autoadd is true
+    //! the action will be added to the parent
+    MyAction(QObject *parent, bool autoadd = true);
 
-	MyAction ( const QString & text, QKeySequence accel, 
-               QObject * parent, const char * name = "",
-               bool autoadd = true );
+    MyAction(const QString &text, QKeySequence accel,
+             QObject *parent, const char *name = "",
+             bool autoadd = true);
 
-	MyAction ( QKeySequence accel, QObject * parent, 
-               const char * name = "", bool autoadd = true );
+    MyAction(QKeySequence accel, QObject *parent,
+             const char *name = "", bool autoadd = true);
 
-	~MyAction();
+    ~MyAction();
 
-	//! Change the icon and text of the action.
-	void change(const QIcon & icon, const QString & text );
+    //! Change the icon and text of the action.
+    void change(const QIcon &icon, const QString &text);
 
-	//! Change the text of the action.
-	void change(const QString & text);
+    //! Change the text of the action.
+    void change(const QString &text);
 
 protected:
-	//! Checks if the parent is a QWidget and adds the action to it.
-	void addActionToParent();
+    //! Checks if the parent is a QWidget and adds the action to it.
+    void addActionToParent();
 };
 
 #endif

@@ -29,67 +29,71 @@
 #include <QApplication>
 #include <QFile>
 
-QSettings * Global::settings = 0;
-Preferences * Global::pref = 0;
-Translator * Global::translator = 0;
+QSettings *Global::settings = 0;
+Preferences *Global::pref = 0;
+Translator *Global::translator = 0;
 
 using namespace Global;
 
-void Global::global_init(const QString & config_path) {
-	qDebug("global_init");
+void Global::global_init(const QString &config_path)
+{
+    qDebug("global_init");
 
-	// Translator
-	translator = new Translator();
+    // Translator
+    translator = new Translator();
 
-	// settings
-	if (!config_path.isEmpty()) {
-		Paths::setConfigPath(config_path);
-	}
+    // settings
+    if (!config_path.isEmpty()) {
+        Paths::setConfigPath(config_path);
+    }
 
-	if (Paths::iniPath().isEmpty()) {
-		settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
-    	                         QString(COMPANY), QString(PROGRAM) );
-	} else {
-		QString filename = Paths::iniPath() + "/smplayer2.ini";
-		settings = new QSettings( filename, QSettings::IniFormat );
-		qDebug("global_init: config file: '%s'", filename.toUtf8().data());
+    if (Paths::iniPath().isEmpty()) {
+        settings = new QSettings(QSettings::IniFormat, QSettings::UserScope,
+                                 QString(COMPANY), QString(PROGRAM));
+    } else {
+        QString filename = Paths::iniPath() + "/smplayer2.ini";
+        settings = new QSettings(filename, QSettings::IniFormat);
+        qDebug("global_init: config file: '%s'", filename.toUtf8().data());
 
-	}
+    }
 
-	// Preferences
-	pref = new Preferences();
+    // Preferences
+    pref = new Preferences();
 }
 
-void Global::global_end() {
-	qDebug("global_end");
+void Global::global_end()
+{
+    qDebug("global_end");
 
-	// delete
-	delete pref;
-	pref = 0;
+    // delete
+    delete pref;
+    pref = 0;
 
-	delete settings;
-	delete translator;
+    delete settings;
+    delete translator;
 }
 
 #else
 
-Preferences * Global::pref = 0;
+Preferences *Global::pref = 0;
 
 using namespace Global;
 
-void Global::global_init() {
-	qDebug("global_init");
+void Global::global_init()
+{
+    qDebug("global_init");
 
-	// Preferences
-	pref = new Preferences();
+    // Preferences
+    pref = new Preferences();
 }
 
-void Global::global_end() {
-	qDebug("global_end");
+void Global::global_end()
+{
+    qDebug("global_end");
 
-	// delete
-	delete pref;
-	pref = 0;
+    // delete
+    delete pref;
+    pref = 0;
 }
 
 #endif // MINILIB

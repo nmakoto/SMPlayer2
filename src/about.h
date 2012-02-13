@@ -31,26 +31,26 @@
 
 class About : public QDialog, public Ui::About
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	About( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~About();
+    About(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~About();
 
-	virtual QSize sizeHint () const;
+    virtual QSize sizeHint() const;
 
 protected:
-	QString getTranslators();
+    QString getTranslators();
 
-	//! Return a formatted string with the translator and language
-	QString trad(const QString & lang, const QString & author);
+    //! Return a formatted string with the translator and language
+    QString trad(const QString &lang, const QString &author);
 
-	QString trad(const QString & lang, const QStringList & authors);
+    QString trad(const QString &lang, const QStringList &authors);
 
-	QString link(const QString & url, QString name = "");
+    QString link(const QString &url, QString name = "");
 
-	//! Return a formatted string with the contributor and what he did
-	QString contr(const QString & author, const QString & thing);
+    //! Return a formatted string with the contributor and what he did
+    QString contr(const QString &author, const QString &thing);
 };
 
 #endif

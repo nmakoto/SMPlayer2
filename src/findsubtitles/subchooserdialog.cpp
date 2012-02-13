@@ -19,19 +19,19 @@
 
 #include "subchooserdialog.h"
 
-static Qt::CheckState CurItemCheckState = Qt::Unchecked; 
+static Qt::CheckState CurItemCheckState = Qt::Unchecked;
 
-SubChooserDialog::SubChooserDialog(QWidget * parent, Qt::WindowFlags f) 
-	: QDialog(parent, f )
+SubChooserDialog::SubChooserDialog(QWidget *parent, Qt::WindowFlags f)
+    : QDialog(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 
-	listWidget->setSelectionMode(QAbstractItemView::NoSelection);
+    listWidget->setSelectionMode(QAbstractItemView::NoSelection);
 
-	connect(selectAll, SIGNAL(clicked(bool)), this, SLOT(selectAllClicked(bool)));
-	connect(selectNone, SIGNAL(clicked(bool)), this, SLOT(selectNoneClicked(bool)));
-	connect(listWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(listItemClicked(QListWidgetItem*))); 
-	connect(listWidget, SIGNAL(itemPressed(QListWidgetItem*)), this, SLOT(listItemPressed(QListWidgetItem*))); 
+    connect(selectAll, SIGNAL(clicked(bool)), this, SLOT(selectAllClicked(bool)));
+    connect(selectNone, SIGNAL(clicked(bool)), this, SLOT(selectNoneClicked(bool)));
+    connect(listWidget, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listItemClicked(QListWidgetItem *)));
+    connect(listWidget, SIGNAL(itemPressed(QListWidgetItem *)), this, SLOT(listItemPressed(QListWidgetItem *)));
 }
 
 SubChooserDialog::~SubChooserDialog()
@@ -39,67 +39,73 @@ SubChooserDialog::~SubChooserDialog()
 
 }
 
-void SubChooserDialog::selectAllClicked(bool) {
-	for (int k = 0; k < listWidget->count(); k++)
-		listWidget->item(k)->setCheckState(Qt::Checked);
+void SubChooserDialog::selectAllClicked(bool)
+{
+    for (int k = 0; k < listWidget->count(); k++)
+        listWidget->item(k)->setCheckState(Qt::Checked);
 
-	listWidget->setFocus(); 
+    listWidget->setFocus();
 }
 
-void SubChooserDialog::selectNoneClicked(bool) {
-	for (int k = 0; k < listWidget->count(); k++)
-		listWidget->item(k)->setCheckState(Qt::Unchecked);
+void SubChooserDialog::selectNoneClicked(bool)
+{
+    for (int k = 0; k < listWidget->count(); k++)
+        listWidget->item(k)->setCheckState(Qt::Unchecked);
 
-	listWidget->setFocus(); 
+    listWidget->setFocus();
 }
 
-void SubChooserDialog::listItemClicked(QListWidgetItem* item) {
-	if (item->checkState() == CurItemCheckState)
-	{
-		//Clicked on the list item (not checkbox)
-		if (item->checkState() == Qt::Checked)
-		{
-			item->setCheckState(Qt::Unchecked);
-		}
-		else
-			item->setCheckState(Qt::Checked); 
-	}
+void SubChooserDialog::listItemClicked(QListWidgetItem *item)
+{
+    if (item->checkState() == CurItemCheckState) {
+        //Clicked on the list item (not checkbox)
+        if (item->checkState() == Qt::Checked) {
+            item->setCheckState(Qt::Unchecked);
+        } else
+            item->setCheckState(Qt::Checked);
+    }
 
-	//else - clicked on the checkbox itself, do nothing
+    //else - clicked on the checkbox itself, do nothing
 }
 
-void SubChooserDialog::listItemPressed(QListWidgetItem* item) {
-	CurItemCheckState = item->checkState(); 
+void SubChooserDialog::listItemPressed(QListWidgetItem *item)
+{
+    CurItemCheckState = item->checkState();
 }
 
-void SubChooserDialog::addFile(QString filename) {
-	QListWidgetItem* item = new QListWidgetItem(listWidget); 
-	item->setText(filename);
-	item->setCheckState(Qt::Unchecked);
+void SubChooserDialog::addFile(QString filename)
+{
+    QListWidgetItem *item = new QListWidgetItem(listWidget);
+    item->setText(filename);
+    item->setCheckState(Qt::Unchecked);
 }
 
-QStringList SubChooserDialog::selectedFiles() {
-	QStringList files;
+QStringList SubChooserDialog::selectedFiles()
+{
+    QStringList files;
 
-	for (int n = 0; n < listWidget->count(); n++) {
-		QListWidgetItem * i = listWidget->item(n); 
-		if (i && i->checkState() == Qt::Checked) {
-			files.append(i->text()); 
-		}
-	}
+    for (int n = 0; n < listWidget->count(); n++) {
+        QListWidgetItem *i = listWidget->item(n);
 
-	return files;
+        if (i && i->checkState() == Qt::Checked) {
+            files.append(i->text());
+        }
+    }
+
+    return files;
 }
 
-void SubChooserDialog::retranslateStrings() {
-	retranslateUi(this);
+void SubChooserDialog::retranslateStrings()
+{
+    retranslateUi(this);
 }
 
 // Language change stuff
-void SubChooserDialog::changeEvent(QEvent *e) {
-	if (e->type() == QEvent::LanguageChange) {
-		retranslateStrings();
-	} else {
-		QDialog::changeEvent(e);
-	}
+void SubChooserDialog::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange) {
+        retranslateStrings();
+    } else {
+        QDialog::changeEvent(e);
+    }
 }

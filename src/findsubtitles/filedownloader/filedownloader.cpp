@@ -24,85 +24,92 @@
 
 FileDownloader::FileDownloader(QWidget *parent) : QProgressDialog(parent)
 {
-	http_get_id = -1;
-	setMinimumDuration(0);
+    http_get_id = -1;
+    setMinimumDuration(0);
 
-	http = new QHttp(this);
+    http = new QHttp(this);
 
-	connect(http, SIGNAL(requestFinished(int, bool)),
+    connect(http, SIGNAL(requestFinished(int, bool)),
             this, SLOT(httpRequestFinished(int, bool)));
-	connect(http, SIGNAL(dataReadProgress(int, int)),
+    connect(http, SIGNAL(dataReadProgress(int, int)),
             this, SLOT(updateDataReadProgress(int, int)));
-	connect(http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
+    connect(http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
             this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-	connect(this, SIGNAL(canceled()), this, SLOT(cancelDownload()));
+    connect(this, SIGNAL(canceled()), this, SLOT(cancelDownload()));
 
-	setWindowTitle(tr("Downloading..."));
+    setWindowTitle(tr("Downloading..."));
 }
 
-FileDownloader::~FileDownloader() {
-	//qDebug("FileDownloader::~FileDownloader");
-	delete http;
+FileDownloader::~FileDownloader()
+{
+    //qDebug("FileDownloader::~FileDownloader");
+    delete http;
 }
 
-void FileDownloader::setProxy(QNetworkProxy proxy) {
-	http->abort();
-	http->setProxy(proxy);
+void FileDownloader::setProxy(QNetworkProxy proxy)
+{
+    http->abort();
+    http->setProxy(proxy);
 
-	qDebug("FileDownloader::setProxy: host: '%s' port: %d type: %d",
+    qDebug("FileDownloader::setProxy: host: '%s' port: %d type: %d",
            proxy.hostName().toUtf8().constData(), proxy.port(), proxy.type());
 }
 
-void FileDownloader::download(QUrl url) {
-	QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
-	http->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
-    
-	if (!url.userName().isEmpty())
-		http->setUser(url.userName(), url.password());
+void FileDownloader::download(QUrl url)
+{
+    QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
+    http->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
 
-	http_request_aborted = false;
-        http_get_id = http->get(url.path());
+    if (!url.userName().isEmpty())
+        http->setUser(url.userName(), url.password());
 
-	setLabelText(tr("Downloading %1").arg(url.toString()));
+    http_request_aborted = false;
+    http_get_id = http->get(url.path());
+
+    setLabelText(tr("Downloading %1").arg(url.toString()));
 }
 
-void FileDownloader::cancelDownload() {
-	http_request_aborted = true;
-	http->abort();
+void FileDownloader::cancelDownload()
+{
+    http_request_aborted = true;
+    http->abort();
 }
 
-void FileDownloader::httpRequestFinished(int request_id, bool error) {
-	qDebug("FileDownloader::httpRequestFinished: request_id %d, error %d", request_id, error);
+void FileDownloader::httpRequestFinished(int request_id, bool error)
+{
+    qDebug("FileDownloader::httpRequestFinished: request_id %d, error %d", request_id, error);
 
-	if (request_id != http_get_id) return;
+    if (request_id != http_get_id) return;
 
-	if (http_request_aborted) {
-		hide();
-		return;
-	}
+    if (http_request_aborted) {
+        hide();
+        return;
+    }
 
-	hide();
+    hide();
 
-	if (error) {
-		emit downloadFailed(http->errorString());
-	} else {
-                emit downloadFinished(http->readAll());
-	}
+    if (error) {
+        emit downloadFailed(http->errorString());
+    } else {
+        emit downloadFinished(http->readAll());
+    }
 }
 
-void FileDownloader::readResponseHeader(const QHttpResponseHeader &responseHeader) {
-	if (responseHeader.statusCode() != 200) {
-		emit downloadFailed(responseHeader.reasonPhrase());
-		http_request_aborted = true;
-		hide();
-		http->abort();
-		return;
-	}
+void FileDownloader::readResponseHeader(const QHttpResponseHeader &responseHeader)
+{
+    if (responseHeader.statusCode() != 200) {
+        emit downloadFailed(responseHeader.reasonPhrase());
+        http_request_aborted = true;
+        hide();
+        http->abort();
+        return;
+    }
 }
 
-void FileDownloader::updateDataReadProgress(int bytes_read, int total_bytes) {
-	if (http_request_aborted) return;
+void FileDownloader::updateDataReadProgress(int bytes_read, int total_bytes)
+{
+    if (http_request_aborted) return;
 
-	setMaximum(total_bytes);
-	setValue(bytes_read);
+    setMaximum(total_bytes);
+    setValue(bytes_read);
 }

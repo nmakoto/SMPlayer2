@@ -40,97 +40,97 @@ class SeekingButton;
 
 class DefaultGui : public BaseGuiPlus
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	DefaultGui( bool use_server, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
-	~DefaultGui();
+    DefaultGui(bool use_server, QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    ~DefaultGui();
 
 #if USE_MINIMUMSIZE
-	virtual QSize minimumSizeHint () const;
+    virtual QSize minimumSizeHint() const;
 #endif
 
 public slots:
-	//virtual void showPlaylist(bool b);
+    //virtual void showPlaylist(bool b);
 
 protected:
-	virtual void retranslateStrings();
-	virtual QMenu * createPopupMenu();
+    virtual void retranslateStrings();
+    virtual QMenu *createPopupMenu();
 
-	void createStatusBar();
-	void createMainToolBars();
-	void createControlWidget();
-	void createControlWidgetMini();
-	void createFloatingControl();
-	void createActions();
-	void createMenus();
+    void createStatusBar();
+    void createMainToolBars();
+    void createControlWidget();
+    void createControlWidgetMini();
+    void createFloatingControl();
+    void createActions();
+    void createMenus();
 
-	void loadConfig();
-	void saveConfig();
+    void loadConfig();
+    void saveConfig();
 
     virtual void aboutToEnterFullscreen();
     virtual void aboutToExitFullscreen();
     virtual void aboutToEnterCompactMode();
     virtual void aboutToExitCompactMode();
 
-	virtual void resizeEvent( QResizeEvent * );
-	/* virtual void closeEvent( QCloseEvent * ); */
+    virtual void resizeEvent(QResizeEvent *);
+    /* virtual void closeEvent( QCloseEvent * ); */
 
 protected slots:
-	virtual void updateWidgets();
-	virtual void displayTime(QString text);
-	virtual void displayFrame(int frame);
-	virtual void displayABSection(int secs_a, int secs_b);
-	virtual void displayVideoInfo(int width, int height, double fps);
+    virtual void updateWidgets();
+    virtual void displayTime(QString text);
+    virtual void displayFrame(int frame);
+    virtual void displayABSection(int secs_a, int secs_b);
+    virtual void displayVideoInfo(int width, int height, double fps);
 
-	virtual void showFloatingControl(QPoint p);
-	virtual void showFloatingMenu(QPoint p);
-	virtual void hideFloatingControls();
+    virtual void showFloatingControl(QPoint p);
+    virtual void showFloatingMenu(QPoint p);
+    virtual void hideFloatingControls();
 
-	// Reimplemented:
+    // Reimplemented:
 #if AUTODISABLE_ACTIONS
-	virtual void enableActionsOnPlaying();
-	virtual void disableActionsOnStop();
+    virtual void enableActionsOnPlaying();
+    virtual void disableActionsOnStop();
 #endif
 
 protected:
-	QLabel * time_display;
-	QLabel * frame_display;
-	QLabel * ab_section_display;
-	QLabel * video_info_display;
+    QLabel *time_display;
+    QLabel *frame_display;
+    QLabel *ab_section_display;
+    QLabel *video_info_display;
 
-	QToolBar * controlwidget;
-	QToolBar * controlwidget_mini;
+    QToolBar *controlwidget;
+    QToolBar *controlwidget_mini;
 
-	QToolBar * toolbar1;
-	QToolBar * toolbar2;
+    QToolBar *toolbar1;
+    QToolBar *toolbar2;
 
-	QPushButton * select_audio;
-	QPushButton * select_subtitle;
+    QPushButton *select_audio;
+    QPushButton *select_subtitle;
 
-	TimeSliderAction * timeslider_action;
-	VolumeSliderAction * volumeslider_action;
+    TimeSliderAction *timeslider_action;
+    VolumeSliderAction *volumeslider_action;
 
 #if MINI_ARROW_BUTTONS
-	SeekingButton * rewindbutton_action;
-	SeekingButton * forwardbutton_action;
+    SeekingButton *rewindbutton_action;
+    SeekingButton *forwardbutton_action;
 #endif
 
-	FloatingWidget * floating_control;
-	TimeLabelAction * time_label_action;
+    FloatingWidget *floating_control;
+    TimeLabelAction *time_label_action;
 
-	MyAction * viewFrameCounterAct;
-	MyAction * viewVideoInfoAct;
+    MyAction *viewFrameCounterAct;
+    MyAction *viewVideoInfoAct;
 
-	QMenu * toolbar_menu;
-	QMenu * statusbar_menu;
+    QMenu *toolbar_menu;
+    QMenu *statusbar_menu;
 
-	int last_second;
+    int last_second;
 
-	bool fullscreen_toolbar1_was_visible;
-	bool fullscreen_toolbar2_was_visible;
-	bool compact_toolbar1_was_visible;
-	bool compact_toolbar2_was_visible;
+    bool fullscreen_toolbar1_was_visible;
+    bool fullscreen_toolbar2_was_visible;
+    bool compact_toolbar1_was_visible;
+    bool compact_toolbar2_was_visible;
 };
 
 #endif

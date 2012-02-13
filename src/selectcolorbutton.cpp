@@ -25,57 +25,62 @@
 #include <QStyle>
 #endif
 
-SelectColorButton::SelectColorButton( QWidget * parent ) 
-	: QPushButton(parent)
+SelectColorButton::SelectColorButton(QWidget *parent)
+    : QPushButton(parent)
 {
-	connect(this, SIGNAL(clicked()), this, SLOT(selectColor()));
-	
+    connect(this, SIGNAL(clicked()), this, SLOT(selectColor()));
+
 #ifdef Q_OS_WIN
-	ignore_change_event = false;
+    ignore_change_event = false;
 #endif
 }
 
-SelectColorButton::~SelectColorButton() {
+SelectColorButton::~SelectColorButton()
+{
 }
 
-void SelectColorButton::setColor(QColor c) {
-	_color = c;
+void SelectColorButton::setColor(QColor c)
+{
+    _color = c;
 
 #ifdef Q_OS_WIN
-	QString current_style = qApp->style()->objectName();
-	qDebug("SelectColorButton::setColor: current style name: %s", current_style.toUtf8().constData());
+    QString current_style = qApp->style()->objectName();
+    qDebug("SelectColorButton::setColor: current style name: %s", current_style.toUtf8().constData());
 
-	ignore_change_event = true;
-	
-	if ((current_style.startsWith("windowsxp")) || (current_style.startsWith("windowsvista"))) {
-		setStyleSheet( "border-width: 1px; border-style: solid; border-color: #000000; background: #" + ColorUtils::colorToRRGGBB(_color.rgb()) + ";");
-	} else {
-		setStyleSheet("");
-		ColorUtils::setBackgroundColor( this, _color );
-	}
-		
-	ignore_change_event = false;
+    ignore_change_event = true;
+
+    if ((current_style.startsWith("windowsxp")) || (current_style.startsWith("windowsvista"))) {
+        setStyleSheet("border-width: 1px; border-style: solid; border-color: #000000; background: #" + ColorUtils::colorToRRGGBB(_color.rgb()) + ";");
+    } else {
+        setStyleSheet("");
+        ColorUtils::setBackgroundColor(this, _color);
+    }
+
+    ignore_change_event = false;
 #else
-	//setAutoFillBackground(true);
-	ColorUtils::setBackgroundColor( this, _color );
+    //setAutoFillBackground(true);
+    ColorUtils::setBackgroundColor(this, _color);
 #endif
 }
 
-void SelectColorButton::selectColor() {
-	QColor c = QColorDialog::getColor( _color, 0 );
-	if (c.isValid()) {
-		setColor( c );
-	}
+void SelectColorButton::selectColor()
+{
+    QColor c = QColorDialog::getColor(_color, 0);
+
+    if (c.isValid()) {
+        setColor(c);
+    }
 }
 
 #ifdef Q_OS_WIN
-void SelectColorButton::changeEvent(QEvent *e) {
+void SelectColorButton::changeEvent(QEvent *e)
+{
 
-	QPushButton::changeEvent(e);
-	
-	if ((e->type() == QEvent::StyleChange) && (!ignore_change_event)) {
-		setColor( color() );
-	}
+    QPushButton::changeEvent(e);
+
+    if ((e->type() == QEvent::StyleChange) && (!ignore_change_event)) {
+        setColor(color());
+    }
 
 }
 #endif

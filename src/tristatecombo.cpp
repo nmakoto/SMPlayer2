@@ -19,38 +19,43 @@
 #include "tristatecombo.h"
 #include <QEvent>
 
-TristateCombo::TristateCombo( QWidget * parent ) : QComboBox(parent) 
+TristateCombo::TristateCombo(QWidget *parent) : QComboBox(parent)
 {
-	retranslateStrings();
+    retranslateStrings();
 }
 
-TristateCombo::~TristateCombo() {
+TristateCombo::~TristateCombo()
+{
 }
 
-void TristateCombo::retranslateStrings() {
-	int i = currentIndex();
+void TristateCombo::retranslateStrings()
+{
+    int i = currentIndex();
 
-	clear();
-	addItem( tr("Auto"), Preferences::Detect );
-	addItem( tr("Yes"), Preferences::Enabled );
-	addItem( tr("No"), Preferences::Disabled );
+    clear();
+    addItem(tr("Auto"), Preferences::Detect);
+    addItem(tr("Yes"), Preferences::Enabled);
+    addItem(tr("No"), Preferences::Disabled);
 
-	setCurrentIndex(i);
+    setCurrentIndex(i);
 }
 
-void TristateCombo::setState( Preferences::OptionState v ) {
-	setCurrentIndex( findData(v) );
+void TristateCombo::setState(Preferences::OptionState v)
+{
+    setCurrentIndex(findData(v));
 }
 
-Preferences::OptionState TristateCombo::state() {
-	return (Preferences::OptionState) itemData( currentIndex() ).toInt();
+Preferences::OptionState TristateCombo::state()
+{
+    return (Preferences::OptionState) itemData(currentIndex()).toInt();
 }
 
 // Language change stuff
-void TristateCombo::changeEvent(QEvent *e) {
-	if (e->type() == QEvent::LanguageChange) {
-		retranslateStrings();
-	} else {
-		QComboBox::changeEvent(e);
-	}
+void TristateCombo::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange) {
+        retranslateStrings();
+    } else {
+        QComboBox::changeEvent(e);
+    }
 }

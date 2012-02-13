@@ -20,28 +20,31 @@
 #include "images.h"
 #include "mylineedit.h"
 
-InputURL::InputURL( QWidget* parent, Qt::WindowFlags f ) 
-	: QDialog(parent, f)
+InputURL::InputURL(QWidget *parent, Qt::WindowFlags f)
+    : QDialog(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 
-	setMinimumSize( QSize(500,140) );
-	setMaximumSize( QSize(600,170) );
-	url_icon->setPixmap( Images::icon("url_big", 48) );
-	url_edit->setFocus();
+    setMinimumSize(QSize(500, 140));
+    setMaximumSize(QSize(600, 170));
+    url_icon->setPixmap(Images::icon("url_big", 48));
+    url_edit->setFocus();
 
-	MyLineEdit * edit = new MyLineEdit(this);
-	url_edit->setLineEdit(edit);
+    MyLineEdit *edit = new MyLineEdit(this);
+    url_edit->setLineEdit(edit);
 }
 
-InputURL::~InputURL() {
+InputURL::~InputURL()
+{
 }
 
-void InputURL::setURL(QString url) {
-	url_edit->addItem(url);
+void InputURL::setURL(QString url)
+{
+    url_edit->addItem(url);
 }
 
-QString InputURL::url() {
-	return url_edit->currentText().trimmed();
+QString InputURL::url()
+{
+    return url_edit->currentText().trimmed();
 }
 

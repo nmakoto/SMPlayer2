@@ -18,62 +18,75 @@
 
 #include "vdpauproperties.h"
 
-VDPAUProperties::VDPAUProperties(QWidget * parent, Qt::WindowFlags f)
-	: QDialog(parent, f) 
+VDPAUProperties::VDPAUProperties(QWidget *parent, Qt::WindowFlags f)
+    : QDialog(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 
-	layout()->setSizeConstraint(QLayout::SetFixedSize);
+    layout()->setSizeConstraint(QLayout::SetFixedSize);
 }
 
-VDPAUProperties::~VDPAUProperties() {
+VDPAUProperties::~VDPAUProperties()
+{
 }
 
-void VDPAUProperties::setffh264vdpau(bool b) {
-	ffh264vdpau_check->setChecked(b);
+void VDPAUProperties::setffh264vdpau(bool b)
+{
+    ffh264vdpau_check->setChecked(b);
 }
 
-void VDPAUProperties::setffmpeg12vdpau(bool b) {
-	ffmpeg12vdpau_check->setChecked(b);
+void VDPAUProperties::setffmpeg12vdpau(bool b)
+{
+    ffmpeg12vdpau_check->setChecked(b);
 }
 
-void VDPAUProperties::setffwmv3vdpau(bool b) {
-	ffwmv3vdpau_check->setChecked(b);
+void VDPAUProperties::setffwmv3vdpau(bool b)
+{
+    ffwmv3vdpau_check->setChecked(b);
 }
 
-void VDPAUProperties::setffvc1vdpau(bool b) {
-	ffvc1vdpau_check->setChecked(b);
+void VDPAUProperties::setffvc1vdpau(bool b)
+{
+    ffvc1vdpau_check->setChecked(b);
 }
 
-void VDPAUProperties::setffodivxvdpau(bool b) {
-	ffodivxvdpau_check->setChecked(b);
+void VDPAUProperties::setffodivxvdpau(bool b)
+{
+    ffodivxvdpau_check->setChecked(b);
 }
 
-void VDPAUProperties::setDisableFilters(bool b) {
-	disable_filters_check->setChecked(b);
+void VDPAUProperties::setDisableFilters(bool b)
+{
+    disable_filters_check->setChecked(b);
 }
 
-bool VDPAUProperties::ffh264vdpau() {
-	return ffh264vdpau_check->isChecked();
+bool VDPAUProperties::ffh264vdpau()
+{
+    return ffh264vdpau_check->isChecked();
 }
 
-bool VDPAUProperties::ffmpeg12vdpau() {
-	return ffmpeg12vdpau_check->isChecked();
+bool VDPAUProperties::ffmpeg12vdpau()
+{
+    return ffmpeg12vdpau_check->isChecked();
 }
 
-bool VDPAUProperties::ffwmv3vdpau() {
-	return ffwmv3vdpau_check->isChecked();
+bool VDPAUProperties::ffwmv3vdpau()
+{
+    return ffwmv3vdpau_check->isChecked();
 }
 
-bool VDPAUProperties::ffvc1vdpau() {
-	return ffvc1vdpau_check->isChecked();
+bool VDPAUProperties::ffvc1vdpau()
+{
+    return ffvc1vdpau_check->isChecked();
 }
 
-bool VDPAUProperties::ffodivxvdpau() {
-	return ffodivxvdpau_check->isChecked();
+bool VDPAUProperties::ffodivxvdpau()
+{
+    return ffodivxvdpau_check->isChecked();
 }
 
-bool VDPAUProperties::disableFilters() {
-	return disable_filters_check->isChecked();
+bool VDPAUProperties::disableFilters()
+{
+    return disable_filters_check->isChecked();
 }
 

@@ -18,35 +18,40 @@
 
 #include "urlhistory.h"
 
-URLHistory::URLHistory() : Recents() 
+URLHistory::URLHistory() : Recents()
 {
-	setMaxItems(50);
+    setMaxItems(50);
 }
 
-URLHistory::~URLHistory() {
+URLHistory::~URLHistory()
+{
 }
 
-void URLHistory::addUrl(QString url) {
-	qDebug("Recents::addItem: '%s'", url.toUtf8().data());
+void URLHistory::addUrl(QString url)
+{
+    qDebug("Recents::addItem: '%s'", url.toUtf8().data());
 
-	// Delete duplicates
-	QStringList::iterator iterator = l.begin();
-	while (iterator != l.end()) {
-		QString s = (*iterator);
-		if (s == url) 
-			iterator = l.erase(iterator);
-		else
-			iterator++;
-	}
+    // Delete duplicates
+    QStringList::iterator iterator = l.begin();
 
-	// Add new item to list
-	l.prepend(url);
+    while (iterator != l.end()) {
+        QString s = (*iterator);
 
-	if (l.count() > max_items) l.removeLast();
+        if (s == url)
+            iterator = l.erase(iterator);
+        else
+            iterator++;
+    }
+
+    // Add new item to list
+    l.prepend(url);
+
+    if (l.count() > max_items) l.removeLast();
 }
 
-QString URLHistory::url(int n) {
-	QString s = l[n];
-	return s;
+QString URLHistory::url(int n)
+{
+    QString s = l[n];
+    return s;
 }
 

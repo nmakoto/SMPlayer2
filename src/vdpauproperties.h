@@ -25,29 +25,29 @@
 
 class VDPAUProperties : public QDialog, public Ui::VDPAUProperties
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	VDPAUProperties( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~VDPAUProperties();
+    VDPAUProperties(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~VDPAUProperties();
 
-	void setffh264vdpau(bool b);
-	void setffmpeg12vdpau(bool b);
-	void setffwmv3vdpau(bool b);
-	void setffvc1vdpau(bool b);
-	void setffodivxvdpau(bool b);
+    void setffh264vdpau(bool b);
+    void setffmpeg12vdpau(bool b);
+    void setffwmv3vdpau(bool b);
+    void setffvc1vdpau(bool b);
+    void setffodivxvdpau(bool b);
 
-	void setDisableFilters(bool b);
+    void setDisableFilters(bool b);
 
-	bool ffh264vdpau();
-	bool ffmpeg12vdpau();
-	bool ffwmv3vdpau();
-	bool ffvc1vdpau();
-	bool ffodivxvdpau();
+    bool ffh264vdpau();
+    bool ffmpeg12vdpau();
+    bool ffwmv3vdpau();
+    bool ffvc1vdpau();
+    bool ffodivxvdpau();
 
-	bool disableFilters();
+    bool disableFilters();
 
-	//virtual QSize sizeHint () const;
+    //virtual QSize sizeHint () const;
 };
 
 #endif

@@ -28,21 +28,21 @@
 class MyComboBox : public QComboBox
 {
 public:
-	MyComboBox( QWidget * parent = 0 );
-	~MyComboBox();
+    MyComboBox(QWidget *parent = 0);
+    ~MyComboBox();
 
-	void setCurrentText ( const QString & text );
-	void insertStringList ( const QStringList & list, int index = -1 );
+    void setCurrentText(const QString &text);
+    void insertStringList(const QStringList &list, int index = -1);
 };
 
 
 class MyFontComboBox : public QFontComboBox
 {
 public:
-	MyFontComboBox( QWidget * parent = 0 );
-	~MyFontComboBox();
+    MyFontComboBox(QWidget *parent = 0);
+    ~MyFontComboBox();
 
-	void setCurrentText ( const QString & text );
+    void setCurrentText(const QString &text);
 };
 
 #endif

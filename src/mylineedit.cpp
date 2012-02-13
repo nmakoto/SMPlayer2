@@ -24,16 +24,18 @@
 MyLineEdit::MyLineEdit(QWidget *parent)
     : LineEditWithIcon(parent)
 {
-	setupButton();
-	button->hide();
-	connect(button, SIGNAL(clicked()), this, SLOT(clear()));
-	connect(this, SIGNAL(textChanged(const QString&)), this, SLOT(updateCloseButton(const QString&)));
+    setupButton();
+    button->hide();
+    connect(button, SIGNAL(clicked()), this, SLOT(clear()));
+    connect(this, SIGNAL(textChanged(const QString &)), this, SLOT(updateCloseButton(const QString &)));
 }
 
-void MyLineEdit::setupButton() {
-	setIcon( Images::icon("clear_left") );
+void MyLineEdit::setupButton()
+{
+    setIcon(Images::icon("clear_left"));
 }
 
-void MyLineEdit::updateCloseButton(const QString& text) {
-	button->setVisible(!text.isEmpty());
+void MyLineEdit::updateCloseButton(const QString &text)
+{
+    button->setVisible(!text.isEmpty());
 }

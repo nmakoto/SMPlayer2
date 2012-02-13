@@ -26,26 +26,26 @@ class QHttpResponseHeader;
 
 class SimpleHttp : public QHttp
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	SimpleHttp( QObject* parent = 0 );
-	~SimpleHttp();
+    SimpleHttp(QObject *parent = 0);
+    ~SimpleHttp();
 
-	void download(const QString & url);
+    void download(const QString &url);
 
 signals:
-	void connecting(QString host);
-	void downloadFinished(QByteArray downloaded_text);
-	void downloadFailed(QString error);
+    void connecting(QString host);
+    void downloadFinished(QByteArray downloaded_text);
+    void downloadFailed(QString error);
 
 protected slots:
-	void readResponseHeader(const QHttpResponseHeader &responseHeader);
-	void httpRequestFinished(int request_id, bool error);
+    void readResponseHeader(const QHttpResponseHeader &responseHeader);
+    void httpRequestFinished(int request_id, bool error);
 
 protected:
-	QByteArray downloaded_text;
-	int http_get_id;
+    QByteArray downloaded_text;
+    int http_get_id;
 };
 
 #endif

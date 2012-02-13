@@ -30,12 +30,12 @@ class LineEditWithIcon : public QLineEdit
 public:
     LineEditWithIcon(QWidget *parent = 0);
 
-	void setIcon(const QPixmap & pixmap);
+    void setIcon(const QPixmap &pixmap);
 
 protected:
     void resizeEvent(QResizeEvent *);
-	virtual void changeEvent(QEvent *);
-	virtual void setupButton();
+    virtual void changeEvent(QEvent *);
+    virtual void setupButton();
 
 protected:
     QToolButton *button;

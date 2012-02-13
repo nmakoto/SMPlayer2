@@ -23,18 +23,18 @@
 
 class ErrorDialog : public QDialog, public Ui::ErrorDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ErrorDialog( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-	~ErrorDialog();
+    ErrorDialog(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~ErrorDialog();
 
 public slots:
-	void setText(QString error);
-	void setLog(QString log_text);
+    void setText(QString error);
+    void setLog(QString log_text);
 
 protected slots:
-	void toggleLog(bool);
+    void toggleLog(bool);
 };
 
 #endif

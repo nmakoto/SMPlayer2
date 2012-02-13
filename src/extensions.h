@@ -24,29 +24,41 @@
 class ExtensionList : public QStringList
 {
 public:
-	ExtensionList();
+    ExtensionList();
 
-	QString forFilter();
-	QString forRegExp();
+    QString forFilter();
+    QString forRegExp();
 };
 
-class Extensions 
+class Extensions
 {
 public:
-	Extensions();
-	~Extensions();
+    Extensions();
+    ~Extensions();
 
-	ExtensionList video() { return _video; };
-	ExtensionList audio() { return _audio; };
-	ExtensionList playlist() { return _playlist; };
-	ExtensionList subtitles() { return _subtitles; };
-	ExtensionList multimedia() { return _multimedia; };
-	ExtensionList allPlayable() { return _all_playable; };
+    ExtensionList video() {
+        return _video;
+    };
+    ExtensionList audio() {
+        return _audio;
+    };
+    ExtensionList playlist() {
+        return _playlist;
+    };
+    ExtensionList subtitles() {
+        return _subtitles;
+    };
+    ExtensionList multimedia() {
+        return _multimedia;
+    };
+    ExtensionList allPlayable() {
+        return _all_playable;
+    };
 
 protected:
-	ExtensionList _video, _audio, _playlist, _subtitles;
-	ExtensionList _multimedia; //!< video and audio
-	ExtensionList _all_playable; //!< video, audio and playlist
+    ExtensionList _video, _audio, _playlist, _subtitles;
+    ExtensionList _multimedia; //!< video and audio
+    ExtensionList _all_playable; //!< video, audio and playlist
 };
 
 #endif

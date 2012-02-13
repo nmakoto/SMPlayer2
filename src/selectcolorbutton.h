@@ -23,28 +23,30 @@
 
 class SelectColorButton : public QPushButton
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	SelectColorButton ( QWidget * parent = 0 );
-	~SelectColorButton();
+    SelectColorButton(QWidget *parent = 0);
+    ~SelectColorButton();
 
-	QColor color() { return _color;} ;
+    QColor color() {
+        return _color;
+    } ;
 
 public slots:
-	void setColor(QColor c);
+    void setColor(QColor c);
 
 private slots:
-	void selectColor();
+    void selectColor();
 
 private:
-	QColor _color;
-	
+    QColor _color;
+
 #ifdef Q_OS_WIN
-	bool ignore_change_event;
-	
+    bool ignore_change_event;
+
 protected:
-	virtual void changeEvent ( QEvent * event ) ;
+    virtual void changeEvent(QEvent *event) ;
 #endif
 };
 

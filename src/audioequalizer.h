@@ -33,29 +33,29 @@ class AudioEqualizer : public QWidget
     Q_OBJECT
 
 public:
-    AudioEqualizer( QWidget* parent = 0, Qt::WindowFlags f = Qt::Dialog );
+    AudioEqualizer(QWidget *parent = 0, Qt::WindowFlags f = Qt::Dialog);
     ~AudioEqualizer();
 
-	EqSlider * eq[10];
+    EqSlider *eq[10];
 
 signals:
-	void visibilityChanged();
+    void visibilityChanged();
 
 public slots:
-	void reset();
-	void setDefaults();
+    void reset();
+    void setDefaults();
 
 protected:
-	virtual void hideEvent( QHideEvent * );
-	virtual void showEvent( QShowEvent * );
+    virtual void hideEvent(QHideEvent *);
+    virtual void showEvent(QShowEvent *);
 
 protected:
-	virtual void retranslateStrings();
-	virtual void changeEvent ( QEvent * event ) ;
+    virtual void retranslateStrings();
+    virtual void changeEvent(QEvent *event) ;
 
 protected:
-	QPushButton * reset_button;
-	QPushButton * set_default_button;
+    QPushButton *reset_button;
+    QPushButton *set_default_button;
 };
 
 

@@ -24,24 +24,24 @@
 
 class QTableWidgetItem;
 
-class MyTableWidget : public QTableWidget 
+class MyTableWidget : public QTableWidget
 {
 public:
-	MyTableWidget ( QWidget * parent = 0 );
-	MyTableWidget ( int rows, int columns, QWidget * parent = 0 );
+    MyTableWidget(QWidget *parent = 0);
+    MyTableWidget(int rows, int columns, QWidget *parent = 0);
 
-	QTableWidgetItem * getItem(int row, int column, bool * existed = 0 );
+    QTableWidgetItem *getItem(int row, int column, bool *existed = 0);
 
-	void setText(int row, int column, const QString & text );
-	QString text(int row, int column);
+    void setText(int row, int column, const QString &text);
+    QString text(int row, int column);
 
-	void setIcon(int row, int column, const QIcon & icon );
-	QIcon icon(int row, int column);
+    void setIcon(int row, int column, const QIcon &icon);
+    QIcon icon(int row, int column);
 
-	bool isSelected(int row, int column);
+    bool isSelected(int row, int column);
 
 protected:
-	virtual QTableWidgetItem * createItem(int col);
+    virtual QTableWidgetItem *createItem(int col);
 
 };
 

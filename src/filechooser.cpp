@@ -31,73 +31,81 @@
 
 QString FileChooser::last_dir;
 
-FileChooser::FileChooser(QWidget * parent) : LineEditWithIcon(parent) 
+FileChooser::FileChooser(QWidget *parent) : LineEditWithIcon(parent)
 {
-	setDialogType(GetFileName);
-	setOptions(0);
+    setDialogType(GetFileName);
+    setOptions(0);
 
-	setupButton();
-	button->setCursor( Qt::PointingHandCursor );
+    setupButton();
+    button->setCursor(Qt::PointingHandCursor);
 
-	connect(button, SIGNAL(clicked()), this, SLOT(openFileDialog()));
+    connect(button, SIGNAL(clicked()), this, SLOT(openFileDialog()));
 }
 
-FileChooser::~FileChooser() {
+FileChooser::~FileChooser()
+{
 }
 
-void FileChooser::setupButton() {
+void FileChooser::setupButton()
+{
 #ifdef NO_SMPLAYER_SUPPORT
-	setIcon( QPixmap(":/folder_open") );
+    setIcon(QPixmap(":/folder_open"));
 #else
-	setIcon( Images::icon("folder_open") );
+    setIcon(Images::icon("folder_open"));
 #endif
-	button->setToolTip( tr("Click to select a file or folder") );
+    button->setToolTip(tr("Click to select a file or folder"));
 }
 
-void FileChooser::openFileDialog() {
-	qDebug("FileChooser::openFileDialog");
+void FileChooser::openFileDialog()
+{
+    qDebug("FileChooser::openFileDialog");
 
-	QString result;
-	QString f;
+    QString result;
+    QString f;
 
-	if (dialogType() == GetFileName) {
-		QFileDialog::Options opts = options();
-		if (opts == 0) opts = QFileDialog::DontResolveSymlinks;
+    if (dialogType() == GetFileName) {
+        QFileDialog::Options opts = options();
 
-		QString dir = QFileInfo(text()).absolutePath();
-		if (dir.isEmpty()) dir = last_dir;
+        if (opts == 0) opts = QFileDialog::DontResolveSymlinks;
 
-#ifndef NO_SMPLAYER_SUPPORT
-		result = MyFileDialog::getOpenFileName( 
-#else
-		result = QFileDialog::getOpenFileName( 
-#endif
-                        this, caption(),
-                        dir,
-                        filter(), &f, opts );
-		if (!result.isEmpty()) last_dir = QFileInfo(result).absolutePath();
-	}
-	else
-	if (dialogType() == GetDirectory) {
-		QFileDialog::Options opts = options();
-		if (opts == 0) opts = QFileDialog::ShowDirsOnly;
+        QString dir = QFileInfo(text()).absolutePath();
 
-		QString dir = text();
-		if (dir.isEmpty()) dir = last_dir;
+        if (dir.isEmpty()) dir = last_dir;
 
 #ifndef NO_SMPLAYER_SUPPORT
-		result = MyFileDialog::getExistingDirectory(
+        result = MyFileDialog::getOpenFileName(
 #else
-		result = QFileDialog::getExistingDirectory(
+        result = QFileDialog::getOpenFileName(
 #endif
-                    this, caption(),
-                    dir, opts );
-		if (!result.isEmpty()) last_dir = result;
-	}
+                     this, caption(),
+                     dir,
+                     filter(), &f, opts);
 
-	if (!result.isEmpty()) {
-		QString old_file = text();
-		setText(result);
-		if (old_file != result) emit fileChanged(result);
-	}
+        if (!result.isEmpty()) last_dir = QFileInfo(result).absolutePath();
+    } else if (dialogType() == GetDirectory) {
+        QFileDialog::Options opts = options();
+
+        if (opts == 0) opts = QFileDialog::ShowDirsOnly;
+
+        QString dir = text();
+
+        if (dir.isEmpty()) dir = last_dir;
+
+#ifndef NO_SMPLAYER_SUPPORT
+        result = MyFileDialog::getExistingDirectory(
+#else
+        result = QFileDialog::getExistingDirectory(
+#endif
+                     this, caption(),
+                     dir, opts);
+
+        if (!result.isEmpty()) last_dir = result;
+    }
+
+    if (!result.isEmpty()) {
+        QString old_file = text();
+        setText(result);
+
+        if (old_file != result) emit fileChanged(result);
+    }
 }

@@ -24,19 +24,19 @@
 #include <QList>
 #include <QAction>
 
-class ToolbarEditor 
+class ToolbarEditor
 {
 public:
 
-	//! Save the widget's list of actions into a QStringList 
-	static QStringList save(QWidget *w);
+    //! Save the widget's list of actions into a QStringList
+    static QStringList save(QWidget *w);
 
-	//! Added to the widget the actions specified in l. actions_list is
-	//! the list of all available actions
-	static void load(QWidget *w, QStringList l, QList<QAction *> actions_list);
+    //! Added to the widget the actions specified in l. actions_list is
+    //! the list of all available actions
+    static void load(QWidget *w, QStringList l, QList<QAction *> actions_list);
 
 protected:
-	static QAction * findAction(QString s, QList<QAction *> actions_list);
+    static QAction *findAction(QString s, QList<QAction *> actions_list);
 };
 
 #endif

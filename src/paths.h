@@ -21,35 +21,36 @@
 
 #include <QString>
 
-class Paths {
+class Paths
+{
 
 public:
 
-	static void setAppPath(QString path);
-	static QString appPath();
+    static void setAppPath(QString path);
+    static QString appPath();
 
-	static QString dataPath();
-	static QString translationPath();
-	static QString docPath();
-	static QString themesPath();
-	static QString shortcutsPath();
-	static QString qtTranslationPath();
-	static QString doc(QString file, QString locale = QString::null);
+    static QString dataPath();
+    static QString translationPath();
+    static QString docPath();
+    static QString themesPath();
+    static QString shortcutsPath();
+    static QString qtTranslationPath();
+    static QString doc(QString file, QString locale = QString::null);
 
-	//! Forces to use a different path for the config files
-	static void setConfigPath(QString path);
+    //! Forces to use a different path for the config files
+    static void setConfigPath(QString path);
 
-	//! Return the path where smplayer2 should save its config files
-	static QString configPath();
+    //! Return the path where smplayer2 should save its config files
+    static QString configPath();
 
-	//! Obsolete. Just returns configPath()
-	static QString iniPath();
+    //! Obsolete. Just returns configPath()
+    static QString iniPath();
 
-	static QString subtitleStyleFile();
+    static QString subtitleStyleFile();
 
 private:
-	static QString app_path;
-	static QString config_path;
+    static QString app_path;
+    static QString config_path;
 };
 
 #endif

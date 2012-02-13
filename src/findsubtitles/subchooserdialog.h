@@ -24,24 +24,24 @@
 
 class SubChooserDialog : public QDialog, public Ui::SubChooserDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	SubChooserDialog( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~SubChooserDialog();
+    SubChooserDialog(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~SubChooserDialog();
 
-	void addFile(QString filename); 
-	QStringList selectedFiles();
+    void addFile(QString filename);
+    QStringList selectedFiles();
 
 protected:
-	virtual void retranslateStrings();
-    virtual void changeEvent ( QEvent * event ) ;
+    virtual void retranslateStrings();
+    virtual void changeEvent(QEvent *event) ;
 
 protected slots:
-	void selectAllClicked(bool); 
-	void selectNoneClicked(bool); 
-	void listItemClicked(QListWidgetItem* item); 
-	void listItemPressed(QListWidgetItem* item); 
+    void selectAllClicked(bool);
+    void selectNoneClicked(bool);
+    void listItemClicked(QListWidgetItem *item);
+    void listItemPressed(QListWidgetItem *item);
 };
 
 #endif

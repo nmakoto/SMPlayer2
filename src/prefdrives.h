@@ -27,42 +27,42 @@ class Preferences;
 
 class PrefDrives : public PrefWidget, public Ui::PrefDrives
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	PrefDrives( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~PrefDrives();
+    PrefDrives(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PrefDrives();
 
-	virtual QString sectionName();
-	virtual QPixmap sectionIcon();
+    virtual QString sectionName();
+    virtual QPixmap sectionIcon();
 
     // Pass data to the dialog
-    void setData(Preferences * pref);
+    void setData(Preferences *pref);
 
     // Apply changes
-    void getData(Preferences * pref);
+    void getData(Preferences *pref);
 
 protected:
-	virtual void createHelp();
+    virtual void createHelp();
 
-	void setDVDDevice( QString dir );
-	QString dvdDevice();
+    void setDVDDevice(QString dir);
+    QString dvdDevice();
 
-	void setCDRomDevice( QString dir );
-	QString cdromDevice();
+    void setCDRomDevice(QString dir);
+    QString cdromDevice();
 
 #if DVDNAV_SUPPORT
-	void setUseDVDNav(bool b);
-	bool useDVDNav();
+    void setUseDVDNav(bool b);
+    bool useDVDNav();
 #endif
 
-	void updateDriveCombos(bool detect_cd_devices = false);
+    void updateDriveCombos(bool detect_cd_devices = false);
 
 protected slots:
-	void on_check_drives_button_clicked();
+    void on_check_drives_button_clicked();
 
 protected:
-	virtual void retranslateStrings();
+    virtual void retranslateStrings();
 };
 
 #endif

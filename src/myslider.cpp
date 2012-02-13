@@ -15,7 +15,7 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General Public 
+    You should have received a copy of the GNU Lesser General Public
     License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -34,12 +34,13 @@
 #endif
 
 
-MySlider::MySlider( QWidget * parent ) : QSlider(parent)
+MySlider::MySlider(QWidget *parent) : QSlider(parent)
 {
-	setOrientation( Qt::Horizontal );
+    setOrientation(Qt::Horizontal);
 }
 
-MySlider::~MySlider() {
+MySlider::~MySlider()
+{
 }
 
 #if CODE_FOR_CLICK == 1
@@ -65,13 +66,14 @@ void MySlider::initStyleOption(QStyleOptionSlider *option) const
     option->tickPosition = (QSlider::TickPosition) tickPosition();
     option->tickInterval = tickInterval();
     option->upsideDown = (orientation() == Qt::Horizontal) ?
-                     (invertedAppearance() != (option->direction == Qt::RightToLeft))
-                     : (!invertedAppearance());
+                         (invertedAppearance() != (option->direction == Qt::RightToLeft))
+                         : (!invertedAppearance());
     option->direction = Qt::LeftToRight; // we use the upsideDown option instead
     option->sliderPosition = sliderPosition();
     option->sliderValue = value();
     option->singleStep = singleStep();
     option->pageStep = pageStep();
+
     if (orientation() == Qt::Horizontal)
         option->state |= QStyle::State_Horizontal;
 }
@@ -95,13 +97,15 @@ int MySlider::pixelPosToRangeValue(int pos) const
         sliderMin = gr.y();
         sliderMax = gr.bottom() - sliderLength + 1;
     }
+
     return QStyle::sliderValueFromPosition(minimum(), maximum(), pos - sliderMin,
                                            sliderMax - sliderMin, opt.upsideDown);
 }
 
 // Based on code from qslider.cpp
-void MySlider::mousePressEvent( QMouseEvent * e ) {
-	if (e->button() == Qt::LeftButton) {
+void MySlider::mousePressEvent(QMouseEvent *e)
+{
+    if (e->button() == Qt::LeftButton) {
         QStyleOptionSlider opt;
         initStyleOption(&opt);
         const QRect sliderRect = style()->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderHandle, this);
@@ -116,66 +120,65 @@ void MySlider::mousePressEvent( QMouseEvent * e ) {
             setRepeatAction(SliderNoAction);
         } else {
             QSlider::mousePressEvent(e);
-		}
-	} else {
-		QSlider::mousePressEvent(e);
-	}
+        }
+    } else {
+        QSlider::mousePressEvent(e);
+    }
 }
 
 #endif // CODE_FOR_CLICK == 1
 
 
 #if CODE_FOR_CLICK == 2
-void MySlider::mousePressEvent( QMouseEvent * e ) {
-	// Swaps middle button click with left click
-	if (e->button() == Qt::LeftButton) {
-		QMouseEvent ev2(QEvent::MouseButtonRelease, e->pos(), e->globalPos(), Qt::MidButton, Qt::MidButton, e->modifiers());
-		QSlider::mousePressEvent(&ev2);
-	} 
-	else
-	if (e->button() == Qt::MidButton) {
-		QMouseEvent ev2(QEvent::MouseButtonRelease, e->pos(), e->globalPos(), Qt::LeftButton, Qt::LeftButton, e->modifiers());
-		QSlider::mousePressEvent(&ev2);
-	}
-	else {
-		QSlider::mousePressEvent(e);
-	}
+void MySlider::mousePressEvent(QMouseEvent *e)
+{
+    // Swaps middle button click with left click
+    if (e->button() == Qt::LeftButton) {
+        QMouseEvent ev2(QEvent::MouseButtonRelease, e->pos(), e->globalPos(), Qt::MidButton, Qt::MidButton, e->modifiers());
+        QSlider::mousePressEvent(&ev2);
+    } else if (e->button() == Qt::MidButton) {
+        QMouseEvent ev2(QEvent::MouseButtonRelease, e->pos(), e->globalPos(), Qt::LeftButton, Qt::LeftButton, e->modifiers());
+        QSlider::mousePressEvent(&ev2);
+    } else {
+        QSlider::mousePressEvent(e);
+    }
 }
 #endif // CODE_FOR_CLICK == 2
 
 
 #if CODE_FOR_CLICK == 0
-void MySlider::mousePressEvent( QMouseEvent * e ) {
-	// FIXME:
-	// The code doesn't work well with right to left layout,
-	// so it's disabled.
-	if (qApp->isRightToLeft()) {
-		QSlider::mousePressEvent(e);
-		return;
-	}
+void MySlider::mousePressEvent(QMouseEvent *e)
+{
+    // FIXME:
+    // The code doesn't work well with right to left layout,
+    // so it's disabled.
+    if (qApp->isRightToLeft()) {
+        QSlider::mousePressEvent(e);
+        return;
+    }
 
-	int range = maximum()-minimum();
-	int pos = (e->x() * range) / width();
-	//qDebug( "width: %d x: %d", width(), e->x());
-	//qDebug( "range: %d pos: %d value: %d", range, pos, value());
+    int range = maximum() - minimum();
+    int pos = (e->x() * range) / width();
+    //qDebug( "width: %d x: %d", width(), e->x());
+    //qDebug( "range: %d pos: %d value: %d", range, pos, value());
 
-	// Calculate how many positions takes the slider handle
-	int metric = qApp->style()->pixelMetric( QStyle::PM_SliderLength );
-	double one_tick_pixels = (double) width() / range;
-	int slider_handle_positions = (int) (metric / one_tick_pixels);
+    // Calculate how many positions takes the slider handle
+    int metric = qApp->style()->pixelMetric(QStyle::PM_SliderLength);
+    double one_tick_pixels = (double) width() / range;
+    int slider_handle_positions = (int)(metric / one_tick_pixels);
 
-	/*
-	qDebug("metric: %d", metric );
-	qDebug("one_tick_pixels :%f", one_tick_pixels);
-	qDebug("width() :%d", width());
-	qDebug("slider_handle_positions: %d", slider_handle_positions);
-	*/
+    /*
+    qDebug("metric: %d", metric );
+    qDebug("one_tick_pixels :%f", one_tick_pixels);
+    qDebug("width() :%d", width());
+    qDebug("slider_handle_positions: %d", slider_handle_positions);
+    */
 
-	if (abs(pos - value()) > slider_handle_positions) { 
-		setValue(pos);
-		emit sliderMoved( pos );
-	} else {
-		QSlider::mousePressEvent(e);
-	}
+    if (abs(pos - value()) > slider_handle_positions) {
+        setValue(pos);
+        emit sliderMoved(pos);
+    } else {
+        QSlider::mousePressEvent(e);
+    }
 }
 #endif

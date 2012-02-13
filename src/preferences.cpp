@@ -32,121 +32,128 @@
 
 using namespace Global;
 
-Preferences::Preferences() {
-	history_recents = new Recents;
-	history_urls = new URLHistory;
-	filters = new Filters;
+Preferences::Preferences()
+{
+    history_recents = new Recents;
+    history_urls = new URLHistory;
+    filters = new Filters;
 
-	reset();
+    reset();
 
 #ifndef NO_USE_INI_FILES
-	load();
+    load();
 #endif
 }
 
-Preferences::~Preferences() {
+Preferences::~Preferences()
+{
 #ifndef NO_USE_INI_FILES
-	save();
+    save();
 #endif
 
-	delete history_recents;
-	delete history_urls;
-	delete filters;
+    delete history_recents;
+    delete history_urls;
+    delete filters;
 }
 
-void Preferences::reset() {
+void Preferences::reset()
+{
     /* *******
        General
        ******* */
 
 #ifdef Q_OS_WIN
-	mplayer_bin= "mplayer2.exe";
+    mplayer_bin = "mplayer2.exe";
 #else
-	mplayer_bin = "mplayer";
+    mplayer_bin = "mplayer";
 #endif
 
-	vo = ""; 
-	ao = "";
+    vo = "";
+    ao = "";
 
-	use_screenshot = false;
-	screenshot_directory="";
-	if (QFile::exists(Paths::configPath() + "/screenshots")) {
-		screenshot_directory = Paths::configPath() + "/screenshots";
-	}
+    use_screenshot = false;
+    screenshot_directory = "";
 
-	dont_remember_media_settings = false;
-	dont_remember_time_pos = false;
+    if (QFile::exists(Paths::configPath() + "/screenshots")) {
+        screenshot_directory = Paths::configPath() + "/screenshots";
+    }
 
-	audio_lang = "";
-	subtitle_lang = "";
+    dont_remember_media_settings = false;
+    dont_remember_time_pos = false;
 
-	use_direct_rendering = true;
-	use_double_buffer = true;
+    audio_lang = "";
+    subtitle_lang = "";
 
-	use_soft_video_eq = false;
-	use_slices = false;
-	autoq = 6;
-	add_blackborders_on_fullscreen = false;
+    use_direct_rendering = true;
+    use_double_buffer = true;
+
+    use_soft_video_eq = false;
+    use_slices = false;
+    autoq = 6;
+    add_blackborders_on_fullscreen = false;
 
 #ifdef Q_OS_WIN
-	turn_screensaver_off = false;
-	avoid_screensaver = true;
+    turn_screensaver_off = false;
+    avoid_screensaver = true;
 #else
-	disable_screensaver = true;
+    disable_screensaver = true;
 #endif
 
 #ifndef Q_OS_WIN
-	vdpau.ffh264vdpau = false;
-	vdpau.ffmpeg12vdpau = true;
-	vdpau.ffwmv3vdpau = true;
-	vdpau.ffvc1vdpau = true;
-	vdpau.ffodivxvdpau = false;
-	vdpau.disable_video_filters = true;
+    vdpau.ffh264vdpau = false;
+    vdpau.ffmpeg12vdpau = true;
+    vdpau.ffwmv3vdpau = true;
+    vdpau.ffvc1vdpau = true;
+    vdpau.ffodivxvdpau = false;
+    vdpau.disable_video_filters = true;
 #endif
 
-	use_soft_vol = true;
-	softvol_max = 110; // 110 = default value in mplayer
-	use_scaletempo = Detect;
-	use_hwac3 = false;
-	use_audio_equalizer = true;
+    use_soft_vol = true;
+    softvol_max = 110; // 110 = default value in mplayer
+    use_scaletempo = Detect;
+    use_hwac3 = false;
+    use_audio_equalizer = true;
 
-	global_volume = true;
-	volume = 50;
-	mute = false;
+    global_volume = true;
+    volume = 50;
+    mute = false;
 
-	autosync = false;
-	autosync_factor = 100;
+    autosync = false;
+    autosync_factor = 100;
 
-	use_mc = false;
-	mc_value = 0;
+    use_mc = false;
+    mc_value = 0;
 
-	osd = Seek;
-	osd_delay = 2200;
+    osd = Seek;
+    osd_delay = 2200;
 
-	file_settings_method = "hash"; // Possible values: normal & hash
+    file_settings_method = "hash"; // Possible values: normal & hash
 
 
     /* ***************
        Drives (CD/DVD)
        *************** */
 
-	dvd_device = "";
-	cdrom_device = "";
+    dvd_device = "";
+    cdrom_device = "";
 
 #ifndef Q_OS_WIN
-	// Try to set default values
-	if (QFile::exists("/dev/dvd")) dvd_device = "/dev/dvd";
-	if (QFile::exists("/dev/cdrom")) cdrom_device = "/dev/cdrom";
+
+    // Try to set default values
+    if (QFile::exists("/dev/dvd")) dvd_device = "/dev/dvd";
+
+    if (QFile::exists("/dev/cdrom")) cdrom_device = "/dev/cdrom";
+
 #endif
 
 #ifdef Q_OS_WIN
-	enable_audiocd_on_windows = false;
+    enable_audiocd_on_windows = false;
 #endif
 
-	vcd_initial_title = 2; // Most VCD's start at title #2
+    vcd_initial_title = 2; // Most VCD's start at title #2
 
 #if DVDNAV_SUPPORT
-	use_dvdnav = true;
+    use_dvdnav = true;
 #endif
 
 
@@ -154,57 +161,57 @@ void Preferences::reset() {
        Performance
        *********** */
 
-	priority = AboveNormal; // Option only for windows
-	frame_drop = true;
-	hard_frame_drop = false;
-	h264_skip_loop_filter = LoopEnabled;
-	HD_height = 720;
+    priority = AboveNormal; // Option only for windows
+    frame_drop = true;
+    hard_frame_drop = false;
+    h264_skip_loop_filter = LoopEnabled;
+    HD_height = 720;
 
-	threads = 0;
+    threads = 0;
 
-	cache_for_files = 0;
-	cache_for_streams = 1000;
-	cache_for_dvds = 0; // not recommended to use cache for dvds
-	cache_for_vcds = 1000;
-	cache_for_audiocds = 1000;
-	cache_for_tv = 3000;
+    cache_for_files = 0;
+    cache_for_streams = 1000;
+    cache_for_dvds = 0; // not recommended to use cache for dvds
+    cache_for_vcds = 1000;
+    cache_for_audiocds = 1000;
+    cache_for_tv = 3000;
 
 
     /* *********
        Subtitles
        ********* */
 
-	sub_use_mplayer2_defaults = true;
-	font_file = "";
-	font_name = "";
-	use_fontconfig = false;
-	subcp = "ISO-8859-1";
-	use_enca = false;
-	enca_lang = QString(QLocale::system().name()).section("_",0,0);
-	font_autoscale = 1;
-	subfuzziness = 1;
-	autoload_sub = true;
-	prefer_external = false;
+    sub_use_mplayer2_defaults = true;
+    font_file = "";
+    font_name = "";
+    use_fontconfig = false;
+    subcp = "ISO-8859-1";
+    use_enca = false;
+    enca_lang = QString(QLocale::system().name()).section("_", 0, 0);
+    font_autoscale = 1;
+    subfuzziness = 1;
+    autoload_sub = true;
+    prefer_external = false;
 
-	use_ass_subtitles = true;
-	ass_line_spacing = 0;
+    use_ass_subtitles = true;
+    ass_line_spacing = 0;
 
-	use_forced_subs_only = false;
+    use_forced_subs_only = false;
 
-	sub_visibility = true;
+    sub_visibility = true;
 
-	subtitles_on_screenshots = false;
+    subtitles_on_screenshots = false;
 
-	fast_load_sub = true;
+    fast_load_sub = true;
 
-	// ASS styles
-	// Nothing to do, default values are given in
-	// AssStyles constructor
+    // ASS styles
+    // Nothing to do, default values are given in
+    // AssStyles constructor
 
-	force_ass_styles = false;
-	user_forced_ass_style.clear();
+    force_ass_styles = false;
+    user_forced_ass_style.clear();
 
-	freetype_support = true;
+    freetype_support = true;
 
 
     /* ********
@@ -212,28 +219,28 @@ void Preferences::reset() {
        ******** */
 
 #if USE_ADAPTER
-	adapter = -1;
+    adapter = -1;
 #endif
 
 #if USE_COLORKEY
-	color_key = 0x020202;
+    color_key = 0x020202;
 #endif
 
-	use_mplayer_window = false;
+    use_mplayer_window = false;
 
-	monitor_aspect=""; // Autodetect
+    monitor_aspect = ""; // Autodetect
 
-	use_idx = false;
+    use_idx = false;
 
-	mplayer_additional_options="";
-    mplayer_additional_video_filters="";
-    mplayer_additional_audio_filters="";
+    mplayer_additional_options = "";
+    mplayer_additional_video_filters = "";
+    mplayer_additional_audio_filters = "";
 
-	log_mplayer = true;
-	log_smplayer2 = true;
-	log_filter = ".*";
-	verbose_log = false;
-	save_smplayer2_log = false;
+    log_mplayer = true;
+    log_smplayer2 = true;
+    log_filter = ".*";
+    verbose_log = false;
+    save_smplayer2_log = false;
 
     //mplayer log autosaving
     autosave_mplayer_log = false;
@@ -241,152 +248,152 @@ void Preferences::reset() {
     //mplayer log autosaving end
 
 #if REPAINT_BACKGROUND_OPTION
-	// "Repaint video background" in the preferences dialog
-	#ifndef Q_OS_WIN
-	repaint_video_background = false;
-	#else
-	repaint_video_background = true;
-	#endif
+    // "Repaint video background" in the preferences dialog
+#ifndef Q_OS_WIN
+    repaint_video_background = false;
+#else
+    repaint_video_background = true;
+#endif
 #endif
 
-	use_edl_files = true;
+    use_edl_files = true;
 
-	prefer_ipv4 = true;
+    prefer_ipv4 = true;
 
-	change_video_equalizer_on_startup = true;
+    change_video_equalizer_on_startup = true;
 
-	use_pausing_keep_force = true;
+    use_pausing_keep_force = true;
 
-	use_correct_pts = Detect;
+    use_correct_pts = Detect;
 
-	actions_to_run = "";
+    actions_to_run = "";
 
-	show_tag_in_window_title = true;
+    show_tag_in_window_title = true;
 
 
     /* *********
        GUI stuff
        ********* */
 
-	fullscreen = false;
-	start_in_fullscreen = false;
-	compact_mode = false;
-	stay_on_top = NeverOnTop;
-	size_factor = 100; // 100%
+    fullscreen = false;
+    start_in_fullscreen = false;
+    compact_mode = false;
+    stay_on_top = NeverOnTop;
+    size_factor = 100; // 100%
 
-	resize_method = Always;
+    resize_method = Always;
 
 #if STYLE_SWITCHING
-	style="";
+    style = "";
 #endif
 
-	show_motion_vectors = false;
+    show_motion_vectors = false;
 
 #if DVDNAV_SUPPORT
-	mouse_left_click_function = "dvdnav_mouse";
+    mouse_left_click_function = "dvdnav_mouse";
 #else
-	mouse_left_click_function = "";
+    mouse_left_click_function = "";
 #endif
-	mouse_right_click_function = "show_context_menu";
-	mouse_double_click_function = "fullscreen";
-	mouse_middle_click_function = "mute";
-	mouse_xbutton1_click_function = "";
-	mouse_xbutton2_click_function = "";
-	wheel_function = Seeking;
-	wheel_function_cycle = Seeking | Volume | Zoom | ChangeSpeed;
-	wheel_function_seeking_reverse = false;
+    mouse_right_click_function = "show_context_menu";
+    mouse_double_click_function = "fullscreen";
+    mouse_middle_click_function = "mute";
+    mouse_xbutton1_click_function = "";
+    mouse_xbutton2_click_function = "";
+    wheel_function = Seeking;
+    wheel_function_cycle = Seeking | Volume | Zoom | ChangeSpeed;
+    wheel_function_seeking_reverse = false;
 
-	seeking1 = 10;
-	seeking2 = 60;
-	seeking3 = 10*60;
-	seeking4 = 30;
+    seeking1 = 10;
+    seeking2 = 60;
+    seeking3 = 10 * 60;
+    seeking4 = 30;
 
-	update_while_seeking = true;
+    update_while_seeking = true;
 
-	language = "";
-	iconset = "";
+    language = "";
+    iconset = "";
 
-	balloon_count = 5;
+    balloon_count = 5;
 
 #ifdef Q_OS_WIN
-	restore_pos_after_fullscreen = true;
+    restore_pos_after_fullscreen = true;
 #else
-	restore_pos_after_fullscreen = false;
+    restore_pos_after_fullscreen = false;
 #endif
 
-	save_window_size_on_exit = true;
+    save_window_size_on_exit = true;
 
-	close_on_finish = false;
+    close_on_finish = false;
 
-	default_font = "";
+    default_font = "";
 
-	pause_when_hidden = false;
+    pause_when_hidden = false;
 
-	allow_video_movement = false;
+    allow_video_movement = false;
 
-	gui = "DefaultGui";
+    gui = "DefaultGui";
 
 #if USE_MINIMUMSIZE
-	gui_minimum_width = 0; // 0 == disabled
+    gui_minimum_width = 0; // 0 == disabled
 #endif
-	default_size = QSize(580, 440);
+    default_size = QSize(580, 440);
 
 #if ALLOW_TO_HIDE_VIDEO_WINDOW_ON_AUDIO_FILES
-	hide_video_window_on_audio_files = true;
+    hide_video_window_on_audio_files = true;
 #endif
 
-	report_mplayer_crashes = true;
+    report_mplayer_crashes = true;
 
-	auto_add_to_playlist = true;
-	add_to_playlist_consecutive_files = false;
+    auto_add_to_playlist = true;
+    add_to_playlist_consecutive_files = false;
 
 
     /* ********
        TV (dvb)
        ******** */
 
-	check_channels_conf_on_startup = true;
-	initial_tv_deinterlace = MediaSettings::Yadif_1;
-	last_dvb_channel = "";
-	last_tv_channel = "";
+    check_channels_conf_on_startup = true;
+    initial_tv_deinterlace = MediaSettings::Yadif_1;
+    last_dvb_channel = "";
+    last_tv_channel = "";
 
 
     /* ***********
        Directories
        *********** */
 
-	latest_dir = QDir::homePath();
-	last_dvd_directory="";
+    latest_dir = QDir::homePath();
+    last_dvd_directory = "";
 
 
     /* **************
        Initial values
        ************** */
 
-	initial_sub_scale = 5;
-	initial_sub_scale_ass = 1;
-	initial_volume = 40;
-	initial_contrast = 0;
-	initial_brightness = 0;
-	initial_hue = 0;
-	initial_saturation = 0;
-	initial_gamma = 0;
+    initial_sub_scale = 5;
+    initial_sub_scale_ass = 1;
+    initial_volume = 40;
+    initial_contrast = 0;
+    initial_brightness = 0;
+    initial_hue = 0;
+    initial_saturation = 0;
+    initial_gamma = 0;
 
-	initial_audio_equalizer << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0;
+    initial_audio_equalizer << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0;
 
-	initial_zoom_factor = 1.0;
-	initial_sub_pos = 100; // 100%
+    initial_zoom_factor = 1.0;
+    initial_sub_pos = 100; // 100%
 
-	initial_postprocessing = false;
-	initial_volnorm = false;
+    initial_postprocessing = false;
+    initial_volnorm = false;
 
-	initial_deinterlace = MediaSettings::NoDeinterlace;
+    initial_deinterlace = MediaSettings::NoDeinterlace;
 
-	initial_audio_channels = MediaSettings::ChDefault;
-	initial_stereo_mode = MediaSettings::Stereo;
+    initial_audio_channels = MediaSettings::ChDefault;
+    initial_stereo_mode = MediaSettings::Stereo;
 
-	initial_audio_track = 1;
-	initial_subtitle_track = 1;
+    initial_audio_track = 1;
+    initial_subtitle_track = 1;
 
 
     /* *********
@@ -394,27 +401,27 @@ void Preferences::reset() {
        ********* */
 
 #ifdef Q_OS_WIN
-	// Some people reported smplayer2 doesn't start with this option enabled
-	// So now it's disabled by default on Windows
-	use_single_instance = false; 
+    // Some people reported smplayer2 doesn't start with this option enabled
+    // So now it's disabled by default on Windows
+    use_single_instance = false;
 #else
-	use_single_instance = true;
+    use_single_instance = true;
 #endif
-	use_autoport = true;
-	connection_port = 8000;
-	autoport = 0;
+    use_autoport = true;
+    connection_port = 8000;
+    autoport = 0;
 
 
     /* ****************
        Floating control
        **************** */
 
-	floating_control_margin = 0;
-	floating_control_width = 100; //100 %
-	floating_control_animated = true;
-	floating_display_in_compact_mode = false;
+    floating_control_margin = 0;
+    floating_control_width = 100; //100 %
+    floating_control_animated = true;
+    floating_display_in_compact_mode = false;
 #ifndef Q_OS_WIN
-	bypass_window_manager = true;
+    bypass_window_manager = true;
 #endif
 
 
@@ -422,205 +429,206 @@ void Preferences::reset() {
        History
        ******* */
 
-	history_recents->clear();
-	history_urls->clear();
+    history_recents->clear();
+    history_urls->clear();
 
 
     /* *******
        Filters
        ******* */
 
-	filters->init();
+    filters->init();
 }
 
 #ifndef NO_USE_INI_FILES
-void Preferences::save() {
-	qDebug("Preferences::save");
+void Preferences::save()
+{
+    qDebug("Preferences::save");
 
-	QSettings * set = settings;
+    QSettings *set = settings;
 
 
     /* *******
        General
        ******* */
 
-	set->beginGroup( "general");
+    set->beginGroup("general");
 
-	set->setValue("mplayer_bin", mplayer_bin);
-	set->setValue("driver/vo", vo);
-	set->setValue("driver/audio_output", ao);
+    set->setValue("mplayer_bin", mplayer_bin);
+    set->setValue("driver/vo", vo);
+    set->setValue("driver/audio_output", ao);
 
-	set->setValue("use_screenshot", use_screenshot);
-	set->setValue("screenshot_directory", screenshot_directory);
+    set->setValue("use_screenshot", use_screenshot);
+    set->setValue("screenshot_directory", screenshot_directory);
 
-	set->setValue("dont_remember_media_settings", dont_remember_media_settings);
-	set->setValue("dont_remember_time_pos", dont_remember_time_pos);
+    set->setValue("dont_remember_media_settings", dont_remember_media_settings);
+    set->setValue("dont_remember_time_pos", dont_remember_time_pos);
 
-	set->setValue("audio_lang", audio_lang);
-	set->setValue("subtitle_lang", subtitle_lang);
+    set->setValue("audio_lang", audio_lang);
+    set->setValue("subtitle_lang", subtitle_lang);
 
-	set->setValue("use_direct_rendering", use_direct_rendering);
-	set->setValue("use_double_buffer", use_double_buffer);
-	set->setValue("use_soft_video_eq", use_soft_video_eq);
-	set->setValue("use_slices", use_slices );
-	set->setValue("autoq", autoq);
-	set->setValue("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen);
+    set->setValue("use_direct_rendering", use_direct_rendering);
+    set->setValue("use_double_buffer", use_double_buffer);
+    set->setValue("use_soft_video_eq", use_soft_video_eq);
+    set->setValue("use_slices", use_slices);
+    set->setValue("autoq", autoq);
+    set->setValue("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen);
 
 #ifdef Q_OS_WIN
-	set->setValue("turn_screensaver_off", turn_screensaver_off);
-	set->setValue("avoid_screensaver", avoid_screensaver);
+    set->setValue("turn_screensaver_off", turn_screensaver_off);
+    set->setValue("avoid_screensaver", avoid_screensaver);
 #else
-	set->setValue("disable_screensaver", disable_screensaver);
+    set->setValue("disable_screensaver", disable_screensaver);
 #endif
 
 #ifndef Q_OS_WIN
-	set->setValue("vdpau_ffh264vdpau", vdpau.ffh264vdpau);
-	set->setValue("vdpau_ffmpeg12vdpau", vdpau.ffmpeg12vdpau);
-	set->setValue("vdpau_ffwmv3vdpau", vdpau.ffwmv3vdpau);
-	set->setValue("vdpau_ffvc1vdpau", vdpau.ffvc1vdpau);
-	set->setValue("vdpau_ffodivxvdpau", vdpau.ffodivxvdpau);
-	set->setValue("vdpau_disable_video_filters", vdpau.disable_video_filters);
+    set->setValue("vdpau_ffh264vdpau", vdpau.ffh264vdpau);
+    set->setValue("vdpau_ffmpeg12vdpau", vdpau.ffmpeg12vdpau);
+    set->setValue("vdpau_ffwmv3vdpau", vdpau.ffwmv3vdpau);
+    set->setValue("vdpau_ffvc1vdpau", vdpau.ffvc1vdpau);
+    set->setValue("vdpau_ffodivxvdpau", vdpau.ffodivxvdpau);
+    set->setValue("vdpau_disable_video_filters", vdpau.disable_video_filters);
 #endif
 
-	set->setValue("use_soft_vol", use_soft_vol);
-	set->setValue("softvol_max", softvol_max);
-	set->setValue("use_scaletempo", use_scaletempo);
-	set->setValue("use_hwac3", use_hwac3 );
-	set->setValue("use_audio_equalizer", use_audio_equalizer );
+    set->setValue("use_soft_vol", use_soft_vol);
+    set->setValue("softvol_max", softvol_max);
+    set->setValue("use_scaletempo", use_scaletempo);
+    set->setValue("use_hwac3", use_hwac3);
+    set->setValue("use_audio_equalizer", use_audio_equalizer);
 
-	set->setValue("global_volume", global_volume);
-	set->setValue("volume", volume);
-	set->setValue("mute", mute);
+    set->setValue("global_volume", global_volume);
+    set->setValue("volume", volume);
+    set->setValue("mute", mute);
 
-	set->setValue("autosync", autosync);
-	set->setValue("autosync_factor", autosync_factor);
+    set->setValue("autosync", autosync);
+    set->setValue("autosync_factor", autosync_factor);
 
-	set->setValue("use_mc", use_mc);
-	set->setValue("mc_value", mc_value);
+    set->setValue("use_mc", use_mc);
+    set->setValue("mc_value", mc_value);
 
-	set->setValue("osd", osd);
-	set->setValue("osd_delay", osd_delay);
+    set->setValue("osd", osd);
+    set->setValue("osd_delay", osd_delay);
 
-	set->setValue("file_settings_method", file_settings_method);
+    set->setValue("file_settings_method", file_settings_method);
 
-	set->endGroup(); // general
+    set->endGroup(); // general
 
 
     /* ***************
        Drives (CD/DVD)
        *************** */
 
-	set->beginGroup( "drives");
+    set->beginGroup("drives");
 
-	set->setValue("dvd_device", dvd_device);
-	set->setValue("cdrom_device", cdrom_device);
+    set->setValue("dvd_device", dvd_device);
+    set->setValue("cdrom_device", cdrom_device);
 
 #ifdef Q_OS_WIN
-	set->setValue("enable_audiocd_on_windows", enable_audiocd_on_windows);
+    set->setValue("enable_audiocd_on_windows", enable_audiocd_on_windows);
 #endif
 
-	set->setValue("vcd_initial_title", vcd_initial_title);
+    set->setValue("vcd_initial_title", vcd_initial_title);
 
 #if DVDNAV_SUPPORT
-	set->setValue("use_dvdnav", use_dvdnav);
+    set->setValue("use_dvdnav", use_dvdnav);
 #endif
 
-	set->endGroup(); // drives
+    set->endGroup(); // drives
 
 
     /* ***********
        Performance
        *********** */
 
-	set->beginGroup( "performance");
+    set->beginGroup("performance");
 
-	set->setValue("priority", priority);
-	set->setValue("frame_drop", frame_drop);
-	set->setValue("hard_frame_drop", hard_frame_drop);
-	set->setValue("h264_skip_loop_filter", h264_skip_loop_filter);
-	set->setValue("HD_height", HD_height);
+    set->setValue("priority", priority);
+    set->setValue("frame_drop", frame_drop);
+    set->setValue("hard_frame_drop", hard_frame_drop);
+    set->setValue("h264_skip_loop_filter", h264_skip_loop_filter);
+    set->setValue("HD_height", HD_height);
 
-	set->setValue("lavdthreads", threads);
+    set->setValue("lavdthreads", threads);
 
-	set->setValue("cache_for_files", cache_for_files);
-	set->setValue("cache_for_streams", cache_for_streams);
-	set->setValue("cache_for_dvds", cache_for_dvds);
-	set->setValue("cache_for_vcds", cache_for_vcds);
-	set->setValue("cache_for_audiocds", cache_for_audiocds);
-	set->setValue("cache_for_tv", cache_for_tv);
+    set->setValue("cache_for_files", cache_for_files);
+    set->setValue("cache_for_streams", cache_for_streams);
+    set->setValue("cache_for_dvds", cache_for_dvds);
+    set->setValue("cache_for_vcds", cache_for_vcds);
+    set->setValue("cache_for_audiocds", cache_for_audiocds);
+    set->setValue("cache_for_tv", cache_for_tv);
 
-	set->endGroup(); // performance
+    set->endGroup(); // performance
 
 
     /* *********
        Subtitles
        ********* */
 
-	set->beginGroup("subtitles");
+    set->beginGroup("subtitles");
 
-	set->setValue("sub_use_mplayer2_defaults", sub_use_mplayer2_defaults);
+    set->setValue("sub_use_mplayer2_defaults", sub_use_mplayer2_defaults);
 
-	set->setValue("font_file", font_file);
-	set->setValue("font_name", font_name);
+    set->setValue("font_file", font_file);
+    set->setValue("font_name", font_name);
 
-	set->setValue("use_fontconfig", use_fontconfig);
-	set->setValue("subcp", subcp);
-	set->setValue("use_enca", use_enca);
-	set->setValue("enca_lang", enca_lang);
-	set->setValue("font_autoscale", font_autoscale);
-	set->setValue("subfuzziness", subfuzziness);
-	set->setValue("autoload_sub", autoload_sub);
-	set->setValue("prefer_external", prefer_external);
+    set->setValue("use_fontconfig", use_fontconfig);
+    set->setValue("subcp", subcp);
+    set->setValue("use_enca", use_enca);
+    set->setValue("enca_lang", enca_lang);
+    set->setValue("font_autoscale", font_autoscale);
+    set->setValue("subfuzziness", subfuzziness);
+    set->setValue("autoload_sub", autoload_sub);
+    set->setValue("prefer_external", prefer_external);
 
-	set->setValue("use_ass_subtitles", use_ass_subtitles);
-	set->setValue("ass_line_spacing", ass_line_spacing);
-	set->setValue("use_forced_subs_only", use_forced_subs_only);
+    set->setValue("use_ass_subtitles", use_ass_subtitles);
+    set->setValue("ass_line_spacing", ass_line_spacing);
+    set->setValue("use_forced_subs_only", use_forced_subs_only);
 
-	set->setValue("sub_visibility", sub_visibility);
+    set->setValue("sub_visibility", sub_visibility);
 
-	set->setValue("subtitles_on_screenshots", subtitles_on_screenshots);
+    set->setValue("subtitles_on_screenshots", subtitles_on_screenshots);
 
-	set->setValue("fast_load_sub", fast_load_sub);
+    set->setValue("fast_load_sub", fast_load_sub);
 
-	// ASS styles
-	ass_styles.save(set);
-	set->setValue("force_ass_styles", force_ass_styles);
-	set->setValue("user_forced_ass_style", user_forced_ass_style);
+    // ASS styles
+    ass_styles.save(set);
+    set->setValue("force_ass_styles", force_ass_styles);
+    set->setValue("user_forced_ass_style", user_forced_ass_style);
 
-	set->setValue("freetype_support", freetype_support);
+    set->setValue("freetype_support", freetype_support);
 
-	set->endGroup(); // subtitles
+    set->endGroup(); // subtitles
 
 
     /* ********
        Advanced
        ******** */
 
-	set->beginGroup( "advanced");
+    set->beginGroup("advanced");
 
 #if USE_ADAPTER
-	set->setValue("adapter", adapter);
+    set->setValue("adapter", adapter);
 #endif
 
 #if USE_COLORKEY
-	set->setValue("color_key", QString::number(color_key,16));
+    set->setValue("color_key", QString::number(color_key, 16));
 #endif
 
-	set->setValue("use_mplayer_window", use_mplayer_window);
+    set->setValue("use_mplayer_window", use_mplayer_window);
 
-	set->setValue("monitor_aspect", monitor_aspect);
+    set->setValue("monitor_aspect", monitor_aspect);
 
-	set->setValue("use_idx", use_idx);
+    set->setValue("use_idx", use_idx);
 
-	set->setValue("mplayer_additional_options", mplayer_additional_options);
-	set->setValue("mplayer_additional_video_filters", mplayer_additional_video_filters);
-	set->setValue("mplayer_additional_audio_filters", mplayer_additional_audio_filters);
+    set->setValue("mplayer_additional_options", mplayer_additional_options);
+    set->setValue("mplayer_additional_video_filters", mplayer_additional_video_filters);
+    set->setValue("mplayer_additional_audio_filters", mplayer_additional_audio_filters);
 
-	set->setValue("log_mplayer", log_mplayer);
-	set->setValue("log_smplayer2", log_smplayer2);
-	set->setValue("log_filter", log_filter);
-	set->setValue("verbose_log", verbose_log);
-	set->setValue("save_smplayer2_log", save_smplayer2_log);
+    set->setValue("log_mplayer", log_mplayer);
+    set->setValue("log_smplayer2", log_smplayer2);
+    set->setValue("log_filter", log_filter);
+    set->setValue("verbose_log", verbose_log);
+    set->setValue("save_smplayer2_log", save_smplayer2_log);
 
     //mplayer log autosaving
     set->setValue("autosave_mplayer_log", autosave_mplayer_log);
@@ -628,395 +636,398 @@ void Preferences::save() {
     //mplayer log autosaving end
 
 #if REPAINT_BACKGROUND_OPTION
-	set->setValue("repaint_video_background", repaint_video_background);
+    set->setValue("repaint_video_background", repaint_video_background);
 #endif
 
-	set->setValue("use_edl_files", use_edl_files);
+    set->setValue("use_edl_files", use_edl_files);
 
-	set->setValue("prefer_ipv4", prefer_ipv4);
+    set->setValue("prefer_ipv4", prefer_ipv4);
 
-	set->setValue("change_video_equalizer_on_startup", change_video_equalizer_on_startup);
+    set->setValue("change_video_equalizer_on_startup", change_video_equalizer_on_startup);
 
-	set->setValue("use_pausing_keep_force", use_pausing_keep_force);
+    set->setValue("use_pausing_keep_force", use_pausing_keep_force);
 
-	set->setValue("correct_pts", use_correct_pts);
+    set->setValue("correct_pts", use_correct_pts);
 
-	set->setValue("actions_to_run", actions_to_run);
+    set->setValue("actions_to_run", actions_to_run);
 
-	set->setValue("show_tag_in_window_title", show_tag_in_window_title);
+    set->setValue("show_tag_in_window_title", show_tag_in_window_title);
 
-	set->endGroup(); // advanced
+    set->endGroup(); // advanced
 
 
     /* *********
        GUI stuff
        ********* */
 
-	set->beginGroup("gui");
+    set->beginGroup("gui");
 
-	set->setValue("fullscreen", fullscreen);
-	set->setValue("start_in_fullscreen", start_in_fullscreen);
+    set->setValue("fullscreen", fullscreen);
+    set->setValue("start_in_fullscreen", start_in_fullscreen);
 
-	set->setValue("compact_mode", compact_mode);
-	set->setValue("stay_on_top", (int) stay_on_top);
-	set->setValue("size_factor", size_factor);
-	set->setValue("resize_method", resize_method);
+    set->setValue("compact_mode", compact_mode);
+    set->setValue("stay_on_top", (int) stay_on_top);
+    set->setValue("size_factor", size_factor);
+    set->setValue("resize_method", resize_method);
 
 #if STYLE_SWITCHING
-	set->setValue("style", style);
+    set->setValue("style", style);
 #endif
 
-	set->setValue("show_motion_vectors", show_motion_vectors);
+    set->setValue("show_motion_vectors", show_motion_vectors);
 
-	set->setValue("mouse_left_click_function", mouse_left_click_function);
-	set->setValue("mouse_right_click_function", mouse_right_click_function);
-	set->setValue("mouse_double_click_function", mouse_double_click_function);
-	set->setValue("mouse_middle_click_function", mouse_middle_click_function);
-	set->setValue("mouse_xbutton1_click_function", mouse_xbutton1_click_function);
-	set->setValue("mouse_xbutton2_click_function", mouse_xbutton2_click_function);
-	set->setValue("mouse_wheel_function", wheel_function);
-	set->setValue("wheel_function_cycle", (int) wheel_function_cycle);
-	set->setValue("wheel_function_seeking_reverse", wheel_function_seeking_reverse);
+    set->setValue("mouse_left_click_function", mouse_left_click_function);
+    set->setValue("mouse_right_click_function", mouse_right_click_function);
+    set->setValue("mouse_double_click_function", mouse_double_click_function);
+    set->setValue("mouse_middle_click_function", mouse_middle_click_function);
+    set->setValue("mouse_xbutton1_click_function", mouse_xbutton1_click_function);
+    set->setValue("mouse_xbutton2_click_function", mouse_xbutton2_click_function);
+    set->setValue("mouse_wheel_function", wheel_function);
+    set->setValue("wheel_function_cycle", (int) wheel_function_cycle);
+    set->setValue("wheel_function_seeking_reverse", wheel_function_seeking_reverse);
 
-	set->setValue("seeking1", seeking1);
-	set->setValue("seeking2", seeking2);
-	set->setValue("seeking3", seeking3);
-	set->setValue("seeking4", seeking4);
+    set->setValue("seeking1", seeking1);
+    set->setValue("seeking2", seeking2);
+    set->setValue("seeking3", seeking3);
+    set->setValue("seeking4", seeking4);
 
-	set->setValue("update_while_seeking", update_while_seeking);
+    set->setValue("update_while_seeking", update_while_seeking);
 
-	set->setValue("language", language);
-	set->setValue("iconset", iconset);
+    set->setValue("language", language);
+    set->setValue("iconset", iconset);
 
-	set->setValue("balloon_count", balloon_count);
+    set->setValue("balloon_count", balloon_count);
 
-	set->setValue("restore_pos_after_fullscreen", restore_pos_after_fullscreen);
-	set->setValue("save_window_size_on_exit", save_window_size_on_exit);
+    set->setValue("restore_pos_after_fullscreen", restore_pos_after_fullscreen);
+    set->setValue("save_window_size_on_exit", save_window_size_on_exit);
 
-	set->setValue("close_on_finish", close_on_finish);
+    set->setValue("close_on_finish", close_on_finish);
 
-	set->setValue("default_font", default_font);
+    set->setValue("default_font", default_font);
 
-	set->setValue("pause_when_hidden", pause_when_hidden);
+    set->setValue("pause_when_hidden", pause_when_hidden);
 
-	set->setValue("allow_video_movement", allow_video_movement);
+    set->setValue("allow_video_movement", allow_video_movement);
 
-	set->setValue("gui", gui);
+    set->setValue("gui", gui);
 
 #if USE_MINIMUMSIZE
-	set->setValue("gui_minimum_width", gui_minimum_width);
+    set->setValue("gui_minimum_width", gui_minimum_width);
 #endif
-	set->setValue("default_size", default_size);
+    set->setValue("default_size", default_size);
 
 #if ALLOW_TO_HIDE_VIDEO_WINDOW_ON_AUDIO_FILES
-	set->setValue("hide_video_window_on_audio_files", hide_video_window_on_audio_files);
+    set->setValue("hide_video_window_on_audio_files", hide_video_window_on_audio_files);
 #endif
 
-	set->setValue("report_mplayer_crashes", report_mplayer_crashes);
+    set->setValue("report_mplayer_crashes", report_mplayer_crashes);
 
     set->setValue("auto_add_to_playlist", auto_add_to_playlist);
     set->setValue("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files);
 
-	set->endGroup(); // gui
+    set->endGroup(); // gui
 
 
     /* ********
        TV (dvb)
        ******** */
 
-	set->beginGroup( "tv");
-	set->setValue("check_channels_conf_on_startup", check_channels_conf_on_startup);
-	set->setValue("initial_tv_deinterlace", initial_tv_deinterlace);
-	set->setValue("last_dvb_channel", last_dvb_channel);
-	set->setValue("last_tv_channel", last_tv_channel);
-	set->endGroup(); // tv
+    set->beginGroup("tv");
+    set->setValue("check_channels_conf_on_startup", check_channels_conf_on_startup);
+    set->setValue("initial_tv_deinterlace", initial_tv_deinterlace);
+    set->setValue("last_dvb_channel", last_dvb_channel);
+    set->setValue("last_tv_channel", last_tv_channel);
+    set->endGroup(); // tv
 
     /* ***********
        Directories
        *********** */
 
-	set->beginGroup( "directories");
-	set->setValue("latest_dir", latest_dir);
-	set->setValue("last_dvd_directory", last_dvd_directory);
-	set->endGroup(); // directories
+    set->beginGroup("directories");
+    set->setValue("latest_dir", latest_dir);
+    set->setValue("last_dvd_directory", last_dvd_directory);
+    set->endGroup(); // directories
 
 
     /* **************
        Initial values
        ************** */
 
-	set->beginGroup( "defaults");
+    set->beginGroup("defaults");
 
-	set->setValue("initial_sub_scale", initial_sub_scale);
-	set->setValue("initial_sub_scale_ass", initial_sub_scale_ass);
-	set->setValue("initial_volume", initial_volume);
-	set->setValue("initial_contrast", initial_contrast);
-	set->setValue("initial_brightness", initial_brightness);
-	set->setValue("initial_hue", initial_hue);
-	set->setValue("initial_saturation", initial_saturation);
-	set->setValue("initial_gamma", initial_gamma);
+    set->setValue("initial_sub_scale", initial_sub_scale);
+    set->setValue("initial_sub_scale_ass", initial_sub_scale_ass);
+    set->setValue("initial_volume", initial_volume);
+    set->setValue("initial_contrast", initial_contrast);
+    set->setValue("initial_brightness", initial_brightness);
+    set->setValue("initial_hue", initial_hue);
+    set->setValue("initial_saturation", initial_saturation);
+    set->setValue("initial_gamma", initial_gamma);
 
-	set->setValue("initial_audio_equalizer", initial_audio_equalizer);
+    set->setValue("initial_audio_equalizer", initial_audio_equalizer);
 
-	set->setValue("initial_zoom_factor", initial_zoom_factor);
-	set->setValue("initial_sub_pos", initial_sub_pos);
+    set->setValue("initial_zoom_factor", initial_zoom_factor);
+    set->setValue("initial_sub_pos", initial_sub_pos);
 
-	set->setValue("initial_volnorm", initial_volnorm);
-	set->setValue("initial_postprocessing", initial_postprocessing);
+    set->setValue("initial_volnorm", initial_volnorm);
+    set->setValue("initial_postprocessing", initial_postprocessing);
 
-	set->setValue("initial_deinterlace", initial_deinterlace);
+    set->setValue("initial_deinterlace", initial_deinterlace);
 
-	set->setValue("initial_audio_channels", initial_audio_channels);
-	set->setValue("initial_stereo_mode", initial_stereo_mode);
+    set->setValue("initial_audio_channels", initial_audio_channels);
+    set->setValue("initial_stereo_mode", initial_stereo_mode);
 
-	set->setValue("initial_audio_track", initial_audio_track);
-	set->setValue("initial_subtitle_track", initial_subtitle_track);
+    set->setValue("initial_audio_track", initial_audio_track);
+    set->setValue("initial_subtitle_track", initial_subtitle_track);
 
-	set->endGroup(); // defaults
+    set->endGroup(); // defaults
 
     /* *********
        Instances
        ********* */
 
-	set->beginGroup("instances");
-	set->setValue("use_single_instance", use_single_instance);
-	set->setValue("connection_port", connection_port);
-	set->setValue("use_autoport", use_autoport);
-	set->setValue("temp/autoport", autoport);
-	set->endGroup(); // instances
+    set->beginGroup("instances");
+    set->setValue("use_single_instance", use_single_instance);
+    set->setValue("connection_port", connection_port);
+    set->setValue("use_autoport", use_autoport);
+    set->setValue("temp/autoport", autoport);
+    set->endGroup(); // instances
 
 
     /* ****************
        Floating control
        **************** */
 
-	set->beginGroup("floating_control");
-	set->setValue("margin", floating_control_margin);
-	set->setValue("width", floating_control_width);
-	set->setValue("animated", floating_control_animated);
-	set->setValue("display_in_compact_mode", floating_display_in_compact_mode);
+    set->beginGroup("floating_control");
+    set->setValue("margin", floating_control_margin);
+    set->setValue("width", floating_control_width);
+    set->setValue("animated", floating_control_animated);
+    set->setValue("display_in_compact_mode", floating_display_in_compact_mode);
 #ifndef Q_OS_WIN
-	set->setValue("bypass_window_manager", bypass_window_manager);
+    set->setValue("bypass_window_manager", bypass_window_manager);
 #endif
-	set->endGroup(); // floating_control
+    set->endGroup(); // floating_control
 
 
     /* *******
        History
        ******* */
 
-	set->beginGroup("history");
-	set->setValue("recents", history_recents->toStringList());
-	set->setValue("recents/max_items", history_recents->maxItems());
-	set->setValue("urls", history_urls->toStringList());
-	set->setValue("urls/max_items", history_urls->maxItems());
-	set->endGroup(); // history
+    set->beginGroup("history");
+    set->setValue("recents", history_recents->toStringList());
+    set->setValue("recents/max_items", history_recents->maxItems());
+    set->setValue("urls", history_urls->toStringList());
+    set->setValue("urls/max_items", history_urls->maxItems());
+    set->endGroup(); // history
 
 
     /* *******
        Filters
        ******* */
 
-	filters->save(set);
+    filters->save(set);
 
 
-	set->sync();
+    set->sync();
 }
 
-void Preferences::load() {
-	qDebug("Preferences::load");
+void Preferences::load()
+{
+    qDebug("Preferences::load");
 
-	QSettings * set = settings;
+    QSettings *set = settings;
 
 
     /* *******
        General
        ******* */
 
-	set->beginGroup( "general");
+    set->beginGroup("general");
 
-	mplayer_bin = set->value("mplayer_bin", mplayer_bin).toString();
-	vo = set->value("driver/vo", vo).toString();
-	ao = set->value("driver/audio_output", ao).toString();
+    mplayer_bin = set->value("mplayer_bin", mplayer_bin).toString();
+    vo = set->value("driver/vo", vo).toString();
+    ao = set->value("driver/audio_output", ao).toString();
 
-	use_screenshot = set->value("use_screenshot", use_screenshot).toBool();
-	screenshot_directory = set->value("screenshot_directory", screenshot_directory).toString();
+    use_screenshot = set->value("use_screenshot", use_screenshot).toBool();
+    screenshot_directory = set->value("screenshot_directory", screenshot_directory).toString();
 
-	dont_remember_media_settings = set->value("dont_remember_media_settings", dont_remember_media_settings).toBool();
-	dont_remember_time_pos = set->value("dont_remember_time_pos", dont_remember_time_pos).toBool();
+    dont_remember_media_settings = set->value("dont_remember_media_settings", dont_remember_media_settings).toBool();
+    dont_remember_time_pos = set->value("dont_remember_time_pos", dont_remember_time_pos).toBool();
 
-	audio_lang = set->value("audio_lang", audio_lang).toString();
-	subtitle_lang = set->value("subtitle_lang", subtitle_lang).toString();
+    audio_lang = set->value("audio_lang", audio_lang).toString();
+    subtitle_lang = set->value("subtitle_lang", subtitle_lang).toString();
 
-	use_direct_rendering = set->value("use_direct_rendering", use_direct_rendering).toBool();
-	use_double_buffer = set->value("use_double_buffer", use_double_buffer).toBool();
-	
-	use_soft_video_eq = set->value("use_soft_video_eq", use_soft_video_eq).toBool();
-	use_slices = set->value("use_slices", use_slices ).toBool();
-	autoq = set->value("autoq", autoq).toInt();
-	add_blackborders_on_fullscreen = set->value("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen).toBool();
+    use_direct_rendering = set->value("use_direct_rendering", use_direct_rendering).toBool();
+    use_double_buffer = set->value("use_double_buffer", use_double_buffer).toBool();
+
+    use_soft_video_eq = set->value("use_soft_video_eq", use_soft_video_eq).toBool();
+    use_slices = set->value("use_slices", use_slices).toBool();
+    autoq = set->value("autoq", autoq).toInt();
+    add_blackborders_on_fullscreen = set->value("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen).toBool();
 
 #ifdef Q_OS_WIN
-	turn_screensaver_off = set->value("turn_screensaver_off", turn_screensaver_off).toBool();
-	avoid_screensaver = set->value("avoid_screensaver", avoid_screensaver).toBool();
+    turn_screensaver_off = set->value("turn_screensaver_off", turn_screensaver_off).toBool();
+    avoid_screensaver = set->value("avoid_screensaver", avoid_screensaver).toBool();
 #else
-	disable_screensaver = set->value("disable_screensaver", disable_screensaver).toBool();
+    disable_screensaver = set->value("disable_screensaver", disable_screensaver).toBool();
 #endif
 
 #ifndef Q_OS_WIN
-	vdpau.ffh264vdpau = set->value("vdpau_ffh264vdpau", vdpau.ffh264vdpau).toBool();
-	vdpau.ffmpeg12vdpau = set->value("vdpau_ffmpeg12vdpau", vdpau.ffmpeg12vdpau).toBool();
-	vdpau.ffwmv3vdpau = set->value("vdpau_ffwmv3vdpau", vdpau.ffwmv3vdpau).toBool();
-	vdpau.ffvc1vdpau = set->value("vdpau_ffvc1vdpau", vdpau.ffvc1vdpau).toBool();
-	vdpau.ffodivxvdpau = set->value("vdpau_ffodivxvdpau", vdpau.ffodivxvdpau).toBool();
-	vdpau.disable_video_filters = set->value("vdpau_disable_video_filters", vdpau.disable_video_filters).toBool();
+    vdpau.ffh264vdpau = set->value("vdpau_ffh264vdpau", vdpau.ffh264vdpau).toBool();
+    vdpau.ffmpeg12vdpau = set->value("vdpau_ffmpeg12vdpau", vdpau.ffmpeg12vdpau).toBool();
+    vdpau.ffwmv3vdpau = set->value("vdpau_ffwmv3vdpau", vdpau.ffwmv3vdpau).toBool();
+    vdpau.ffvc1vdpau = set->value("vdpau_ffvc1vdpau", vdpau.ffvc1vdpau).toBool();
+    vdpau.ffodivxvdpau = set->value("vdpau_ffodivxvdpau", vdpau.ffodivxvdpau).toBool();
+    vdpau.disable_video_filters = set->value("vdpau_disable_video_filters", vdpau.disable_video_filters).toBool();
 #endif
 
-	use_soft_vol = set->value("use_soft_vol", use_soft_vol).toBool();
-	softvol_max = set->value("softvol_max", softvol_max).toInt();
-	use_scaletempo = (OptionState) set->value("use_scaletempo", use_scaletempo).toInt();
-	use_hwac3 = set->value("use_hwac3", use_hwac3 ).toBool();
-	use_audio_equalizer = set->value("use_audio_equalizer", use_audio_equalizer ).toBool();
+    use_soft_vol = set->value("use_soft_vol", use_soft_vol).toBool();
+    softvol_max = set->value("softvol_max", softvol_max).toInt();
+    use_scaletempo = (OptionState) set->value("use_scaletempo", use_scaletempo).toInt();
+    use_hwac3 = set->value("use_hwac3", use_hwac3).toBool();
+    use_audio_equalizer = set->value("use_audio_equalizer", use_audio_equalizer).toBool();
 
-	global_volume = set->value("global_volume", global_volume).toBool();
-	volume = set->value("volume", volume).toInt();
-	mute = set->value("mute", mute).toBool();
+    global_volume = set->value("global_volume", global_volume).toBool();
+    volume = set->value("volume", volume).toInt();
+    mute = set->value("mute", mute).toBool();
 
-	autosync = set->value("autosync", autosync).toBool();
-	autosync_factor = set->value("autosync_factor", autosync_factor).toInt();
+    autosync = set->value("autosync", autosync).toBool();
+    autosync_factor = set->value("autosync_factor", autosync_factor).toInt();
 
-	use_mc = set->value("use_mc", use_mc).toBool();
-	mc_value = set->value("mc_value", mc_value).toDouble();
+    use_mc = set->value("use_mc", use_mc).toBool();
+    mc_value = set->value("mc_value", mc_value).toDouble();
 
-	osd = set->value("osd", osd).toInt();
-	osd_delay = set->value("osd_delay", osd_delay).toInt();
+    osd = set->value("osd", osd).toInt();
+    osd_delay = set->value("osd_delay", osd_delay).toInt();
 
-	file_settings_method = set->value("file_settings_method", file_settings_method).toString();
+    file_settings_method = set->value("file_settings_method", file_settings_method).toString();
 
-	set->endGroup(); // general
+    set->endGroup(); // general
 
 
     /* ***************
        Drives (CD/DVD)
        *************** */
 
-	set->beginGroup( "drives");
+    set->beginGroup("drives");
 
-	dvd_device = set->value("dvd_device", dvd_device).toString();
-	cdrom_device = set->value("cdrom_device", cdrom_device).toString();
+    dvd_device = set->value("dvd_device", dvd_device).toString();
+    cdrom_device = set->value("cdrom_device", cdrom_device).toString();
 
 #ifdef Q_OS_WIN
-	enable_audiocd_on_windows = set->value("enable_audiocd_on_windows", enable_audiocd_on_windows).toBool();
+    enable_audiocd_on_windows = set->value("enable_audiocd_on_windows", enable_audiocd_on_windows).toBool();
 #endif
 
-	vcd_initial_title = set->value("vcd_initial_title", vcd_initial_title ).toInt();
+    vcd_initial_title = set->value("vcd_initial_title", vcd_initial_title).toInt();
 
 #if DVDNAV_SUPPORT
-	use_dvdnav = set->value("use_dvdnav", use_dvdnav).toBool();
+    use_dvdnav = set->value("use_dvdnav", use_dvdnav).toBool();
 #endif
 
-	set->endGroup(); // drives
+    set->endGroup(); // drives
 
 
     /* ***********
        Performance
        *********** */
 
-	set->beginGroup( "performance");
+    set->beginGroup("performance");
 
-	priority = set->value("priority", priority).toInt();
-	frame_drop = set->value("frame_drop", frame_drop).toBool();
-	hard_frame_drop = set->value("hard_frame_drop", hard_frame_drop).toBool();
-	h264_skip_loop_filter = (H264LoopFilter) set->value("h264_skip_loop_filter", h264_skip_loop_filter).toInt();
-	HD_height = set->value("HD_height", HD_height).toInt();
+    priority = set->value("priority", priority).toInt();
+    frame_drop = set->value("frame_drop", frame_drop).toBool();
+    hard_frame_drop = set->value("hard_frame_drop", hard_frame_drop).toBool();
+    h264_skip_loop_filter = (H264LoopFilter) set->value("h264_skip_loop_filter", h264_skip_loop_filter).toInt();
+    HD_height = set->value("HD_height", HD_height).toInt();
 
-	threads = set->value("lavdthreads", threads).toInt();
+    threads = set->value("lavdthreads", threads).toInt();
 
-	cache_for_files = set->value("cache_for_files", cache_for_files).toInt();
-	cache_for_streams = set->value("cache_for_streams", cache_for_streams).toInt();
-	cache_for_dvds = set->value("cache_for_dvds", cache_for_dvds).toInt();
-	cache_for_vcds = set->value("cache_for_vcds", cache_for_vcds).toInt();
-	cache_for_audiocds = set->value("cache_for_audiocds", cache_for_audiocds).toInt();
-	cache_for_tv = set->value("cache_for_tv", cache_for_tv).toInt();
+    cache_for_files = set->value("cache_for_files", cache_for_files).toInt();
+    cache_for_streams = set->value("cache_for_streams", cache_for_streams).toInt();
+    cache_for_dvds = set->value("cache_for_dvds", cache_for_dvds).toInt();
+    cache_for_vcds = set->value("cache_for_vcds", cache_for_vcds).toInt();
+    cache_for_audiocds = set->value("cache_for_audiocds", cache_for_audiocds).toInt();
+    cache_for_tv = set->value("cache_for_tv", cache_for_tv).toInt();
 
-	set->endGroup(); // performance
+    set->endGroup(); // performance
 
 
     /* *********
        Subtitles
        ********* */
 
-	set->beginGroup("subtitles");
+    set->beginGroup("subtitles");
 
-	sub_use_mplayer2_defaults = set->value("sub_use_mplayer2_defaults", sub_use_mplayer2_defaults).toBool();
+    sub_use_mplayer2_defaults = set->value("sub_use_mplayer2_defaults", sub_use_mplayer2_defaults).toBool();
 
-	font_file = set->value("font_file", font_file).toString();
-	font_name = set->value("font_name", font_name).toString();
+    font_file = set->value("font_file", font_file).toString();
+    font_name = set->value("font_name", font_name).toString();
 
-	use_fontconfig = set->value("use_fontconfig", use_fontconfig).toBool();
-	subcp = set->value("subcp", subcp).toString();
-	use_enca = set->value("use_enca", use_enca).toBool();
-	enca_lang = set->value("enca_lang", enca_lang).toString();
-	font_autoscale = set->value("font_autoscale", font_autoscale).toInt();
-	subfuzziness = set->value("subfuzziness", subfuzziness).toInt();
-	autoload_sub = set->value("autoload_sub", autoload_sub).toBool();
-	prefer_external = set->value("prefer_external", prefer_external).toBool();
+    use_fontconfig = set->value("use_fontconfig", use_fontconfig).toBool();
+    subcp = set->value("subcp", subcp).toString();
+    use_enca = set->value("use_enca", use_enca).toBool();
+    enca_lang = set->value("enca_lang", enca_lang).toString();
+    font_autoscale = set->value("font_autoscale", font_autoscale).toInt();
+    subfuzziness = set->value("subfuzziness", subfuzziness).toInt();
+    autoload_sub = set->value("autoload_sub", autoload_sub).toBool();
+    prefer_external = set->value("prefer_external", prefer_external).toBool();
 
-	use_ass_subtitles = set->value("use_ass_subtitles", use_ass_subtitles).toBool();
-	ass_line_spacing = set->value("ass_line_spacing", ass_line_spacing).toInt();
+    use_ass_subtitles = set->value("use_ass_subtitles", use_ass_subtitles).toBool();
+    ass_line_spacing = set->value("ass_line_spacing", ass_line_spacing).toInt();
 
-	use_forced_subs_only = set->value("use_forced_subs_only", use_forced_subs_only).toBool();
+    use_forced_subs_only = set->value("use_forced_subs_only", use_forced_subs_only).toBool();
 
-	sub_visibility = set->value("sub_visibility", sub_visibility).toBool();
+    sub_visibility = set->value("sub_visibility", sub_visibility).toBool();
 
-	subtitles_on_screenshots = set->value("subtitles_on_screenshots", subtitles_on_screenshots).toBool();
+    subtitles_on_screenshots = set->value("subtitles_on_screenshots", subtitles_on_screenshots).toBool();
 
-	fast_load_sub = set->value("fast_load_sub", fast_load_sub).toBool();
+    fast_load_sub = set->value("fast_load_sub", fast_load_sub).toBool();
 
-	// ASS styles
-	ass_styles.load(set);
-	force_ass_styles = set->value("force_ass_styles", force_ass_styles).toBool();
-	user_forced_ass_style = set->value("user_forced_ass_style", user_forced_ass_style).toString();
+    // ASS styles
+    ass_styles.load(set);
+    force_ass_styles = set->value("force_ass_styles", force_ass_styles).toBool();
+    user_forced_ass_style = set->value("user_forced_ass_style", user_forced_ass_style).toString();
 
-	freetype_support = set->value("freetype_support", freetype_support).toBool();
+    freetype_support = set->value("freetype_support", freetype_support).toBool();
 
-	set->endGroup(); // subtitles
+    set->endGroup(); // subtitles
 
 
     /* ********
        Advanced
        ******** */
 
-	set->beginGroup( "advanced");
+    set->beginGroup("advanced");
 
 #if USE_ADAPTER
-	adapter = set->value("adapter", adapter).toInt();
+    adapter = set->value("adapter", adapter).toInt();
 #endif
 
 #if USE_COLORKEY
-	bool ok;
-	QString color = set->value("color_key", QString::number(color_key,16)).toString();
-	unsigned int temp_color_key = color.toUInt(&ok, 16);
-	if (ok)
-		color_key = temp_color_key;
-	//color_key = set->value("color_key", color_key).toInt();
+    bool ok;
+    QString color = set->value("color_key", QString::number(color_key, 16)).toString();
+    unsigned int temp_color_key = color.toUInt(&ok, 16);
+
+    if (ok)
+        color_key = temp_color_key;
+
+    //color_key = set->value("color_key", color_key).toInt();
 #endif
 
-	use_mplayer_window = set->value("use_mplayer_window", use_mplayer_window).toBool();
+    use_mplayer_window = set->value("use_mplayer_window", use_mplayer_window).toBool();
 
-	monitor_aspect = set->value("monitor_aspect", monitor_aspect).toString();
+    monitor_aspect = set->value("monitor_aspect", monitor_aspect).toString();
 
-	use_idx = set->value("use_idx", use_idx).toBool();
+    use_idx = set->value("use_idx", use_idx).toBool();
 
-	mplayer_additional_options = set->value("mplayer_additional_options", mplayer_additional_options).toString();
-	mplayer_additional_video_filters = set->value("mplayer_additional_video_filters", mplayer_additional_video_filters).toString();
-	mplayer_additional_audio_filters = set->value("mplayer_additional_audio_filters", mplayer_additional_audio_filters).toString();
+    mplayer_additional_options = set->value("mplayer_additional_options", mplayer_additional_options).toString();
+    mplayer_additional_video_filters = set->value("mplayer_additional_video_filters", mplayer_additional_video_filters).toString();
+    mplayer_additional_audio_filters = set->value("mplayer_additional_audio_filters", mplayer_additional_audio_filters).toString();
 
-	log_mplayer = set->value("log_mplayer", log_mplayer).toBool();
-	log_smplayer2 = set->value("log_smplayer2", log_smplayer2).toBool();
-	log_filter = set->value("log_filter", log_filter).toString();
-	verbose_log = set->value("verbose_log", verbose_log).toBool();
-	save_smplayer2_log = set->value("save_smplayer2_log", save_smplayer2_log).toBool();
+    log_mplayer = set->value("log_mplayer", log_mplayer).toBool();
+    log_smplayer2 = set->value("log_smplayer2", log_smplayer2).toBool();
+    log_filter = set->value("log_filter", log_filter).toString();
+    verbose_log = set->value("verbose_log", verbose_log).toBool();
+    save_smplayer2_log = set->value("save_smplayer2_log", save_smplayer2_log).toBool();
 
     //mplayer log autosaving
     autosave_mplayer_log = set->value("autosave_mplayer_log", autosave_mplayer_log).toBool();
@@ -1024,223 +1035,226 @@ void Preferences::load() {
     //mplayer log autosaving end
 
 #if REPAINT_BACKGROUND_OPTION
-	repaint_video_background = set->value("repaint_video_background", repaint_video_background).toBool();
+    repaint_video_background = set->value("repaint_video_background", repaint_video_background).toBool();
 #endif
 
-	use_edl_files = set->value("use_edl_files", use_edl_files).toBool();
+    use_edl_files = set->value("use_edl_files", use_edl_files).toBool();
 
-	prefer_ipv4 = set->value("prefer_ipv4", prefer_ipv4).toBool();
+    prefer_ipv4 = set->value("prefer_ipv4", prefer_ipv4).toBool();
 
-	use_pausing_keep_force = set->value("use_pausing_keep_force", use_pausing_keep_force).toBool();
+    use_pausing_keep_force = set->value("use_pausing_keep_force", use_pausing_keep_force).toBool();
 
-	use_correct_pts = (OptionState) set->value("correct_pts", use_correct_pts).toInt();
+    use_correct_pts = (OptionState) set->value("correct_pts", use_correct_pts).toInt();
 
-	actions_to_run = set->value("actions_to_run", actions_to_run).toString();
+    actions_to_run = set->value("actions_to_run", actions_to_run).toString();
 
-	show_tag_in_window_title = set->value("show_tag_in_window_title", show_tag_in_window_title).toBool();
+    show_tag_in_window_title = set->value("show_tag_in_window_title", show_tag_in_window_title).toBool();
 
-	set->endGroup(); // advanced
+    set->endGroup(); // advanced
 
 
     /* *********
        GUI stuff
        ********* */
 
-	set->beginGroup("gui");
+    set->beginGroup("gui");
 
-	fullscreen = set->value("fullscreen", fullscreen).toBool();
-	start_in_fullscreen = set->value("start_in_fullscreen", start_in_fullscreen).toBool();
+    fullscreen = set->value("fullscreen", fullscreen).toBool();
+    start_in_fullscreen = set->value("start_in_fullscreen", start_in_fullscreen).toBool();
 
-	compact_mode = set->value("compact_mode", compact_mode).toBool();
-	stay_on_top = (Preferences::OnTop) set->value("stay_on_top", (int) stay_on_top).toInt();
-	size_factor = set->value("size_factor", size_factor).toInt();
-	resize_method = set->value("resize_method", resize_method).toInt();
+    compact_mode = set->value("compact_mode", compact_mode).toBool();
+    stay_on_top = (Preferences::OnTop) set->value("stay_on_top", (int) stay_on_top).toInt();
+    size_factor = set->value("size_factor", size_factor).toInt();
+    resize_method = set->value("resize_method", resize_method).toInt();
 
 #if STYLE_SWITCHING
-	style = set->value("style", style).toString();
+    style = set->value("style", style).toString();
 #endif
 
-	show_motion_vectors = set->value("show_motion_vectors", show_motion_vectors).toBool();
+    show_motion_vectors = set->value("show_motion_vectors", show_motion_vectors).toBool();
 
-	mouse_left_click_function = set->value("mouse_left_click_function", mouse_left_click_function).toString();
-	mouse_right_click_function = set->value("mouse_right_click_function", mouse_right_click_function).toString();
-	mouse_double_click_function = set->value("mouse_double_click_function", mouse_double_click_function).toString();
-	mouse_middle_click_function = set->value("mouse_middle_click_function", mouse_middle_click_function).toString();
-	mouse_xbutton1_click_function = set->value("mouse_xbutton1_click_function", mouse_xbutton1_click_function).toString();
-	mouse_xbutton2_click_function = set->value("mouse_xbutton2_click_function", mouse_xbutton2_click_function).toString();
-	wheel_function = set->value("mouse_wheel_function", wheel_function).toInt();
-	int wheel_function_cycle_int = set->value("wheel_function_cycle", (int) wheel_function_cycle).toInt();
-	wheel_function_cycle = QFlags<Preferences::WheelFunctions> (QFlag(wheel_function_cycle_int));
-	wheel_function_seeking_reverse = set->value("wheel_function_seeking_reverse", wheel_function_seeking_reverse).toBool();
+    mouse_left_click_function = set->value("mouse_left_click_function", mouse_left_click_function).toString();
+    mouse_right_click_function = set->value("mouse_right_click_function", mouse_right_click_function).toString();
+    mouse_double_click_function = set->value("mouse_double_click_function", mouse_double_click_function).toString();
+    mouse_middle_click_function = set->value("mouse_middle_click_function", mouse_middle_click_function).toString();
+    mouse_xbutton1_click_function = set->value("mouse_xbutton1_click_function", mouse_xbutton1_click_function).toString();
+    mouse_xbutton2_click_function = set->value("mouse_xbutton2_click_function", mouse_xbutton2_click_function).toString();
+    wheel_function = set->value("mouse_wheel_function", wheel_function).toInt();
+    int wheel_function_cycle_int = set->value("wheel_function_cycle", (int) wheel_function_cycle).toInt();
+    wheel_function_cycle = QFlags<Preferences::WheelFunctions> (QFlag(wheel_function_cycle_int));
+    wheel_function_seeking_reverse = set->value("wheel_function_seeking_reverse", wheel_function_seeking_reverse).toBool();
 
-	seeking1 = set->value("seeking1", seeking1).toInt();
-	seeking2 = set->value("seeking2", seeking2).toInt();
-	seeking3 = set->value("seeking3", seeking3).toInt();
-	seeking4 = set->value("seeking4", seeking4).toInt();
+    seeking1 = set->value("seeking1", seeking1).toInt();
+    seeking2 = set->value("seeking2", seeking2).toInt();
+    seeking3 = set->value("seeking3", seeking3).toInt();
+    seeking4 = set->value("seeking4", seeking4).toInt();
 
-	update_while_seeking = set->value("update_while_seeking", update_while_seeking).toBool();
+    update_while_seeking = set->value("update_while_seeking", update_while_seeking).toBool();
 
-	language = set->value("language", language).toString();
-	iconset= set->value("iconset", iconset).toString();
+    language = set->value("language", language).toString();
+    iconset = set->value("iconset", iconset).toString();
 
-	balloon_count = set->value("balloon_count", balloon_count).toInt();
+    balloon_count = set->value("balloon_count", balloon_count).toInt();
 
-	restore_pos_after_fullscreen = set->value("restore_pos_after_fullscreen", restore_pos_after_fullscreen).toBool();
-	save_window_size_on_exit = 	set->value("save_window_size_on_exit", save_window_size_on_exit).toBool();
+    restore_pos_after_fullscreen = set->value("restore_pos_after_fullscreen", restore_pos_after_fullscreen).toBool();
+    save_window_size_on_exit = 	set->value("save_window_size_on_exit", save_window_size_on_exit).toBool();
 
-	close_on_finish = set->value("close_on_finish", close_on_finish).toBool();
+    close_on_finish = set->value("close_on_finish", close_on_finish).toBool();
 
-	default_font = set->value("default_font", default_font).toString();
+    default_font = set->value("default_font", default_font).toString();
 
-	pause_when_hidden = set->value("pause_when_hidden", pause_when_hidden).toBool();
+    pause_when_hidden = set->value("pause_when_hidden", pause_when_hidden).toBool();
 
-	allow_video_movement = set->value("allow_video_movement", allow_video_movement).toBool();
+    allow_video_movement = set->value("allow_video_movement", allow_video_movement).toBool();
 
-	gui = set->value("gui", gui).toString();
+    gui = set->value("gui", gui).toString();
 
 #if USE_MINIMUMSIZE
-	gui_minimum_width = set->value("gui_minimum_width", gui_minimum_width).toInt();
+    gui_minimum_width = set->value("gui_minimum_width", gui_minimum_width).toInt();
 #endif
-	default_size = set->value("default_size", default_size).toSize();
+    default_size = set->value("default_size", default_size).toSize();
 
 #if ALLOW_TO_HIDE_VIDEO_WINDOW_ON_AUDIO_FILES
-	hide_video_window_on_audio_files = set->value("hide_video_window_on_audio_files", hide_video_window_on_audio_files).toBool();
+    hide_video_window_on_audio_files = set->value("hide_video_window_on_audio_files", hide_video_window_on_audio_files).toBool();
 #endif
 
-	report_mplayer_crashes = set->value("report_mplayer_crashes", report_mplayer_crashes).toBool();
+    report_mplayer_crashes = set->value("report_mplayer_crashes", report_mplayer_crashes).toBool();
 
-	auto_add_to_playlist = set->value("auto_add_to_playlist", auto_add_to_playlist).toBool();
-	add_to_playlist_consecutive_files = set->value("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files).toBool();
+    auto_add_to_playlist = set->value("auto_add_to_playlist", auto_add_to_playlist).toBool();
+    add_to_playlist_consecutive_files = set->value("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files).toBool();
 
-	set->endGroup(); // gui
+    set->endGroup(); // gui
 
 
     /* ********
        TV (dvb)
        ******** */
 
-	set->beginGroup( "tv");
-	check_channels_conf_on_startup = set->value("check_channels_conf_on_startup", check_channels_conf_on_startup).toBool();
-	initial_tv_deinterlace = set->value("initial_tv_deinterlace", initial_tv_deinterlace).toInt();
-	last_dvb_channel = set->value("last_dvb_channel", last_dvb_channel).toString();
-	last_tv_channel = set->value("last_tv_channel", last_tv_channel).toString();
-	set->endGroup(); // tv
+    set->beginGroup("tv");
+    check_channels_conf_on_startup = set->value("check_channels_conf_on_startup", check_channels_conf_on_startup).toBool();
+    initial_tv_deinterlace = set->value("initial_tv_deinterlace", initial_tv_deinterlace).toInt();
+    last_dvb_channel = set->value("last_dvb_channel", last_dvb_channel).toString();
+    last_tv_channel = set->value("last_tv_channel", last_tv_channel).toString();
+    set->endGroup(); // tv
 
 
     /* ***********
        Directories
        *********** */
 
-	set->beginGroup( "directories");
-	latest_dir = set->value("latest_dir", latest_dir).toString();
-	last_dvd_directory = set->value("last_dvd_directory", last_dvd_directory).toString();
-	set->endGroup(); // directories
+    set->beginGroup("directories");
+    latest_dir = set->value("latest_dir", latest_dir).toString();
+    last_dvd_directory = set->value("last_dvd_directory", last_dvd_directory).toString();
+    set->endGroup(); // directories
 
 
     /* **************
        Initial values
        ************** */
 
-	set->beginGroup( "defaults");
+    set->beginGroup("defaults");
 
-	initial_sub_scale = set->value("initial_sub_scale", initial_sub_scale).toDouble();
-	initial_sub_scale_ass = set->value("initial_sub_scale_ass", initial_sub_scale_ass).toDouble();
-	initial_volume = set->value("initial_volume", initial_volume).toInt();
-	initial_contrast = set->value("initial_contrast", initial_contrast).toInt();
-	initial_brightness = set->value("initial_brightness", initial_brightness).toInt();
-	initial_hue = set->value("initial_hue", initial_hue).toInt();
-	initial_saturation = set->value("initial_saturation", initial_saturation).toInt();
-	initial_gamma = set->value("initial_gamma", initial_gamma).toInt();
+    initial_sub_scale = set->value("initial_sub_scale", initial_sub_scale).toDouble();
+    initial_sub_scale_ass = set->value("initial_sub_scale_ass", initial_sub_scale_ass).toDouble();
+    initial_volume = set->value("initial_volume", initial_volume).toInt();
+    initial_contrast = set->value("initial_contrast", initial_contrast).toInt();
+    initial_brightness = set->value("initial_brightness", initial_brightness).toInt();
+    initial_hue = set->value("initial_hue", initial_hue).toInt();
+    initial_saturation = set->value("initial_saturation", initial_saturation).toInt();
+    initial_gamma = set->value("initial_gamma", initial_gamma).toInt();
 
-	initial_audio_equalizer = set->value("initial_audio_equalizer", initial_audio_equalizer).toList();
+    initial_audio_equalizer = set->value("initial_audio_equalizer", initial_audio_equalizer).toList();
 
-	initial_zoom_factor = set->value("initial_zoom_factor", initial_zoom_factor).toDouble();
-	initial_sub_pos = set->value("initial_sub_pos", initial_sub_pos).toInt();
+    initial_zoom_factor = set->value("initial_zoom_factor", initial_zoom_factor).toDouble();
+    initial_sub_pos = set->value("initial_sub_pos", initial_sub_pos).toInt();
 
-	initial_volnorm = set->value("initial_volnorm", initial_volnorm).toBool();
-	initial_postprocessing = set->value("initial_postprocessing", initial_postprocessing).toBool();
+    initial_volnorm = set->value("initial_volnorm", initial_volnorm).toBool();
+    initial_postprocessing = set->value("initial_postprocessing", initial_postprocessing).toBool();
 
-	initial_deinterlace = set->value("initial_deinterlace", initial_deinterlace).toInt();
+    initial_deinterlace = set->value("initial_deinterlace", initial_deinterlace).toInt();
 
-	initial_audio_channels = set->value("initial_audio_channels", initial_audio_channels).toInt();
-	initial_stereo_mode = set->value("initial_stereo_mode", initial_stereo_mode).toInt();
+    initial_audio_channels = set->value("initial_audio_channels", initial_audio_channels).toInt();
+    initial_stereo_mode = set->value("initial_stereo_mode", initial_stereo_mode).toInt();
 
-	initial_audio_track = set->value("initial_audio_track", initial_audio_track).toInt();
-	initial_subtitle_track = set->value("initial_subtitle_track", initial_subtitle_track).toInt();
+    initial_audio_track = set->value("initial_audio_track", initial_audio_track).toInt();
+    initial_subtitle_track = set->value("initial_subtitle_track", initial_subtitle_track).toInt();
 
-	set->endGroup(); // defaults
+    set->endGroup(); // defaults
 
 
     /* *********
        Instances
        ********* */
 
-	set->beginGroup("instances");
-	use_single_instance = set->value("use_single_instance", use_single_instance).toBool();
-	connection_port = set->value("connection_port", connection_port).toInt();
-	use_autoport = set->value("use_autoport", use_autoport).toBool();
-	autoport = set->value("temp/autoport", autoport).toInt();
-	set->endGroup(); // instances
+    set->beginGroup("instances");
+    use_single_instance = set->value("use_single_instance", use_single_instance).toBool();
+    connection_port = set->value("connection_port", connection_port).toInt();
+    use_autoport = set->value("use_autoport", use_autoport).toBool();
+    autoport = set->value("temp/autoport", autoport).toInt();
+    set->endGroup(); // instances
 
 
     /* ****************
        Floating control
        **************** */
 
-	set->beginGroup("floating_control");
-	floating_control_margin = set->value("margin", floating_control_margin).toInt();
-	floating_control_width = set->value("width", floating_control_width).toInt();
-	floating_control_animated = set->value("animated", floating_control_animated).toBool();
-	floating_display_in_compact_mode = set->value("display_in_compact_mode", floating_display_in_compact_mode).toBool();
+    set->beginGroup("floating_control");
+    floating_control_margin = set->value("margin", floating_control_margin).toInt();
+    floating_control_width = set->value("width", floating_control_width).toInt();
+    floating_control_animated = set->value("animated", floating_control_animated).toBool();
+    floating_display_in_compact_mode = set->value("display_in_compact_mode", floating_display_in_compact_mode).toBool();
 #ifndef Q_OS_WIN
-	bypass_window_manager = set->value("bypass_window_manager", bypass_window_manager).toBool();
+    bypass_window_manager = set->value("bypass_window_manager", bypass_window_manager).toBool();
 #endif
-	set->endGroup(); // floating_control
+    set->endGroup(); // floating_control
 
 
     /* *******
        History
        ******* */
 
-	set->beginGroup("history");
+    set->beginGroup("history");
 
-	history_recents->setMaxItems( set->value("recents/max_items", history_recents->maxItems()).toInt() );
-	history_recents->fromStringList( set->value("recents", history_recents->toStringList()).toStringList() );
+    history_recents->setMaxItems(set->value("recents/max_items", history_recents->maxItems()).toInt());
+    history_recents->fromStringList(set->value("recents", history_recents->toStringList()).toStringList());
 
-	history_urls->setMaxItems( set->value("urls/max_items", history_urls->maxItems()).toInt() );
-	history_urls->fromStringList( set->value("urls", history_urls->toStringList()).toStringList() );
+    history_urls->setMaxItems(set->value("urls/max_items", history_urls->maxItems()).toInt());
+    history_urls->fromStringList(set->value("urls", history_urls->toStringList()).toStringList());
 
-	set->endGroup(); // history
+    set->endGroup(); // history
 
 
     /* *******
        Filters
        ******* */
 
-	filters->load(set);
+    filters->load(set);
 }
 
 #endif // NO_USE_INI_FILES
 
-double Preferences::monitor_aspect_double() {
-	qDebug("Preferences::monitor_aspect_double");
+double Preferences::monitor_aspect_double()
+{
+    qDebug("Preferences::monitor_aspect_double");
 
-	QRegExp exp("(\\d+)[:/](\\d+)");
-	if (exp.indexIn( monitor_aspect ) != -1) {
-		int w = exp.cap(1).toInt();
-		int h = exp.cap(2).toInt();
-		qDebug(" monitor_aspect parsed successfully: %d:%d", w, h);
-		return (double) w/h;
-	}
+    QRegExp exp("(\\d+)[:/](\\d+)");
 
-	bool ok;
-	double res = monitor_aspect.toDouble(&ok);
-	if (ok) {
-		qDebug(" monitor_aspect parsed successfully: %f", res);
-		return res;
-	} else {
-		qDebug(" warning: monitor_aspect couldn't be parsed!");
+    if (exp.indexIn(monitor_aspect) != -1) {
+        int w = exp.cap(1).toInt();
+        int h = exp.cap(2).toInt();
+        qDebug(" monitor_aspect parsed successfully: %d:%d", w, h);
+        return (double) w / h;
+    }
+
+    bool ok;
+    double res = monitor_aspect.toDouble(&ok);
+
+    if (ok) {
+        qDebug(" monitor_aspect parsed successfully: %f", res);
+        return res;
+    } else {
+        qDebug(" warning: monitor_aspect couldn't be parsed!");
         qDebug(" monitor_aspect set to 0");
-		return 0;
-	}
+        return 0;
+    }
 }

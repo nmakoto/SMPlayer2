@@ -27,112 +27,124 @@
 
 using namespace Global;
 
-QString Images::filename(const QString & name, bool png) {
-	QString filename = name;
+QString Images::filename(const QString &name, bool png)
+{
+    QString filename = name;
 
-	if (filename.endsWith("_small")) {
-		filename = filename.replace("_small", "");
-	}
+    if (filename.endsWith("_small")) {
+        filename = filename.replace("_small", "");
+    }
 
-	if (png) filename += ".png";
+    if (png) filename += ".png";
 
-	return filename;
+    return filename;
 }
 
-QString Images::file(const QString & icon_name) {
-	bool ok = false;
-	QString filename;
+QString Images::file(const QString &icon_name)
+{
+    bool ok = false;
+    QString filename;
 
-	if (!pref->iconset.isEmpty()) {
-		filename = Paths::configPath() + "/themes/" + pref->iconset + "/" +  icon_name;
-		if (!QFile::exists(filename)) {
-			filename = Paths::themesPath() + "/" + pref->iconset + "/" +  icon_name;
-		}
+    if (!pref->iconset.isEmpty()) {
+        filename = Paths::configPath() + "/themes/" + pref->iconset + "/" +  icon_name;
 
-		ok = (QFile::exists(filename));
-	}
+        if (!QFile::exists(filename)) {
+            filename = Paths::themesPath() + "/" + pref->iconset + "/" +  icon_name;
+        }
 
-	if (!ok) {
-		filename = ":/icons-png/" + icon_name;
-	}
+        ok = (QFile::exists(filename));
+    }
 
-	qDebug("Images::file: icon_name: '%s', filename: '%s'", icon_name.toUtf8().constData(), filename.toUtf8().constData());
+    if (!ok) {
+        filename = ":/icons-png/" + icon_name;
+    }
 
-	return filename;
+    qDebug("Images::file: icon_name: '%s', filename: '%s'", icon_name.toUtf8().constData(), filename.toUtf8().constData());
+
+    return filename;
 }
 
-QPixmap Images::loadIcon(const QString & icon_name) {
-	QPixmap p;
+QPixmap Images::loadIcon(const QString &icon_name)
+{
+    QPixmap p;
 
-	if (!pref->iconset.isEmpty()) {
-		QString filename = Paths::configPath() + "/themes/" + pref->iconset + "/" +  icon_name;
-		if (!QFile::exists(filename)) {
-			filename = Paths::themesPath() + "/" + pref->iconset + "/" +  icon_name;
-		}
-		//qDebug("Images::loadIcon: filename: '%s'", filename.toUtf8().data());
+    if (!pref->iconset.isEmpty()) {
+        QString filename = Paths::configPath() + "/themes/" + pref->iconset + "/" +  icon_name;
 
-		if (QFile::exists(filename)) {
-			 p.load( filename );
-		} 
-	}
+        if (!QFile::exists(filename)) {
+            filename = Paths::themesPath() + "/" + pref->iconset + "/" +  icon_name;
+        }
 
-	return p;
+        //qDebug("Images::loadIcon: filename: '%s'", filename.toUtf8().data());
+
+        if (QFile::exists(filename)) {
+            p.load(filename);
+        }
+    }
+
+    return p;
 }
 
-QPixmap Images::icon(QString name, int size, bool png) {
-	bool small = false;
+QPixmap Images::icon(QString name, int size, bool png)
+{
+    bool small = false;
 
-	if (name.endsWith("_small")) {
-		small = true;
-	}
+    if (name.endsWith("_small")) {
+        small = true;
+    }
 
-	QString icon_name = Images::filename(name,png);
+    QString icon_name = Images::filename(name, png);
 
-	QPixmap p = Images::loadIcon( icon_name );
-	bool ok = !p.isNull();
+    QPixmap p = Images::loadIcon(icon_name);
+    bool ok = !p.isNull();
 
 #if COMPAT_WITH_OLD_ICONS
-	if (!ok) {
-		if ( (name.startsWith("r")) || 
-    	     (name.startsWith("t")) || 
-        	 (name.startsWith("n")) ) 
-		{
-			QString icon_name = Images::filename("x"+name,png);
-			p = Images::loadIcon( icon_name );
-			ok = !p.isNull();
-		}
-	}
+
+    if (!ok) {
+        if ((name.startsWith("r")) ||
+                (name.startsWith("t")) ||
+                (name.startsWith("n"))) {
+            QString icon_name = Images::filename("x" + name, png);
+            p = Images::loadIcon(icon_name);
+            ok = !p.isNull();
+        }
+    }
+
 #endif
 
-	if (!ok) {
-		p = QPixmap(":/icons-png/" + icon_name);
-		ok = !p.isNull();
-	}
+    if (!ok) {
+        p = QPixmap(":/icons-png/" + icon_name);
+        ok = !p.isNull();
+    }
 
-	if (ok) {
-		if (small) {
-			p = resize(&p);
-		}
-		if (size!=-1) {
-			p = resize(&p,size);
-		}
-	} else {
-		//qWarning("Images2::icon: icon '%s' not found", name.toUtf8().data());
-	}
+    if (ok) {
+        if (small) {
+            p = resize(&p);
+        }
 
-	return p;
+        if (size != -1) {
+            p = resize(&p, size);
+        }
+    } else {
+        //qWarning("Images2::icon: icon '%s' not found", name.toUtf8().data());
+    }
+
+    return p;
 }
 
-QPixmap Images::resize(QPixmap *p, int size) {
-	return QPixmap::fromImage( (*p).toImage().scaled(size,size,Qt::IgnoreAspectRatio,Qt::SmoothTransformation) );
+QPixmap Images::resize(QPixmap *p, int size)
+{
+    return QPixmap::fromImage((*p).toImage().scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
-QPixmap Images::flip(QPixmap *p) {
-	return QPixmap::fromImage( (*p).toImage().mirrored(true, false) );
+QPixmap Images::flip(QPixmap *p)
+{
+    return QPixmap::fromImage((*p).toImage().mirrored(true, false));
 }
 
-QPixmap Images::flippedIcon(QString name, int size, bool png) {
-	QPixmap p = icon(name, size, png);
-	p = flip(&p);
-	return p;
+QPixmap Images::flippedIcon(QString name, int size, bool png)
+{
+    QPixmap p = icon(name, size, png);
+    p = flip(&p);
+    return p;
 }

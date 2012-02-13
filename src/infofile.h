@@ -22,28 +22,28 @@
 #include "mediadata.h"
 #include <QString>
 
-class InfoFile 
+class InfoFile
 {
 
 public:
-	InfoFile();
-	~InfoFile();
+    InfoFile();
+    ~InfoFile();
 
-	QString getInfo(MediaData md);
+    QString getInfo(MediaData md);
 
 protected:
-	QString title(QString text);
-	QString openPar(QString text);
-	QString closePar();
-	QString openItem();
-	QString closeItem();
+    QString title(QString text);
+    QString openPar(QString text);
+    QString closePar();
+    QString openItem();
+    QString closeItem();
 
-	QString addItem( QString tag, QString value );
+    QString addItem(QString tag, QString value);
 
-	int row;
+    int row;
 
 private:
-	inline QString tr( const char * sourceText, const char * comment = 0, int n = -1 );
+    inline QString tr(const char *sourceText, const char *comment = 0, int n = -1);
 };
 
 #endif

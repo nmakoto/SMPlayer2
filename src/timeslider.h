@@ -22,34 +22,34 @@
 #include "myslider.h"
 #include "config.h"
 
-class TimeSlider : public MySlider 
+class TimeSlider : public MySlider
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	TimeSlider( QWidget * parent );
-	~TimeSlider();
+    TimeSlider(QWidget *parent);
+    ~TimeSlider();
 
 public slots:
-	virtual void setPos(int); // Don't use setValue!
-	virtual int pos();
+    virtual void setPos(int); // Don't use setValue!
+    virtual int pos();
 
 signals:
-	void posChanged(int);
-	void draggingPos(int);
+    void posChanged(int);
+    void draggingPos(int);
 
 protected slots:
-	void stopUpdate();
-	void resumeUpdate();
-	void mouseReleased();
-	void valueChanged_slot(int);
+    void stopUpdate();
+    void resumeUpdate();
+    void mouseReleased();
+    void valueChanged_slot(int);
 
-	virtual void wheelEvent( QWheelEvent * e );
+    virtual void wheelEvent(QWheelEvent *e);
 
 private:
-	bool dont_update;
-	int position;
-	
+    bool dont_update;
+    int position;
+
 };
 
 #endif

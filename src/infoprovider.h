@@ -24,16 +24,16 @@
 #include <QString>
 #include "mediadata.h"
 
-class InfoProvider 
+class InfoProvider
 {
 
 public:
-	//! Gets info about the specified filename.
-	static MediaData getInfo(QString mplayer_bin, QString filename);
+    //! Gets info about the specified filename.
+    static MediaData getInfo(QString mplayer_bin, QString filename);
 
-	//! Gets info about the specified filename. The mplayer executable will be
+    //! Gets info about the specified filename. The mplayer executable will be
     // obtained from the global preferences.
-	static MediaData getInfo(QString filename);
+    static MediaData getInfo(QString filename);
 };
 
 #endif

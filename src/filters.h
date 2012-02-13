@@ -27,49 +27,73 @@
 
 class QSettings;
 
-class Filter {
+class Filter
+{
 public:
-	Filter() {};
-	Filter(QString tr_name, QString name, QString options = QString::null) { _tr_name = tr_name; _name = name; _options = options; };
+    Filter() {};
+    Filter(QString tr_name, QString name, QString options = QString::null) {
+        _tr_name = tr_name;
+        _name = name;
+        _options = options;
+    };
 
-	void setTrName(QString tr_name) { _tr_name = tr_name; };
-	void setName(QString name) { _name = name; };
-	void setOptions(QString options) { _options = options; };
+    void setTrName(QString tr_name) {
+        _tr_name = tr_name;
+    };
+    void setName(QString name) {
+        _name = name;
+    };
+    void setOptions(QString options) {
+        _options = options;
+    };
 
-	QString trName() const { return _tr_name; };
-	QString name() const { return _name; };
-	QString options() const { return _options; };
+    QString trName() const {
+        return _tr_name;
+    };
+    QString name() const {
+        return _name;
+    };
+    QString options() const {
+        return _options;
+    };
 
-	QString filter() {
-		QString s = name();
-		if (!options().isEmpty()) s += "="+options();
-		return s;
-	}
+    QString filter() {
+        QString s = name();
+
+        if (!options().isEmpty()) s += "=" + options();
+
+        return s;
+    }
 
 protected:
-	QString _tr_name, _name, _options;
+    QString _tr_name, _name, _options;
 };
 
-typedef QMap<QString,Filter> FilterMap;
+typedef QMap<QString, Filter> FilterMap;
 
-class Filters : public QObject {
-	Q_OBJECT
+class Filters : public QObject
+{
+    Q_OBJECT
 
 public:
-	Filters(QObject * parent = 0);
+    Filters(QObject *parent = 0);
 
-	void init();
+    void init();
 
-	Filter item(const QString & key);
+    Filter item(const QString &key);
 
-	void setFilters(FilterMap filters) { list = filters; };
-	FilterMap filters() { return list; };
+    void setFilters(FilterMap filters) {
+        list = filters;
+    };
+    FilterMap filters() {
+        return list;
+    };
 
-	void save(QSettings *set);
-	void load(QSettings *set);
+    void save(QSettings *set);
+    void load(QSettings *set);
 
 protected:
-	FilterMap list;
+    FilterMap list;
 };
 
 #endif

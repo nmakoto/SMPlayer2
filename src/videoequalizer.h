@@ -32,33 +32,33 @@ class VideoEqualizer : public QWidget
     Q_OBJECT
 
 public:
-    VideoEqualizer( QWidget* parent = 0, Qt::WindowFlags f = Qt::Dialog );
+    VideoEqualizer(QWidget *parent = 0, Qt::WindowFlags f = Qt::Dialog);
     ~VideoEqualizer();
 
-	EqSlider * brightness;
-	EqSlider * contrast;
-	EqSlider * hue;
-	EqSlider * saturation;
-	EqSlider * gamma;
+    EqSlider *brightness;
+    EqSlider *contrast;
+    EqSlider *hue;
+    EqSlider *saturation;
+    EqSlider *gamma;
 
 signals:
-	void visibilityChanged();
+    void visibilityChanged();
 
 public slots:
-	void reset();
-	void setDefaults();
+    void reset();
+    void setDefaults();
 
 protected slots:
-	virtual void hideEvent( QHideEvent * );
-	virtual void showEvent( QShowEvent * );
+    virtual void hideEvent(QHideEvent *);
+    virtual void showEvent(QShowEvent *);
 
 protected:
-	virtual void retranslateStrings();
-	virtual void changeEvent ( QEvent * event ) ;
+    virtual void retranslateStrings();
+    virtual void changeEvent(QEvent *event) ;
 
 protected:
-	QPushButton * reset_button;
-	QPushButton * set_default_button;
+    QPushButton *reset_button;
+    QPushButton *set_default_button;
 };
 
 

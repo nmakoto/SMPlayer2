@@ -24,80 +24,89 @@
 #include <QDir>
 #include <QTextStream>
 
-TVList::TVList(bool check_channels_conf, Services services, QString filename, QWidget * parent) 
-	: Favorites(filename,parent)
+TVList::TVList(bool check_channels_conf, Services services, QString filename, QWidget *parent)
+    : Favorites(filename, parent)
 {
 #ifndef Q_OS_WIN
-	if (check_channels_conf) {
-		parse_channels_conf(services);
-	}
+
+    if (check_channels_conf) {
+        parse_channels_conf(services);
+    }
+
 #endif
 }
 
-TVList::~TVList() {
+TVList::~TVList()
+{
 }
 
-Favorites * TVList::createNewObject(QString filename, QWidget * parent) {
-	return new TVList(false, TV, filename, parent);
+Favorites *TVList::createNewObject(QString filename, QWidget *parent)
+{
+    return new TVList(false, TV, filename, parent);
 }
 
 #ifndef Q_OS_WIN
-void TVList::parse_channels_conf(Services services) {
-	qDebug("TVList::parse_channels_conf");
+void TVList::parse_channels_conf(Services services)
+{
+    qDebug("TVList::parse_channels_conf");
 
-	QString file = QDir::homePath() + "/.mplayer/channels.conf.ter";
+    QString file = QDir::homePath() + "/.mplayer/channels.conf.ter";
 
-	if (!QFile::exists(file)) {
-		qDebug("VList::parse_channels_conf: %s doesn't exist", file.toUtf8().constData());
-		file = QDir::homePath() + "/.mplayer/channels.conf";
-	}
+    if (!QFile::exists(file)) {
+        qDebug("VList::parse_channels_conf: %s doesn't exist", file.toUtf8().constData());
+        file = QDir::homePath() + "/.mplayer/channels.conf";
+    }
 
-	QFile f( file );
-	if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		qDebug("TVList::parse_channels_conf: can't open %s", file.toUtf8().constData());
-		return;
-	}
+    QFile f(file);
 
-	QTextStream in(&f);
-	while (!in.atEnd()) {
-		QString line = in.readLine();
-		qDebug("TVList::parse_channels_conf: '%s'", line.toUtf8().constData());
-		QString channel = line.section(':', 0, 0);
-		QString video_pid = line.section(':', 10, 10);
-		QString audio_pid = line.section(':', 11, 11);
-		bool is_radio = (video_pid == "0" && audio_pid != "0");
-		bool is_data = (video_pid == "0" && audio_pid == "0");
-		bool is_tv = (!is_radio && !is_data);
-		if (!channel.isEmpty()) {
-			qDebug("TVList::parse_channels_conf: channel: '%s' video_pid: %s audio_pid: %s", channel.toUtf8().constData(),video_pid.toUtf8().constData(),audio_pid.toUtf8().constData());
-			QString channel_id = "dvb://"+channel;
-			if (findFile(channel_id) == -1) {
-				if ( (services.testFlag(TVList::TV) && is_tv) || 
-                     (services.testFlag(TVList::Radio) && is_radio) || 
-                     (services.testFlag(TVList::Data) && is_data) )
-				{
-					f_list.append( Favorite(channel, channel_id) );
-				}
-			}
-		}
-	}
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug("TVList::parse_channels_conf: can't open %s", file.toUtf8().constData());
+        return;
+    }
+
+    QTextStream in(&f);
+
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        qDebug("TVList::parse_channels_conf: '%s'", line.toUtf8().constData());
+        QString channel = line.section(':', 0, 0);
+        QString video_pid = line.section(':', 10, 10);
+        QString audio_pid = line.section(':', 11, 11);
+        bool is_radio = (video_pid == "0" && audio_pid != "0");
+        bool is_data = (video_pid == "0" && audio_pid == "0");
+        bool is_tv = (!is_radio && !is_data);
+
+        if (!channel.isEmpty()) {
+            qDebug("TVList::parse_channels_conf: channel: '%s' video_pid: %s audio_pid: %s", channel.toUtf8().constData(), video_pid.toUtf8().constData(), audio_pid.toUtf8().constData());
+            QString channel_id = "dvb://" + channel;
+
+            if (findFile(channel_id) == -1) {
+                if ((services.testFlag(TVList::TV) && is_tv) ||
+                        (services.testFlag(TVList::Radio) && is_radio) ||
+                        (services.testFlag(TVList::Data) && is_data)) {
+                    f_list.append(Favorite(channel, channel_id));
+                }
+            }
+        }
+    }
 }
 #endif
 
-void TVList::edit() {
-	qDebug("TVList::edit");
+void TVList::edit()
+{
+    qDebug("TVList::edit");
 
-	FavoriteEditor e(parent_widget);
+    FavoriteEditor e(parent_widget);
 
-	e.setWindowTitle( tr("Channel editor") );
-	e.setCaption( tr("TV/Radio list") );
-	e.setDialogIcon( Images::icon("tv") );
+    e.setWindowTitle(tr("Channel editor"));
+    e.setCaption(tr("TV/Radio list"));
+    e.setDialogIcon(Images::icon("tv"));
 
-	e.setData(f_list);
-	e.setStorePath( QFileInfo(_filename).absolutePath() );
+    e.setData(f_list);
+    e.setStorePath(QFileInfo(_filename).absolutePath());
 
-	if (e.exec() == QDialog::Accepted) {
-		f_list = e.data();
-		updateMenu();
-	}
+    if (e.exec() == QDialog::Accepted) {
+        f_list = e.data();
+        updateMenu();
+    }
 }

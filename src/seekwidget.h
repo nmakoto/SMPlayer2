@@ -26,22 +26,22 @@
 class SeekWidget : public QWidget, public Ui::SeekWidget
 {
     Q_OBJECT
-	Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
-	Q_PROPERTY(QString label READ label WRITE setLabel)
-	Q_PROPERTY(int time READ time WRITE setTime)
+    Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
+    Q_PROPERTY(QString label READ label WRITE setLabel)
+    Q_PROPERTY(int time READ time WRITE setTime)
 
 public:
-    SeekWidget( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+    SeekWidget(QWidget *parent = 0, Qt::WindowFlags f = 0);
     ~SeekWidget();
 
-	int time() const;
-	const QPixmap * icon() const;
-	QString label() const;
+    int time() const;
+    const QPixmap *icon() const;
+    QString label() const;
 
 public slots:
-	void setIcon(QPixmap icon);
-	void setLabel(QString text);
-	void setTime(int secs);
+    void setIcon(QPixmap icon);
+    void setLabel(QString text);
+    void setTime(int secs);
 
 };
 

@@ -19,71 +19,72 @@
 #include "simplehttp.h"
 #include <QUrl>
 
-SimpleHttp::SimpleHttp( QObject * parent ) : QHttp(parent)
+SimpleHttp::SimpleHttp(QObject *parent) : QHttp(parent)
 {
-	http_get_id = -1;
+    http_get_id = -1;
 
-	connect( this, SIGNAL(requestFinished(int, bool)),
-             this, SLOT(httpRequestFinished(int, bool)) );
+    connect(this, SIGNAL(requestFinished(int, bool)),
+            this, SLOT(httpRequestFinished(int, bool)));
 
-	connect( this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
-             this, SLOT(readResponseHeader(const QHttpResponseHeader &)) );
+    connect(this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
+            this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
 }
 
-SimpleHttp::~SimpleHttp() {
+SimpleHttp::~SimpleHttp()
+{
 }
 
-void SimpleHttp::download(const QString & url) {
-	qDebug("SimpleHttp::download: %s", url.toLatin1().constData());
+void SimpleHttp::download(const QString &url)
+{
+    qDebug("SimpleHttp::download: %s", url.toLatin1().constData());
 
-	downloaded_text.clear();
+    downloaded_text.clear();
 
-	QUrl u(url);
-	setHost( u.host() );
+    QUrl u(url);
+    setHost(u.host());
 
-	/*
-	qDebug("u.path: %s", u.path().toLatin1().constData());
-	qDebug("u.query: %s", u.encodedQuery().constData());
-	*/
+    /*
+    qDebug("u.path: %s", u.path().toLatin1().constData());
+    qDebug("u.query: %s", u.encodedQuery().constData());
+    */
 
-	QString p = u.path();
-	if (!u.encodedQuery().isEmpty()) p += "?" + u.encodedQuery();
+    QString p = u.path();
 
-	http_get_id = get( p );
+    if (!u.encodedQuery().isEmpty()) p += "?" + u.encodedQuery();
 
-	emit connecting(u.host());
+    http_get_id = get(p);
+
+    emit connecting(u.host());
 }
 
-void SimpleHttp::readResponseHeader(const QHttpResponseHeader &responseHeader) {
-	qDebug("SimpleHttp::readResponseHeader: statusCode: %d", responseHeader.statusCode());
+void SimpleHttp::readResponseHeader(const QHttpResponseHeader &responseHeader)
+{
+    qDebug("SimpleHttp::readResponseHeader: statusCode: %d", responseHeader.statusCode());
 
-	if (responseHeader.statusCode() == 301)  {
-		QString new_url = responseHeader.value("Location");
-		qDebug("SimpleHttp::readResponseHeader: Location: '%s'", new_url.toLatin1().constData());
-		download(new_url);
-	}
-	else
-	if (responseHeader.statusCode() == 302)  {
-		QString location = responseHeader.value("Location");
-		qDebug("SimpleHttp::readResponseHeader: Location: '%s'", location.toLatin1().constData());
-		http_get_id = get( location );
-	}
-	else
-	if (responseHeader.statusCode() != 200) {
-		qDebug("SimpleHttp::readResponseHeader: error: '%s'", responseHeader.reasonPhrase().toLatin1().constData());
-		emit downloadFailed(responseHeader.reasonPhrase());
-		abort();
-	}
+    if (responseHeader.statusCode() == 301)  {
+        QString new_url = responseHeader.value("Location");
+        qDebug("SimpleHttp::readResponseHeader: Location: '%s'", new_url.toLatin1().constData());
+        download(new_url);
+    } else if (responseHeader.statusCode() == 302)  {
+        QString location = responseHeader.value("Location");
+        qDebug("SimpleHttp::readResponseHeader: Location: '%s'", location.toLatin1().constData());
+        http_get_id = get(location);
+    } else if (responseHeader.statusCode() != 200) {
+        qDebug("SimpleHttp::readResponseHeader: error: '%s'", responseHeader.reasonPhrase().toLatin1().constData());
+        emit downloadFailed(responseHeader.reasonPhrase());
+        abort();
+    }
 }
 
-void SimpleHttp::httpRequestFinished(int request_id, bool error) {
-	qDebug("SimpleHttp::httpRequestFinished: http_get_id: %d request_id: %d, error: %d", http_get_id, request_id, error);
+void SimpleHttp::httpRequestFinished(int request_id, bool error)
+{
+    qDebug("SimpleHttp::httpRequestFinished: http_get_id: %d request_id: %d, error: %d", http_get_id, request_id, error);
 
     if (request_id != http_get_id) return;
 
-	downloaded_text += readAll();
+    downloaded_text += readAll();
 
-	if (!downloaded_text.isEmpty()) {
-		emit downloadFinished(downloaded_text);
-	}
+    if (!downloaded_text.isEmpty()) {
+        emit downloadFinished(downloaded_text);
+    }
 }

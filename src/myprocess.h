@@ -37,45 +37,45 @@
 
 class MyProcess : public QProcess
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MyProcess ( QObject * parent = 0 );
+    MyProcess(QObject *parent = 0);
 
-	void addArgument(const QString & a); 	//!< Add an argument
+    void addArgument(const QString &a); 	//!< Add an argument
 
-	void clearArguments(); 		//!< Clear the list of arguments
-	QStringList arguments(); 	//!< Return the list of arguments
+    void clearArguments(); 		//!< Clear the list of arguments
+    QStringList arguments(); 	//!< Return the list of arguments
 
-	void start();				//!< Start the process
-	bool isRunning();			//!< Return true if the process is running
+    void start();				//!< Start the process
+    bool isRunning();			//!< Return true if the process is running
 
-	static QStringList splitArguments(const QString & args);
+    static QStringList splitArguments(const QString &args);
 
 signals:
-	//! Emitted when there's a line available
-	void lineAvailable(QByteArray ba);
+    //! Emitted when there's a line available
+    void lineAvailable(QByteArray ba);
 
 protected slots:
-	void readStdOut();			//!< Called for reading from standard output
-	void readTmpFile();			//!< Called for reading from the temp file
-	void procFinished();		//!< Called when the process has finished
+    void readStdOut();			//!< Called for reading from standard output
+    void readTmpFile();			//!< Called for reading from the temp file
+    void procFinished();		//!< Called when the process has finished
 
 protected:
-	//! Return true if it's possible to read an entire line.
-	/*! @param from specifies the position to begin. */
-	int canReadLine(const QByteArray & ba, int from = 0);
-	//! Called from readStdOut() and readTmpFile() to do all the work
-	void genericRead(QByteArray buffer);
+    //! Return true if it's possible to read an entire line.
+    /*! @param from specifies the position to begin. */
+    int canReadLine(const QByteArray &ba, int from = 0);
+    //! Called from readStdOut() and readTmpFile() to do all the work
+    void genericRead(QByteArray buffer);
 
 private:
-	QString program;
-	QStringList arg;
+    QString program;
+    QStringList arg;
 
-	QByteArray remaining_output;
+    QByteArray remaining_output;
 
-	QTemporaryFile temp_file;
-	QTimer timer;
+    QTemporaryFile temp_file;
+    QTimer timer;
 };
 
 #endif

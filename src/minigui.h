@@ -32,52 +32,52 @@ class QToolBar;
 
 class MiniGui : public BaseGuiPlus
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MiniGui( bool use_server, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
-	~MiniGui();
+    MiniGui(bool use_server, QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    ~MiniGui();
 
 #if USE_MINIMUMSIZE
-	virtual QSize minimumSizeHint () const;
+    virtual QSize minimumSizeHint() const;
 #endif
 
 protected slots:
-	void showFloatingControl(QPoint p);
-	void hideFloatingControl();
+    void showFloatingControl(QPoint p);
+    void hideFloatingControl();
 
-	// Reimplemented:
+    // Reimplemented:
 #if AUTODISABLE_ACTIONS
-	virtual void enableActionsOnPlaying();
-	virtual void disableActionsOnStop();
+    virtual void enableActionsOnPlaying();
+    virtual void disableActionsOnStop();
 #endif
 
 protected:
-	virtual void retranslateStrings();
+    virtual void retranslateStrings();
 
-	void createActions();
-	void createControlWidget();
-	void createFloatingControl();
+    void createActions();
+    void createControlWidget();
+    void createFloatingControl();
 
-	void loadConfig();
-	void saveConfig();
+    void loadConfig();
+    void saveConfig();
 
-	// Reimplemented
-	virtual void aboutToEnterFullscreen();
-	virtual void aboutToExitFullscreen();
-	virtual void aboutToEnterCompactMode();
-	virtual void aboutToExitCompactMode();
+    // Reimplemented
+    virtual void aboutToEnterFullscreen();
+    virtual void aboutToExitFullscreen();
+    virtual void aboutToEnterCompactMode();
+    virtual void aboutToExitCompactMode();
 
 protected:
-	QToolBar * controlwidget;
+    QToolBar *controlwidget;
 
-	FloatingWidget * floating_control;
+    FloatingWidget *floating_control;
 
-	TimeSliderAction * timeslider_action;
+    TimeSliderAction *timeslider_action;
 #if USE_VOLUME_BAR
-	VolumeSliderAction * volumeslider_action;
+    VolumeSliderAction *volumeslider_action;
 #endif
-	TimeLabelAction * time_label_action;
+    TimeLabelAction *time_label_action;
 };
 
 #endif

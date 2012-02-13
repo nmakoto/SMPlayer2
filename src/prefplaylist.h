@@ -26,45 +26,45 @@ class Preferences;
 
 class PrefPlaylist : public PrefWidget, public Ui::PrefPlaylist
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	PrefPlaylist( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~PrefPlaylist();
+    PrefPlaylist(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PrefPlaylist();
 
-	virtual QString sectionName();
-	virtual QPixmap sectionIcon();
+    virtual QString sectionName();
+    virtual QPixmap sectionIcon();
 
     // Pass data to the dialog
-    void setData(Preferences * pref);
+    void setData(Preferences *pref);
 
     // Apply changes
-    void getData(Preferences * pref);
+    void getData(Preferences *pref);
 
 
-	void setDirectoryRecursion(bool b);
-	bool directoryRecursion();
+    void setDirectoryRecursion(bool b);
+    bool directoryRecursion();
 
-	void setAutoGetInfo(bool b);
-	bool autoGetInfo();
+    void setAutoGetInfo(bool b);
+    bool autoGetInfo();
 
-	void setSavePlaylistOnExit(bool b);
-	bool savePlaylistOnExit();
+    void setSavePlaylistOnExit(bool b);
+    bool savePlaylistOnExit();
 
-	void setPlayFilesFromStart(bool b);
-	bool playFilesFromStart();
-
-protected:
-	virtual void createHelp();
-
-	void setAutoAddFilesToPlaylist(bool b);
-	bool autoAddFilesToPlaylist();
-
-	void setAddConsecutiveFiles(bool b);
-	bool addConsecutiveFiles();
+    void setPlayFilesFromStart(bool b);
+    bool playFilesFromStart();
 
 protected:
-	virtual void retranslateStrings();
+    virtual void createHelp();
+
+    void setAutoAddFilesToPlaylist(bool b);
+    bool autoAddFilesToPlaylist();
+
+    void setAddConsecutiveFiles(bool b);
+    bool addConsecutiveFiles();
+
+protected:
+    virtual void retranslateStrings();
 };
 
 #endif

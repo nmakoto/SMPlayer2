@@ -23,30 +23,30 @@
 
 class FindSubtitlesConfigDialog : public QDialog, public Ui::FindSubtitlesConfigDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	FindSubtitlesConfigDialog( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-	~FindSubtitlesConfigDialog();
+    FindSubtitlesConfigDialog(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~FindSubtitlesConfigDialog();
 
-	// Proxy
-	void setUseProxy(bool b);
-	bool useProxy();
+    // Proxy
+    void setUseProxy(bool b);
+    bool useProxy();
 
-	void setProxyHostname(QString host);
-	QString proxyHostname();
+    void setProxyHostname(QString host);
+    QString proxyHostname();
 
-	void setProxyPort(int port);
-	int proxyPort();
+    void setProxyPort(int port);
+    int proxyPort();
 
-	void setProxyUsername(QString username);
-	QString proxyUsername();
+    void setProxyUsername(QString username);
+    QString proxyUsername();
 
-	void setProxyPassword(QString password);
-	QString proxyPassword();
+    void setProxyPassword(QString password);
+    QString proxyPassword();
 
-	void setProxyType(int type);
-	int proxyType();
+    void setProxyType(int type);
+    int proxyType();
 };
 
 #endif

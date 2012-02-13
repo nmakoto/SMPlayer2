@@ -34,60 +34,72 @@ class QPropertyAnimation;
 
 class FloatingWidget : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	enum Place { Top = 0, Bottom = 1 };
-	enum Movement { Upward = 0, Downward = 1 };
+    enum Place { Top = 0, Bottom = 1 };
+    enum Movement { Upward = 0, Downward = 1 };
 
-	FloatingWidget(QWidget * parent = 0);
-	~FloatingWidget();
+    FloatingWidget(QWidget *parent = 0);
+    ~FloatingWidget();
 
-	//! Show the floating widget over the specified widget.
-	void showOver(QWidget * widget, int size = 100, Place place = Bottom);
+    //! Show the floating widget over the specified widget.
+    void showOver(QWidget *widget, int size = 100, Place place = Bottom);
 
-	void showAnimated(QPoint final_position, Movement movement);
+    void showAnimated(QPoint final_position, Movement movement);
 
-	QToolBar * toolbar() { return tb; };
+    QToolBar *toolbar() {
+        return tb;
+    };
 
-	bool isAnimated() { return _animated; };
-	bool autoHide() { return auto_hide; };
-	int margin() { return _margin; };
+    bool isAnimated() {
+        return _animated;
+    };
+    bool autoHide() {
+        return auto_hide;
+    };
+    int margin() {
+        return _margin;
+    };
 
 public slots:
-	void setAnimated(bool b) { _animated = b; };
-	void setAutoHide(bool b);
-	void setMargin(int margin) { _margin = margin; };
+    void setAnimated(bool b) {
+        _animated = b;
+    };
+    void setAutoHide(bool b);
+    void setMargin(int margin) {
+        _margin = margin;
+    };
 #ifndef Q_OS_WIN
-	void setBypassWindowManager(bool b);
+    void setBypassWindowManager(bool b);
 #endif
 
 protected:
-	QToolBar * tb;
+    QToolBar *tb;
 
 private slots:
 #ifdef OLD_ANIMATION
-	void animate();
+    void animate();
 #endif
-	void checkUnderMouse();
+    void checkUnderMouse();
 
 private:
-	// Animation variables
-	bool _animated;
+    // Animation variables
+    bool _animated;
 #ifdef OLD_ANIMATION
-	QTimer * animation_timer;
+    QTimer *animation_timer;
 #endif
-	int final_y;
-	int current_y;
-	Movement current_movement;
+    int final_y;
+    int current_y;
+    Movement current_movement;
 
-	bool auto_hide;
-	QTimer auto_hide_timer;
+    bool auto_hide;
+    QTimer auto_hide_timer;
 
-	int _margin;
+    int _margin;
 
 #ifndef OLD_ANIMATION
-	QPropertyAnimation * animation;
+    QPropertyAnimation *animation;
 #endif
 
 };

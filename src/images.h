@@ -27,22 +27,22 @@ class Images
 {
 
 public:
-	static QPixmap icon(QString name, int size=-1, bool png = true);
-	static QPixmap flippedIcon(QString name, int size=-1, bool png = true);
+    static QPixmap icon(QString name, int size = -1, bool png = true);
+    static QPixmap flippedIcon(QString name, int size = -1, bool png = true);
 
-	static QPixmap resize(QPixmap *p, int size=20);
-	static QPixmap flip(QPixmap *p);
+    static QPixmap resize(QPixmap *p, int size = 20);
+    static QPixmap flip(QPixmap *p);
 
-	//! Returns the filename of the icon
-	static QString file(const QString & icon_name);
+    //! Returns the filename of the icon
+    static QString file(const QString &icon_name);
 
 private:
-	//! Return the filename for the icon
-	static QString filename(const QString & name, bool png);
+    //! Return the filename for the icon
+    static QString filename(const QString &name, bool png);
 
-	//! Try to load an icon. \a icon_name is the filename of the
-	//! icon without path. Return a null pixmap if loads fails.
-	static QPixmap loadIcon(const QString & icon_name);
+    //! Try to load an icon. \a icon_name is the filename of the
+    //! icon without path. Return a null pixmap if loads fails.
+    static QPixmap loadIcon(const QString &icon_name);
 };
 
 #endif

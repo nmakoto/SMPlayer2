@@ -30,94 +30,96 @@
 class QStringList;
 class Core;
 
-class MplayerProcess : public MyProcess 
+class MplayerProcess : public MyProcess
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MplayerProcess(QObject * parent = 0);
-	~MplayerProcess();
+    MplayerProcess(QObject *parent = 0);
+    ~MplayerProcess();
 
-	bool start();
-	void writeToStdin(QString text);
+    bool start();
+    void writeToStdin(QString text);
 
-	MediaData mediaData() { return md; };
+    MediaData mediaData() {
+        return md;
+    };
 
 signals:
-	void processExited();
-	void lineAvailable(QString line);
+    void processExited();
+    void lineAvailable(QString line);
 
-	void receivedCurrentSec(double sec);
-	void receivedCurrentFrame(int frame);
-	void receivedCurrentChapter(int chapter);
-	void receivedCurrentEdition(int edition);
-	void receivedPause();
-	void receivedWindowResolution(int,int);
-	void receivedNoVideo();
-	void receivedVO(QString);
-	void receivedAO(QString);
-	void receivedEndOfFile();
-	void mplayerFullyLoaded();
-	void receivedStartingTime(double sec);
+    void receivedCurrentSec(double sec);
+    void receivedCurrentFrame(int frame);
+    void receivedCurrentChapter(int chapter);
+    void receivedCurrentEdition(int edition);
+    void receivedPause();
+    void receivedWindowResolution(int, int);
+    void receivedNoVideo();
+    void receivedVO(QString);
+    void receivedAO(QString);
+    void receivedEndOfFile();
+    void mplayerFullyLoaded();
+    void receivedStartingTime(double sec);
 
-	void receivedCacheMessage(QString);
-	void receivedCreatingIndex(QString);
-	void receivedConnectingToMessage(QString);
-	void receivedResolvingMessage(QString);
-	void receivedScreenshot(QString);
-	void receivedUpdatingFontCache();
-	void receivedScanningFont(QString);
+    void receivedCacheMessage(QString);
+    void receivedCreatingIndex(QString);
+    void receivedConnectingToMessage(QString);
+    void receivedResolvingMessage(QString);
+    void receivedScreenshot(QString);
+    void receivedUpdatingFontCache();
+    void receivedScanningFont(QString);
 
-	void receivedStreamTitle(QString);
-	void receivedStreamTitleAndUrl(QString,QString);
+    void receivedStreamTitle(QString);
+    void receivedStreamTitleAndUrl(QString, QString);
 
-	void failedToParseMplayerVersion(QString line_with_mplayer_version);
+    void failedToParseMplayerVersion(QString line_with_mplayer_version);
 
 #if NOTIFY_SUB_CHANGES
-	//! Emitted if a new subtitle has been added or an old one changed
-	void subtitleInfoChanged(const SubTracks &);
+    //! Emitted if a new subtitle has been added or an old one changed
+    void subtitleInfoChanged(const SubTracks &);
 
-	//! Emitted when subtitle info has been received but there wasn't anything new
-	void subtitleInfoReceivedAgain(const SubTracks &);
+    //! Emitted when subtitle info has been received but there wasn't anything new
+    void subtitleInfoReceivedAgain(const SubTracks &);
 #endif
 #if NOTIFY_AUDIO_CHANGES
-	//! Emitted if a new audio track been added or an old one changed
+    //! Emitted if a new audio track been added or an old one changed
     void audioInfoChanged(const Tracks &);
 #endif
 
 #if DVDNAV_SUPPORT
-	void receivedDVDTitle(int);
-	void receivedDuration(double);
-	void receivedTitleIsMenu();
-	void receivedTitleIsMovie();
+    void receivedDVDTitle(int);
+    void receivedDuration(double);
+    void receivedTitleIsMenu();
+    void receivedTitleIsMovie();
 #endif
 
 protected slots:
-	void parseLine(QByteArray ba);
-	void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
-	void gotError(QProcess::ProcessError);
+    void parseLine(QByteArray ba);
+    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void gotError(QProcess::ProcessError);
 
 private:
-	bool notified_mplayer_is_running;
-	bool received_end_of_file;
+    bool notified_mplayer_is_running;
+    bool received_end_of_file;
 
-	MediaData md;
+    MediaData md;
 
-	int last_sub_id;
+    int last_sub_id;
 
 #if NOTIFY_SUB_CHANGES
-	SubTracks subs;
+    SubTracks subs;
 
-	bool subtitle_info_received;
-	bool subtitle_info_changed;
+    bool subtitle_info_received;
+    bool subtitle_info_changed;
 #endif
 
 #if NOTIFY_AUDIO_CHANGES
-	Tracks audios;
-	bool audio_info_changed;
+    Tracks audios;
+    bool audio_info_changed;
 #endif
 
-	int dvd_current_title;
+    int dvd_current_title;
 };
 
 

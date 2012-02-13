@@ -28,58 +28,58 @@ class Preferences;
 
 class PrefInput : public PrefWidget, public Ui::PrefInput
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	PrefInput( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~PrefInput();
+    PrefInput(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PrefInput();
 
-	virtual QString sectionName();
-	virtual QPixmap sectionIcon();
+    virtual QString sectionName();
+    virtual QPixmap sectionIcon();
 
     // Pass data to the dialog
-    void setData(Preferences * pref);
+    void setData(Preferences *pref);
 
     // Apply changes
-    void getData(Preferences * pref);
+    void getData(Preferences *pref);
 
-	// Pass action's list to dialog
-	/* void setActionsList(QStringList l); */
-
-protected:
-	virtual void createHelp();
-
-	void createMouseCombos();
-
-	void setLeftClickFunction(QString f);
-	QString leftClickFunction();
-
-	void setRightClickFunction(QString f);
-	QString rightClickFunction();
-
-	void setDoubleClickFunction(QString f);
-	QString doubleClickFunction();
-
-	void setMiddleClickFunction(QString f);
-	QString middleClickFunction();
-
-	void setXButton1ClickFunction(QString f);
-	QString xButton1ClickFunction();
-
-	void setXButton2ClickFunction(QString f);
-	QString xButton2ClickFunction();
-
-	void setWheelFunction(int function);
-	int wheelFunction();
-
-	void setWheelFunctionCycle(QFlags<Preferences::WheelFunctions> flags);
-	QFlags<Preferences::WheelFunctions> wheelFunctionCycle();
-
-	void setWheelFunctionSeekingReverse(bool b);
-	bool wheelFunctionSeekingReverse();
+    // Pass action's list to dialog
+    /* void setActionsList(QStringList l); */
 
 protected:
-	virtual void retranslateStrings();
+    virtual void createHelp();
+
+    void createMouseCombos();
+
+    void setLeftClickFunction(QString f);
+    QString leftClickFunction();
+
+    void setRightClickFunction(QString f);
+    QString rightClickFunction();
+
+    void setDoubleClickFunction(QString f);
+    QString doubleClickFunction();
+
+    void setMiddleClickFunction(QString f);
+    QString middleClickFunction();
+
+    void setXButton1ClickFunction(QString f);
+    QString xButton1ClickFunction();
+
+    void setXButton2ClickFunction(QString f);
+    QString xButton2ClickFunction();
+
+    void setWheelFunction(int function);
+    int wheelFunction();
+
+    void setWheelFunctionCycle(QFlags<Preferences::WheelFunctions> flags);
+    QFlags<Preferences::WheelFunctions> wheelFunctionCycle();
+
+    void setWheelFunctionSeekingReverse(bool b);
+    bool wheelFunctionSeekingReverse();
+
+protected:
+    virtual void retranslateStrings();
 };
 
 #endif

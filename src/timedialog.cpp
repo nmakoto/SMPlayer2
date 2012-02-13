@@ -18,41 +18,48 @@
 
 #include "timedialog.h"
 
-TimeDialog::TimeDialog( QWidget* parent, Qt::WindowFlags f )
-	: QDialog(parent, f)
+TimeDialog::TimeDialog(QWidget *parent, Qt::WindowFlags f)
+    : QDialog(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 
-	time_edit->setDisplayFormat("H:mm:ss");
+    time_edit->setDisplayFormat("H:mm:ss");
 }
 
-TimeDialog::~TimeDialog() {
+TimeDialog::~TimeDialog()
+{
 }
 
-void TimeDialog::setTime(int seconds) {
-	QTime t;
-	time_edit->setTime(t.addSecs(seconds));
+void TimeDialog::setTime(int seconds)
+{
+    QTime t;
+    time_edit->setTime(t.addSecs(seconds));
 }
 
-int TimeDialog::time() {
-	QTime t;
-	return t.secsTo(time_edit->time());
+int TimeDialog::time()
+{
+    QTime t;
+    return t.secsTo(time_edit->time());
 }
 
-void TimeDialog::setMaximumTime( int seconds ) {
-	QTime t;
-	time_edit->setMaximumTime(t.addSecs(seconds));
+void TimeDialog::setMaximumTime(int seconds)
+{
+    QTime t;
+    time_edit->setMaximumTime(t.addSecs(seconds));
 }
 
-int TimeDialog::maximumTime() {
-	QTime t;
-	return t.secsTo(time_edit->maximumTime());
+int TimeDialog::maximumTime()
+{
+    QTime t;
+    return t.secsTo(time_edit->maximumTime());
 }
 
-void TimeDialog::setLabel(const QString & label) {
-	time_label->setText(label);
+void TimeDialog::setLabel(const QString &label)
+{
+    time_label->setText(label);
 }
 
-QString TimeDialog::label() {
-	return time_label->text();
+QString TimeDialog::label()
+{
+    return time_label->text();
 }

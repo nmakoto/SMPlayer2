@@ -24,27 +24,31 @@
 #include <QList>
 #include <QDomDocument>
 
-class OSSubtitle {
+class OSSubtitle
+{
 public:
-	QString movie, releasename, link, iso639, language, date;
-	QString format, comments, detail, rating, files, user;
+    QString movie, releasename, link, iso639, language, date;
+    QString format, comments, detail, rating, files, user;
 };
 
-class OSParser {
+class OSParser
+{
 
 public:
-	OSParser();
-	~OSParser();
+    OSParser();
+    ~OSParser();
 
-	bool parseXml(QByteArray text);
+    bool parseXml(QByteArray text);
 
-	QList<OSSubtitle> subtitleList() { return s_list; };
+    QList<OSSubtitle> subtitleList() {
+        return s_list;
+    };
 
-	static QString calculateHash(QString filename);
+    static QString calculateHash(QString filename);
 
 protected:
-	QDomDocument dom_document;
-	QList <OSSubtitle> s_list;
+    QDomDocument dom_document;
+    QList <OSSubtitle> s_list;
 };
 
 #endif

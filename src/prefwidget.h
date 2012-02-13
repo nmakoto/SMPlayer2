@@ -29,39 +29,43 @@
 
 class QEvent;
 
-class PrefWidget : public QWidget 
+class PrefWidget : public QWidget
 {
 
 public:
-	PrefWidget(QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~PrefWidget();
+    PrefWidget(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PrefWidget();
 
-	// Return the name of the section
-	virtual QString sectionName();
+    // Return the name of the section
+    virtual QString sectionName();
 
-	virtual QPixmap sectionIcon();
+    virtual QPixmap sectionIcon();
 
-	// Return true if the changes made require to restart the mplayer
-	// process. Should be call just after the changes have been applied.
-	virtual bool requiresRestart() { return requires_restart; };
+    // Return true if the changes made require to restart the mplayer
+    // process. Should be call just after the changes have been applied.
+    virtual bool requiresRestart() {
+        return requires_restart;
+    };
 
-	virtual QString help() { return help_message; };
+    virtual QString help() {
+        return help_message;
+    };
 
 protected:
-	virtual void retranslateStrings();
-	virtual void changeEvent ( QEvent * event ) ;
+    virtual void retranslateStrings();
+    virtual void changeEvent(QEvent *event) ;
 
-	// Help
-	void addSectionTitle(const QString & title);
-	void setWhatsThis( QWidget *w, const QString & title, const QString & text);
-	void clearHelp();
-	
-	virtual void createHelp();
+    // Help
+    void addSectionTitle(const QString &title);
+    void setWhatsThis(QWidget *w, const QString &title, const QString &text);
+    void clearHelp();
 
-	bool requires_restart;
+    virtual void createHelp();
+
+    bool requires_restart;
 
 private:
-	QString help_message;
+    QString help_message;
 };
 
 #endif

@@ -31,7 +31,7 @@ class MpcToolbarStyle : public QWindowsStyle
 public:
     MpcToolbarStyle() {};
     void drawControl(ControlElement control, const QStyleOption *option,
-                      QPainter *painter, const QWidget *widget) const;
+                     QPainter *painter, const QWidget *widget) const;
 };
 
 class MpcTimeSlideStyle : public QWindowsStyle
@@ -41,7 +41,7 @@ class MpcTimeSlideStyle : public QWindowsStyle
 public:
     MpcTimeSlideStyle() {};
     void drawComplexControl(ComplexControl cc, const QStyleOptionComplex *opt,
-                                       QPainter *p, const QWidget *widget) const;
+                            QPainter *p, const QWidget *widget) const;
 };
 
 class MpcVolumeSlideStyle : public QWindowsStyle
@@ -51,7 +51,7 @@ class MpcVolumeSlideStyle : public QWindowsStyle
 public:
     MpcVolumeSlideStyle() {};
     void drawComplexControl(ComplexControl cc, const QStyleOptionComplex *opt,
-                                       QPainter *p, const QWidget *widget) const;
+                            QPainter *p, const QWidget *widget) const;
 };
 
 

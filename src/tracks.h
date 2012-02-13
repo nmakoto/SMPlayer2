@@ -24,78 +24,94 @@
 
 /* Class to store info about video/audio tracks */
 
-class TrackData {
+class TrackData
+{
 
 public:
 
-	TrackData() { _lang = ""; _name = "";_ID = -1; };
-	~TrackData() {};
+    TrackData() {
+        _lang = "";
+        _name = "";
+        _ID = -1;
+    };
+    ~TrackData() {};
 
-	void setLang( const QString & l ) { _lang = l; };
-	void setName( const QString & n ) { _name = n; };
-	void setID( int id ) { _ID = id; };
+    void setLang(const QString &l) {
+        _lang = l;
+    };
+    void setName(const QString &n) {
+        _name = n;
+    };
+    void setID(int id) {
+        _ID = id;
+    };
 
-	QString lang() const { return _lang; };
-	QString name() const { return _name; };
-	int ID() const { return _ID; };
+    QString lang() const {
+        return _lang;
+    };
+    QString name() const {
+        return _name;
+    };
+    int ID() const {
+        return _ID;
+    };
 
-	QString displayName() const {
-		QString dname="";
+    QString displayName() const {
+        QString dname = "";
 
-	    if (!_name.isEmpty()) {
-    	    dname = _name;
-			if (!_lang.isEmpty()) {
-				dname += " ["+ _lang + "]";
-			}
-		}
-	    else
-	    if (!_lang.isEmpty()) {
-	        dname = _lang;
-		}
-	    else
-	    dname = QString::number(_ID);
+        if (!_name.isEmpty()) {
+            dname = _name;
 
-		return dname;
-	}
+            if (!_lang.isEmpty()) {
+                dname += " [" + _lang + "]";
+            }
+        } else if (!_lang.isEmpty()) {
+            dname = _lang;
+        } else
+            dname = QString::number(_ID);
+
+        return dname;
+    }
 
 protected:
 
-	/* Language code: es, en, etc. */
-	QString _lang;
+    /* Language code: es, en, etc. */
+    QString _lang;
 
-	/* spanish, english... */
-	QString _name;
+    /* spanish, english... */
+    QString _name;
 
-	int _ID;
+    int _ID;
 };
 
 
-class Tracks {
+class Tracks
+{
 
 public:
 
-	Tracks();
-	~Tracks();
+    Tracks();
+    ~Tracks();
 
-	void clear();
-	void list();
+    void clear();
+    void list();
 
-	void addLang(int ID, QString lang);
-	void addName(int ID, QString name);
-	void addID(int ID);
+    void addLang(int ID, QString lang);
+    void addName(int ID, QString name);
+    void addID(int ID);
 
-	int numItems();
-	bool existsItemAt(int n);
+    int numItems();
+    bool existsItemAt(int n);
 
-	TrackData itemAt(int n);
-	TrackData item(int ID);
-	int find(int ID);
+    TrackData itemAt(int n);
+    TrackData item(int ID);
+    int find(int ID);
 
-	int findLang(QString expr);
+    int findLang(QString expr);
 
 protected:
-	typedef QMap <int, TrackData> TrackMap;
-	TrackMap tm;
+    typedef QMap <int, TrackData> TrackMap;
+    TrackMap tm;
 };
 
 #endif

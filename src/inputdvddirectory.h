@@ -23,14 +23,14 @@
 
 class InputDVDDirectory : public QDialog, public Ui::InputDVDDirectory
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	InputDVDDirectory( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-	~InputDVDDirectory();
+    InputDVDDirectory(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~InputDVDDirectory();
 
-	void setFolder(QString folder);
-	QString folder();
+    void setFolder(QString folder);
+    QString folder();
 
 protected slots:
     void on_searchButton_clicked();

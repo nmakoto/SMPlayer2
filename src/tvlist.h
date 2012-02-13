@@ -25,25 +25,25 @@ class QWidget;
 
 class TVList : public Favorites
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	enum Service { TV = 1, Radio = 2, Data = 4 };
-	Q_DECLARE_FLAGS(Services, Service)
+    enum Service { TV = 1, Radio = 2, Data = 4 };
+    Q_DECLARE_FLAGS(Services, Service)
 
-	TVList(bool check_channels_conf, Services services, QString filename, QWidget * parent = 0);
-	~TVList();
+    TVList(bool check_channels_conf, Services services, QString filename, QWidget *parent = 0);
+    ~TVList();
 
 #ifndef Q_OS_WIN
 protected:
-	void parse_channels_conf(Services services);
+    void parse_channels_conf(Services services);
 #endif
 
 protected:
-	virtual Favorites * createNewObject(QString filename, QWidget * parent);
+    virtual Favorites *createNewObject(QString filename, QWidget *parent);
 
 protected slots:
-	virtual void edit();
+    virtual void edit();
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(TVList::Services)

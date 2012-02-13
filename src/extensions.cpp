@@ -22,27 +22,35 @@ ExtensionList::ExtensionList() : QStringList()
 {
 }
 
-QString ExtensionList::forFilter() {
-	QString s;
-	for (int n=0; n < count(); n++) {
-		s = s + "*." + at(n) + " ";
-	}
-	if (!s.isEmpty()) s = " (" + s + ")";
-	return s;
+QString ExtensionList::forFilter()
+{
+    QString s;
+
+    for (int n = 0; n < count(); n++) {
+        s = s + "*." + at(n) + " ";
+    }
+
+    if (!s.isEmpty()) s = " (" + s + ")";
+
+    return s;
 }
 
-QString ExtensionList::forRegExp() {
-	QString s;
-	for (int n=0; n < count(); n++) {
-		if (!s.isEmpty()) s = s + "|";
-		s = s + "^" + at(n) + "$";
-	}
-	return s;
+QString ExtensionList::forRegExp()
+{
+    QString s;
+
+    for (int n = 0; n < count(); n++) {
+        if (!s.isEmpty()) s = s + "|";
+
+        s = s + "^" + at(n) + "$";
+    }
+
+    return s;
 }
 
 Extensions::Extensions()
 {
-	_video << "avi" << "vfw" << "divx" 
+    _video << "avi" << "vfw" << "divx"
            << "mpg" << "mpeg" << "m1v" << "m2v" << "mpv" << "dv" << "3gp"
            << "mov" << "mp4" << "m4v" << "mqv"
            << "dat" << "vcd"
@@ -54,21 +62,23 @@ Extensions::Extensions()
            << "ts" << "rmvb" << "dvr-ms" << "m2t" << "m2ts" << "rec"
            << "f4v" << "hdmov" << "webm" << "vp8" ;
 
-	_audio << "mp3" << "ogg" << "wav" << "wma" <<  "ac3" << "ra" << "ape" << "flac" << "thd";
+    _audio << "mp3" << "ogg" << "wav" << "wma" <<  "ac3" << "ra" << "ape" << "flac" << "thd";
 
-	_subtitles << "srt" << "sub" << "ssa" << "ass" << "idx" << "txt" << "smi"
+    _subtitles << "srt" << "sub" << "ssa" << "ass" << "idx" << "txt" << "smi"
                << "rt" << "utf" << "aqt";
 
-	_playlist << "m3u" << "m3u8" << "pls";
+    _playlist << "m3u" << "m3u8" << "pls";
 
-	_multimedia = _video;
-	for (int n = 0; n < _audio.count(); n++) {
-		if (!_multimedia.contains(_audio[n])) _multimedia << _audio[n];
-	}
+    _multimedia = _video;
 
-	_all_playable << _multimedia << _playlist;
+    for (int n = 0; n < _audio.count(); n++) {
+        if (!_multimedia.contains(_audio[n])) _multimedia << _audio[n];
+    }
+
+    _all_playable << _multimedia << _playlist;
 }
 
-Extensions::~Extensions() {
+Extensions::~Extensions()
+{
 }
 

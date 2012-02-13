@@ -40,117 +40,130 @@
 
 using namespace Global;
 
-BaseGui * basegui_instance = 0;
+BaseGui *basegui_instance = 0;
 
 QFile output_log;
 
-void myMessageOutput( QtMsgType type, const char *msg ) {
-	static QStringList saved_lines;
-	static QString orig_line;
-	static QString line2;
-	static QRegExp rx_log;
+void myMessageOutput(QtMsgType type, const char *msg)
+{
+    static QStringList saved_lines;
+    static QString orig_line;
+    static QString line2;
+    static QRegExp rx_log;
 
-	if (pref) {
-		if (!pref->log_smplayer2) return;
-		rx_log.setPattern(pref->log_filter);
-	} else {
-		rx_log.setPattern(".*");
-	}
+    if (pref) {
+        if (!pref->log_smplayer2) return;
 
-	line2.clear();
+        rx_log.setPattern(pref->log_filter);
+    } else {
+        rx_log.setPattern(".*");
+    }
 
-	orig_line = QString::fromUtf8(msg);
+    line2.clear();
 
-	switch ( type ) {
-		case QtDebugMsg:
-			if (rx_log.indexIn(orig_line) > -1) {
-				#ifndef NO_DEBUG_ON_CONSOLE
-				fprintf( stderr, "Debug: %s\n", orig_line.toLocal8Bit().data() );
-				#endif
-				line2 = orig_line;
-			}
-			break;
-		case QtWarningMsg:
-			#ifndef NO_DEBUG_ON_CONSOLE
-			fprintf( stderr, "Warning: %s\n", orig_line.toLocal8Bit().data() );
-			#endif
-			line2 = "WARNING: " + orig_line;
-			break;
-		case QtFatalMsg:
-			#ifndef NO_DEBUG_ON_CONSOLE
-			fprintf( stderr, "Fatal: %s\n", orig_line.toLocal8Bit().data() );
-			#endif
-			line2 = "FATAL: " + orig_line;
-			abort();                    // deliberately core dump
-		case QtCriticalMsg:
-			#ifndef NO_DEBUG_ON_CONSOLE
-			fprintf( stderr, "Critical: %s\n", orig_line.toLocal8Bit().data() );
-			#endif
-			line2 = "CRITICAL: " + orig_line;
-			break;
-	}
+    orig_line = QString::fromUtf8(msg);
 
-	if (line2.isEmpty()) return;
+    switch (type) {
+    case QtDebugMsg:
 
-	line2 = "["+ QTime::currentTime().toString("hh:mm:ss:zzz") +"] "+ line2;
+        if (rx_log.indexIn(orig_line) > -1) {
+#ifndef NO_DEBUG_ON_CONSOLE
+            fprintf(stderr, "Debug: %s\n", orig_line.toLocal8Bit().data());
+#endif
+            line2 = orig_line;
+        }
 
-	if (basegui_instance) {
-		if (!saved_lines.isEmpty()) {
-			// Send saved lines first
-			for (int n=0; n < saved_lines.count(); n++) {
-				basegui_instance->recordSmplayerLog(saved_lines[n]);
-			}
-			saved_lines.clear();
-		}
-		basegui_instance->recordSmplayerLog(line2);
-	} else {
-		// GUI is not created yet, save lines for later
-		saved_lines.append(line2);
-	}
+        break;
+    case QtWarningMsg:
+#ifndef NO_DEBUG_ON_CONSOLE
+        fprintf(stderr, "Warning: %s\n", orig_line.toLocal8Bit().data());
+#endif
+        line2 = "WARNING: " + orig_line;
+        break;
+    case QtFatalMsg:
+#ifndef NO_DEBUG_ON_CONSOLE
+        fprintf(stderr, "Fatal: %s\n", orig_line.toLocal8Bit().data());
+#endif
+        line2 = "FATAL: " + orig_line;
+        abort();                    // deliberately core dump
+    case QtCriticalMsg:
+#ifndef NO_DEBUG_ON_CONSOLE
+        fprintf(stderr, "Critical: %s\n", orig_line.toLocal8Bit().data());
+#endif
+        line2 = "CRITICAL: " + orig_line;
+        break;
+    }
 
-	if (pref) {
-		if (pref->save_smplayer2_log) {
-			// Save log to file
-			if (!output_log.isOpen()) {
-				// FIXME: the config path may not be initialized if USE_LOCKS is not defined
-				output_log.setFileName( Paths::configPath() + "/smplayer2_log.txt" );
-				output_log.open(QIODevice::WriteOnly);
-			}
-			if (output_log.isOpen()) {
-				QString l = line2 + "\r\n";
-				output_log.write(l.toUtf8().constData());
-				output_log.flush();
-			}
-		}
-	}
+    if (line2.isEmpty()) return;
+
+    line2 = "[" + QTime::currentTime().toString("hh:mm:ss:zzz") + "] " + line2;
+
+    if (basegui_instance) {
+        if (!saved_lines.isEmpty()) {
+            // Send saved lines first
+            for (int n = 0; n < saved_lines.count(); n++) {
+                basegui_instance->recordSmplayerLog(saved_lines[n]);
+            }
+
+            saved_lines.clear();
+        }
+
+        basegui_instance->recordSmplayerLog(line2);
+    } else {
+        // GUI is not created yet, save lines for later
+        saved_lines.append(line2);
+    }
+
+    if (pref) {
+        if (pref->save_smplayer2_log) {
+            // Save log to file
+            if (!output_log.isOpen()) {
+                // FIXME: the config path may not be initialized if USE_LOCKS is not defined
+                output_log.setFileName(Paths::configPath() + "/smplayer2_log.txt");
+                output_log.open(QIODevice::WriteOnly);
+            }
+
+            if (output_log.isOpen()) {
+                QString l = line2 + "\r\n";
+                output_log.write(l.toUtf8().constData());
+                output_log.flush();
+            }
+        }
+    }
 }
 
 #if USE_LOCKS
 #if USE_QXT_LOCKS
-bool create_lock(QFile * f, QxtFileLock * lock) {
-	bool success = false;
-	if (f->open(QIODevice::ReadWrite)) {
-	 	if (lock->lock()) {
-			f->write("smplayer2 lock file");
-			success = true;
-		}
-	}
-	if (!success) f->close();
-	return success;
+bool create_lock(QFile *f, QxtFileLock *lock)
+{
+    bool success = false;
+
+    if (f->open(QIODevice::ReadWrite)) {
+        if (lock->lock()) {
+            f->write("smplayer2 lock file");
+            success = true;
+        }
+    }
+
+    if (!success) f->close();
+
+    return success;
 }
 
-void clean_lock(QFile * f, QxtFileLock * lock) {
-	qDebug("main: clean_lock: %s", f->fileName().toUtf8().data());
-	lock->unlock();
-	f->close();
-	f->remove();
+void clean_lock(QFile *f, QxtFileLock *lock)
+{
+    qDebug("main: clean_lock: %s", f->fileName().toUtf8().data());
+    lock->unlock();
+    f->close();
+    f->remove();
 }
 #else
-void remove_lock(QString lock_file) {
-	if (QFile::exists(lock_file)) {
-		qDebug("main: remove_lock: %s", lock_file.toUtf8().data());
-		QFile::remove(lock_file);
-	}
+void remove_lock(QString lock_file)
+{
+    if (QFile::exists(lock_file)) {
+        qDebug("main: remove_lock: %s", lock_file.toUtf8().data());
+        QFile::remove(lock_file);
+    }
 }
 #endif
 #endif
@@ -158,140 +171,158 @@ void remove_lock(QString lock_file) {
 class MyApplication : public QApplication
 {
 public:
-	MyApplication ( int & argc, char ** argv ) : QApplication(argc, argv) {};
-	virtual void commitData ( QSessionManager & /*manager*/ ) {
-		// Nothing to do, let the application to close
-	}
+    MyApplication(int &argc, char **argv) : QApplication(argc, argv) {};
+    virtual void commitData(QSessionManager & /*manager*/) {
+        // Nothing to do, let the application to close
+    }
 };
 
-int main( int argc, char ** argv ) 
+int main(int argc, char **argv)
 {
-	MyApplication a( argc, argv );
-	a.setQuitOnLastWindowClosed(false);
-	//a.connect( &a, SIGNAL( lastWindowClosed() ), &a, SLOT( quit() ) );
+    MyApplication a(argc, argv);
+    a.setQuitOnLastWindowClosed(false);
+    //a.connect( &a, SIGNAL( lastWindowClosed() ), &a, SLOT( quit() ) );
 
 #if QT_VERSION >= 0x040400
-	// Enable icons in menus
-	QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
+    // Enable icons in menus
+    QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
 #endif
 
-	// Sets the config path
-	QString config_path;
+    // Sets the config path
+    QString config_path;
 
 #ifdef Q_OS_WIN
-	config_path = a.applicationDirPath();
+    config_path = a.applicationDirPath();
 #else
-	// If a smplayer2.ini exists in the app path, will use that path
-	// for the config file by default
-	if (QFile::exists( a.applicationDirPath() + "/smplayer2.ini" ) ) {
-		config_path = a.applicationDirPath();
-		qDebug("main: using existing %s", QString(config_path + "/smplayer2.ini").toUtf8().data());
-	}
+
+    // If a smplayer2.ini exists in the app path, will use that path
+    // for the config file by default
+    if (QFile::exists(a.applicationDirPath() + "/smplayer2.ini")) {
+        config_path = a.applicationDirPath();
+        qDebug("main: using existing %s", QString(config_path + "/smplayer2.ini").toUtf8().data());
+    }
+
 #endif
 
-	QStringList args = a.arguments();
-	int pos = args.indexOf("-config-path");
-	if ( pos != -1) {
-		if (pos+1 < args.count()) {
-			pos++;
-			config_path = args[pos];
-			// Delete from list
-			args.removeAt(pos);
-			args.removeAt(pos-1);
-		} else {
-			printf("Error: expected parameter for -config-path\r\n");
-			return SMPlayer2::ErrorArgument;
-		}
-	}
+    QStringList args = a.arguments();
+    int pos = args.indexOf("-config-path");
 
-    qInstallMsgHandler( myMessageOutput );
+    if (pos != -1) {
+        if (pos + 1 < args.count()) {
+            pos++;
+            config_path = args[pos];
+            // Delete from list
+            args.removeAt(pos);
+            args.removeAt(pos - 1);
+        } else {
+            printf("Error: expected parameter for -config-path\r\n");
+            return SMPlayer2::ErrorArgument;
+        }
+    }
+
+    qInstallMsgHandler(myMessageOutput);
 
 #if USE_LOCKS
-	//setIniPath will be set later in global_init, but we need it here
-	if (!config_path.isEmpty()) Paths::setConfigPath(config_path);
 
-	QString lock_file = Paths::iniPath() + "/smplayer2_init.lock";
-	qDebug("main: lock_file: %s", lock_file.toUtf8().data());
+    //setIniPath will be set later in global_init, but we need it here
+    if (!config_path.isEmpty()) Paths::setConfigPath(config_path);
+
+    QString lock_file = Paths::iniPath() + "/smplayer2_init.lock";
+    qDebug("main: lock_file: %s", lock_file.toUtf8().data());
 
 #if USE_QXT_LOCKS
-	QFile f(lock_file);
-	QxtFileLock write_lock(&f, 0x10, 30, QxtFileLock::WriteLock);
+    QFile f(lock_file);
+    QxtFileLock write_lock(&f, 0x10, 30, QxtFileLock::WriteLock);
 
-	bool lock_ok = create_lock(&f, &write_lock);
+    bool lock_ok = create_lock(&f, &write_lock);
 
-	if (!lock_ok) {
-		//lock failed
-		qDebug("main: lock failed");
+    if (!lock_ok) {
+        //lock failed
+        qDebug("main: lock failed");
 
-		// Wait 10 secs max.
-		int n = 100;
-		while ( n > 0) {
-			Helper::msleep(100); // wait 100 ms
-			//if (!QFile::exists(lock_file)) break;
-			if (create_lock(&f, &write_lock)) break;
-			n--;
-			if ((n % 10) == 0) qDebug("main: waiting %d...", n);
-		}
-		// Continue startup
-	}
+        // Wait 10 secs max.
+        int n = 100;
+
+        while (n > 0) {
+            Helper::msleep(100); // wait 100 ms
+            //if (!QFile::exists(lock_file)) break;
+            if (create_lock(&f, &write_lock)) break;
+
+            n--;
+
+            if ((n % 10) == 0) qDebug("main: waiting %d...", n);
+        }
+
+        // Continue startup
+    }
+
 #else
-	if (QFile::exists(lock_file)) {
-		qDebug("main: %s exists, waiting...", lock_file.toUtf8().data());
-		// Wait 10 secs max.
-		int n = 100;
-		while ( n > 0) {
-			Helper::msleep(100); // wait 100 ms
-			if (!QFile::exists(lock_file)) break;
-			n--;
-			if ((n % 10) == 0) qDebug("main: waiting %d...", n);
-		}
-		remove_lock(lock_file);
-	} else {
-		// Create lock file
-		QFile f(lock_file);
-		if (f.open(QIODevice::WriteOnly)) {
-			f.write("smplayer2 lock file");
-			f.close();
-		} else {
-			qWarning("main: can't open %s for writing", lock_file.toUtf8().data());
-		}
-		
-	}
+
+    if (QFile::exists(lock_file)) {
+        qDebug("main: %s exists, waiting...", lock_file.toUtf8().data());
+        // Wait 10 secs max.
+        int n = 100;
+
+        while (n > 0) {
+            Helper::msleep(100); // wait 100 ms
+
+            if (!QFile::exists(lock_file)) break;
+
+            n--;
+
+            if ((n % 10) == 0) qDebug("main: waiting %d...", n);
+        }
+
+        remove_lock(lock_file);
+    } else {
+        // Create lock file
+        QFile f(lock_file);
+
+        if (f.open(QIODevice::WriteOnly)) {
+            f.write("smplayer2 lock file");
+            f.close();
+        } else {
+            qWarning("main: can't open %s for writing", lock_file.toUtf8().data());
+        }
+
+    }
+
 #endif // USE_QXT_LOCKS
 #endif // USE_LOCKS
 
-	SMPlayer2 * smplayer2 = new SMPlayer2(config_path);
-	SMPlayer2::ExitCode c = smplayer2->processArgs( args );
-	if (c != SMPlayer2::NoExit) {
+    SMPlayer2 *smplayer2 = new SMPlayer2(config_path);
+    SMPlayer2::ExitCode c = smplayer2->processArgs(args);
+
+    if (c != SMPlayer2::NoExit) {
 #if USE_LOCKS
 #if USE_QXT_LOCKS
-		clean_lock(&f, &write_lock);
+        clean_lock(&f, &write_lock);
 #else
-		remove_lock(lock_file);
+        remove_lock(lock_file);
 #endif
 #endif
-		return c;
-	}
+        return c;
+    }
 
-	basegui_instance = smplayer2->gui();
-	a.connect(smplayer2->gui(), SIGNAL(quitSolicited()), &a, SLOT(quit()));
-	smplayer2->start();
+    basegui_instance = smplayer2->gui();
+    a.connect(smplayer2->gui(), SIGNAL(quitSolicited()), &a, SLOT(quit()));
+    smplayer2->start();
 
 #if USE_LOCKS
 #if USE_QXT_LOCKS
-	clean_lock(&f, &write_lock);
+    clean_lock(&f, &write_lock);
 #else
-	remove_lock(lock_file);
+    remove_lock(lock_file);
 #endif
 #endif
 
-	int r = a.exec();
+    int r = a.exec();
 
-	basegui_instance = 0;
-	delete smplayer2;
+    basegui_instance = 0;
+    delete smplayer2;
 
-	if (output_log.isOpen()) output_log.close();
+    if (output_log.isOpen()) output_log.close();
 
-	return r;
+    return r;
 }
 

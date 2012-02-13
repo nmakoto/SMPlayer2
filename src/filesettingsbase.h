@@ -26,17 +26,19 @@ class MediaSettings;
 class FileSettingsBase
 {
 public:
-	FileSettingsBase(QString directory) { output_directory = directory; };
-	virtual ~FileSettingsBase() {};
+    FileSettingsBase(QString directory) {
+        output_directory = directory;
+    };
+    virtual ~FileSettingsBase() {};
 
-	virtual bool existSettingsFor(QString filename) = 0;
+    virtual bool existSettingsFor(QString filename) = 0;
 
-	virtual void loadSettingsFor(QString filename, MediaSettings & mset) = 0;
+    virtual void loadSettingsFor(QString filename, MediaSettings &mset) = 0;
 
-	virtual void saveSettingsFor(QString filename, MediaSettings & mset) = 0;
+    virtual void saveSettingsFor(QString filename, MediaSettings &mset) = 0;
 
 protected:
-	QString output_directory;
+    QString output_directory;
 };
 
 #endif

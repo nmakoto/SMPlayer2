@@ -28,41 +28,42 @@
 #include "config.h"
 #endif
 
-class Helper {
+class Helper
+{
 
 public:
 
-	// Format a time (hh:mm:ss)
-	static QString formatTime(int secs);
+    // Format a time (hh:mm:ss)
+    static QString formatTime(int secs);
 
-	static QString timeForJumps(int secs);
+    static QString timeForJumps(int secs);
 
-	// Give a name for config (group name) based on dvd id
-	/* static QString dvdForPref(const QString & dvd_id, int title); */
+    // Give a name for config (group name) based on dvd id
+    /* static QString dvdForPref(const QString & dvd_id, int title); */
 
 #ifdef Q_OS_WIN
-	static QString shortPathName(QString long_path);
+    static QString shortPathName(QString long_path);
 
-	//! Enable or disables the screensaver
-	/* static void setScreensaverEnabled(bool b); */
+    //! Enable or disables the screensaver
+    /* static void setScreensaverEnabled(bool b); */
 #endif
 
-	static void msleep(int ms);
+    static void msleep(int ms);
 
-	//! Change filenames like "C:/Program Files/" to "C:\Program Files\"
-	static QString changeSlashes(QString filename);
+    //! Change filenames like "C:/Program Files/" to "C:\Program Files\"
+    static QString changeSlashes(QString filename);
 
-	static bool directoryContainsDVD(QString directory);
+    static bool directoryContainsDVD(QString directory);
 
-	//! Returns an int with the version number of Qt at run-time.
+    //! Returns an int with the version number of Qt at run-time.
     //! If version is 4.3.2 it returns 40302.
-	static int qtVersion();
+    static int qtVersion();
 
-	//! Returns a string to be passed to mplayer with the audio equalizer
-	//! values.
-	static QString equalizerListToString(AudioEqualizerList values);
+    //! Returns a string to be passed to mplayer with the audio equalizer
+    //! values.
+    static QString equalizerListToString(AudioEqualizerList values);
 
-	static QStringList searchForConsecutiveFiles(const QString & initial_file);
+    static QStringList searchForConsecutiveFiles(const QString &initial_file);
 };
 
 #endif

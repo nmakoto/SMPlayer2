@@ -18,44 +18,49 @@
 
 #include "mycombobox.h"
 
-MyComboBox::MyComboBox( QWidget * parent ) : QComboBox(parent)
+MyComboBox::MyComboBox(QWidget *parent) : QComboBox(parent)
 {
 }
 
-MyComboBox::~MyComboBox() 
+MyComboBox::~MyComboBox()
 {
 }
 
-void MyComboBox::setCurrentText( const QString & text ) {
-	int i = findText(text);
-	if (i != -1)
-		setCurrentIndex(i);
-	else if (isEditable())
-		setEditText(text);
-	else
-		setItemText(currentIndex(), text);
+void MyComboBox::setCurrentText(const QString &text)
+{
+    int i = findText(text);
+
+    if (i != -1)
+        setCurrentIndex(i);
+    else if (isEditable())
+        setEditText(text);
+    else
+        setItemText(currentIndex(), text);
 }
 
-void MyComboBox::insertStringList( const QStringList & list, int index ) {
-	insertItems((index < 0 ? count() : index), list);
+void MyComboBox::insertStringList(const QStringList &list, int index)
+{
+    insertItems((index < 0 ? count() : index), list);
 }
 
 
 
-MyFontComboBox::MyFontComboBox( QWidget * parent ) : QFontComboBox(parent)
+MyFontComboBox::MyFontComboBox(QWidget *parent) : QFontComboBox(parent)
 {
 }
 
-MyFontComboBox::~MyFontComboBox() 
+MyFontComboBox::~MyFontComboBox()
 {
 }
 
-void MyFontComboBox::setCurrentText( const QString & text ) {
-	int i = findText(text);
-	if (i != -1)
-		setCurrentIndex(i);
-	else if (isEditable())
-		setEditText(text);
-	else
-		setItemText(currentIndex(), text);
+void MyFontComboBox::setCurrentText(const QString &text)
+{
+    int i = findText(text);
+
+    if (i != -1)
+        setCurrentIndex(i);
+    else if (isEditable())
+        setEditText(text);
+    else
+        setItemText(currentIndex(), text);
 }

@@ -24,54 +24,75 @@
 #include <QFileInfo>
 #include <QList>
 
-class SubData 
+class SubData
 {
 
 public:
-	enum Type { None = -1, Vob = 0, Sub = 1, File = 2 };
+    enum Type { None = -1, Vob = 0, Sub = 1, File = 2 };
 
-	SubData() { _ID=-1; _lang=""; _name=""; _filename=""; _type = None; };
-	~SubData() {};
+    SubData() {
+        _ID = -1;
+        _lang = "";
+        _name = "";
+        _filename = "";
+        _type = None;
+    };
+    ~SubData() {};
 
-	void setType( Type t ) { _type = t; };
-	void setID(int id) { _ID = id; };
-	void setLang(QString lang) { _lang = lang; };
-	void setName(QString name) { _name = name; };
-	void setFilename(QString f) { _filename = f; };
+    void setType(Type t) {
+        _type = t;
+    };
+    void setID(int id) {
+        _ID = id;
+    };
+    void setLang(QString lang) {
+        _lang = lang;
+    };
+    void setName(QString name) {
+        _name = name;
+    };
+    void setFilename(QString f) {
+        _filename = f;
+    };
 
-	Type type() { return _type; };
-	int ID() { return _ID; };
-	QString lang() { return _lang; };
-	QString name() { return _name; };
-	QString filename() { return _filename; };
+    Type type() {
+        return _type;
+    };
+    int ID() {
+        return _ID;
+    };
+    QString lang() {
+        return _lang;
+    };
+    QString name() {
+        return _name;
+    };
+    QString filename() {
+        return _filename;
+    };
 
-	QString displayName() {
-		QString dname="";
+    QString displayName() {
+        QString dname = "";
 
-	    if (!_name.isEmpty()) {
-			dname = _name;
-		}
-		else
-		if (!_lang.isEmpty()) {
-			dname = _lang;
-		}
-		else
-		if (!_filename.isEmpty()) {
-			QFileInfo f(_filename);
-			dname = f.fileName();
-		}
-		else
-		dname = QString::number(_ID);
+        if (!_name.isEmpty()) {
+            dname = _name;
+        } else if (!_lang.isEmpty()) {
+            dname = _lang;
+        } else if (!_filename.isEmpty()) {
+            QFileInfo f(_filename);
+            dname = f.fileName();
+        } else
+            dname = QString::number(_ID);
 
-		return dname;
-	};
+        return dname;
+    };
 
 protected:
-	Type _type;
-	int _ID;
-	QString _lang;
-	QString _name;
-	QString _filename;
+    Type _type;
+    int _ID;
+    QString _lang;
+    QString _name;
+    QString _filename;
 };
 
 typedef QList <SubData> SubList;
@@ -80,38 +101,38 @@ typedef QList <SubData> SubList;
 class SubTracks
 {
 public:
-	enum ParseResult { SubtitleUnchanged = 0, SubtitleAdded = 1, SubtitleChanged = 2 };
+    enum ParseResult { SubtitleUnchanged = 0, SubtitleAdded = 1, SubtitleChanged = 2 };
 
-	SubTracks();
-	~SubTracks();
+    SubTracks();
+    ~SubTracks();
 
-	void clear();
-	int find( SubData::Type t, int ID );
+    void clear();
+    int find(SubData::Type t, int ID);
 
-	void add( SubData::Type t, int ID );
-	bool changeLang( SubData::Type t, int ID, QString lang );
-	bool changeName( SubData::Type t, int ID, QString name );
-	bool changeFilename( SubData::Type t, int ID, QString filename );
+    void add(SubData::Type t, int ID);
+    bool changeLang(SubData::Type t, int ID, QString lang);
+    bool changeName(SubData::Type t, int ID, QString name);
+    bool changeFilename(SubData::Type t, int ID, QString filename);
 
-	int numItems();
-	bool existsItemAt(int n);
+    int numItems();
+    bool existsItemAt(int n);
 
-	SubData itemAt(int n);
-	SubData findItem( SubData::Type t, int ID );
+    SubData itemAt(int n);
+    SubData findItem(SubData::Type t, int ID);
 
-	int findLang(QString expr);
-	int selectOne(QString preferred_lang, int default_sub=0, bool prefer_external=false);
+    int findLang(QString expr);
+    int selectOne(QString preferred_lang, int default_sub = 0, bool prefer_external = false);
 
-	//! Parses a line from mplayer output with subtitle info
-	ParseResult parse(QString text);
+    //! Parses a line from mplayer output with subtitle info
+    ParseResult parse(QString text);
 
-	void list();
-	void listNames();
-	/* void test(); */
+    void list();
+    void listNames();
+    /* void test(); */
 
 protected:
-	SubList subs;
-	int index;
+    SubList subs;
+    int index;
 };
 
 #endif

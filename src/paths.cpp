@@ -30,92 +30,110 @@
 QString Paths::app_path;
 QString Paths::config_path;
 
-void Paths::setAppPath(QString path) {
-	app_path = path;
+void Paths::setAppPath(QString path)
+{
+    app_path = path;
 }
 
-QString Paths::appPath() {
-	return app_path;
+QString Paths::appPath()
+{
+    return app_path;
 }
 
-QString Paths::dataPath() {
+QString Paths::dataPath()
+{
 #ifdef DATA_PATH
-	QString path = QString(DATA_PATH);
-	if (!path.isEmpty())
-		return path;
-	else
-		return appPath();
+    QString path = QString(DATA_PATH);
+
+    if (!path.isEmpty())
+        return path;
+    else
+        return appPath();
+
 #else
-	return appPath();
+    return appPath();
 #endif
 }
 
-QString Paths::translationPath() {
-	return dataPath() + "/translations";
+QString Paths::translationPath()
+{
+    return dataPath() + "/translations";
 }
 
-QString Paths::docPath() {
-	return dataPath() + "/docs";
+QString Paths::docPath()
+{
+    return dataPath() + "/docs";
 }
 
-QString Paths::themesPath() {
-	return dataPath() + "/themes";
+QString Paths::themesPath()
+{
+    return dataPath() + "/themes";
 }
 
-QString Paths::shortcutsPath() {
-	return dataPath() + "/shortcuts";
+QString Paths::shortcutsPath()
+{
+    return dataPath() + "/shortcuts";
 }
 
-QString Paths::qtTranslationPath() {
-	return QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+QString Paths::qtTranslationPath()
+{
+    return QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 }
 
-QString Paths::doc(QString file, QString locale) {
-	if (locale.isEmpty()) {
-		locale = QLocale::system().name();
-	}
+QString Paths::doc(QString file, QString locale)
+{
+    if (locale.isEmpty()) {
+        locale = QLocale::system().name();
+    }
 
-	QString f = docPath() + "/" + locale + "/" + file;
-	qDebug("Helper:doc: checking '%s'", f.toUtf8().data());
-	if (QFile::exists(f)) return f;
+    QString f = docPath() + "/" + locale + "/" + file;
+    qDebug("Helper:doc: checking '%s'", f.toUtf8().data());
 
-	if (locale.indexOf(QRegExp("_[A-Z]+")) != -1) {
-		locale.replace(QRegExp("_[A-Z]+"), "");
-		f = docPath() + "/" + locale + "/" + file;
-		qDebug("Helper:doc: checking '%s'", f.toUtf8().data());
-		if (QFile::exists(f)) return f;
-	}
+    if (QFile::exists(f)) return f;
 
-	f = docPath() + "/en/" + file;
-	return f;
+    if (locale.indexOf(QRegExp("_[A-Z]+")) != -1) {
+        locale.replace(QRegExp("_[A-Z]+"), "");
+        f = docPath() + "/" + locale + "/" + file;
+        qDebug("Helper:doc: checking '%s'", f.toUtf8().data());
+
+        if (QFile::exists(f)) return f;
+    }
+
+    f = docPath() + "/en/" + file;
+    return f;
 }
 
-void Paths::setConfigPath(QString path) {
-	config_path = path;
+void Paths::setConfigPath(QString path)
+{
+    config_path = path;
 }
 
-QString Paths::configPath() {
-	if (!config_path.isEmpty()) {
-		return config_path;
-	} else {
+QString Paths::configPath()
+{
+    if (!config_path.isEmpty()) {
+        return config_path;
+    } else {
 #ifdef Q_OS_WIN
-		return appPath();
+        return appPath();
 #else
-		const char * XDG_CONFIG_HOME = getenv("XDG_CONFIG_HOME");
-		if (XDG_CONFIG_HOME!=NULL) {
-			qDebug("Paths::configPath: XDG_CONFIG_HOME: %s", XDG_CONFIG_HOME);
-			return QString(XDG_CONFIG_HOME) + "/smplayer2";
-		} 
-		else
-		return QDir::homePath() + "/.config/smplayer2";
+        const char *XDG_CONFIG_HOME = getenv("XDG_CONFIG_HOME");
+
+        if (XDG_CONFIG_HOME != NULL) {
+            qDebug("Paths::configPath: XDG_CONFIG_HOME: %s", XDG_CONFIG_HOME);
+            return QString(XDG_CONFIG_HOME) + "/smplayer2";
+        } else
+            return QDir::homePath() + "/.config/smplayer2";
+
 #endif
-	}
+    }
 }
 
-QString Paths::iniPath() {
-	return configPath();
+QString Paths::iniPath()
+{
+    return configPath();
 }
 
-QString Paths::subtitleStyleFile() {
-	return configPath() + "/styles.ass";
+QString Paths::subtitleStyleFile()
+{
+    return configPath() + "/styles.ass";
 }

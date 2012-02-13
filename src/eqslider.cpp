@@ -23,23 +23,24 @@
 #include "verticaltext.h"
 
 
-EqSlider::EqSlider( QWidget* parent, Qt::WindowFlags f) 
-	: QWidget(parent, f)
+EqSlider::EqSlider(QWidget *parent, Qt::WindowFlags f)
+    : QWidget(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 
-	_icon->setText( QString::null );
-	_slider->setFocusPolicy( Qt::StrongFocus );
-	_slider->setTickPosition( QSlider::TicksRight );
-	_slider->setTickInterval( 10 );
-	_slider->setSingleStep( 1 );
-	_slider->setPageStep( 10 );
+    _icon->setText(QString::null);
+    _slider->setFocusPolicy(Qt::StrongFocus);
+    _slider->setTickPosition(QSlider::TicksRight);
+    _slider->setTickInterval(10);
+    _slider->setSingleStep(1);
+    _slider->setPageStep(10);
 
-	connect( _slider, SIGNAL(valueChanged(int)),
-             this, SLOT(sliderValueChanged(int)) );
+    connect(_slider, SIGNAL(valueChanged(int)),
+            this, SLOT(sliderValueChanged(int)));
 }
 
-EqSlider::~EqSlider() {
+EqSlider::~EqSlider()
+{
 }
 
 /*
@@ -47,31 +48,38 @@ void EqSlider::languageChange() {
 }
 */
 
-void EqSlider::setIcon( QPixmap i) {
-	_icon->setPixmap(i);
+void EqSlider::setIcon(QPixmap i)
+{
+    _icon->setPixmap(i);
 }
 
-const QPixmap * EqSlider::icon() const {
-	return _icon->pixmap();
+const QPixmap *EqSlider::icon() const
+{
+    return _icon->pixmap();
 }
 
-void EqSlider::setLabel( QString s) {
-	_label->setText(s);
+void EqSlider::setLabel(QString s)
+{
+    _label->setText(s);
 }
 
-QString EqSlider::label() const {
-	return _label->text();
+QString EqSlider::label() const
+{
+    return _label->text();
 }
 
-void EqSlider::setValue(int value) {
-	_slider->setValue(value);
-	value_label->setNum(value);
+void EqSlider::setValue(int value)
+{
+    _slider->setValue(value);
+    value_label->setNum(value);
 }
 
-int EqSlider::value() const {
-	return _slider->value();
+int EqSlider::value() const
+{
+    return _slider->value();
 }
 
-void EqSlider::sliderValueChanged(int v) {
-	emit valueChanged( v );
+void EqSlider::sliderValueChanged(int v)
+{
+    emit valueChanged(v);
 }

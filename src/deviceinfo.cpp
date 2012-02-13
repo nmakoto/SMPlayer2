@@ -22,107 +22,121 @@
 
 #ifdef Q_OS_WIN
 
-DeviceList DeviceInfo::retrieveDevices(DeviceType type) {
-	qDebug("DeviceInfo::retrieveDevices: %d", type);
-	
-	DeviceList l;
-	QRegExp rx_device("^(\\d+): (.*)");
-	
-	if (QFile::exists("dxlist.exe")) {
-		QProcess p;
-		p.setProcessChannelMode( QProcess::MergedChannels );
-		QStringList arg;
-		if (type == Sound) arg << "-s"; else arg << "-d";
-		p.start("dxlist", arg);
+DeviceList DeviceInfo::retrieveDevices(DeviceType type)
+{
+    qDebug("DeviceInfo::retrieveDevices: %d", type);
 
-		if (p.waitForFinished()) {
-			QByteArray line;
-			while (p.canReadLine()) {
-				line = p.readLine().trimmed();
-				qDebug("DeviceInfo::retrieveDevices: '%s'", line.constData());
-				if ( rx_device.indexIn(line) > -1 ) {
-					int id = rx_device.cap(1).toInt();
-					QString desc = rx_device.cap(2);
-					qDebug("DeviceInfo::retrieveDevices: found device: '%d' '%s'", id, desc.toUtf8().constData());
-					l.append( DeviceData(id, desc) );
-				}
-			}
-		}
-	}
-	
-	return l;
+    DeviceList l;
+    QRegExp rx_device("^(\\d+): (.*)");
+
+    if (QFile::exists("dxlist.exe")) {
+        QProcess p;
+        p.setProcessChannelMode(QProcess::MergedChannels);
+        QStringList arg;
+
+        if (type == Sound) arg << "-s";
+        else arg << "-d";
+
+        p.start("dxlist", arg);
+
+        if (p.waitForFinished()) {
+            QByteArray line;
+
+            while (p.canReadLine()) {
+                line = p.readLine().trimmed();
+                qDebug("DeviceInfo::retrieveDevices: '%s'", line.constData());
+
+                if (rx_device.indexIn(line) > -1) {
+                    int id = rx_device.cap(1).toInt();
+                    QString desc = rx_device.cap(2);
+                    qDebug("DeviceInfo::retrieveDevices: found device: '%d' '%s'", id, desc.toUtf8().constData());
+                    l.append(DeviceData(id, desc));
+                }
+            }
+        }
+    }
+
+    return l;
 }
 
-DeviceList DeviceInfo::dsoundDevices() { 
-	return retrieveDevices(Sound);
+DeviceList DeviceInfo::dsoundDevices()
+{
+    return retrieveDevices(Sound);
 }
 
-DeviceList DeviceInfo::displayDevices() {
-	return retrieveDevices(Display);
+DeviceList DeviceInfo::displayDevices()
+{
+    return retrieveDevices(Display);
 }
 
 #else
 
-DeviceList DeviceInfo::alsaDevices() {
-	qDebug("DeviceInfo::alsaDevices");
+DeviceList DeviceInfo::alsaDevices()
+{
+    qDebug("DeviceInfo::alsaDevices");
 
-	DeviceList l;
-	QRegExp rx_device("^card\\s([0-9]+).*\\[(.*)\\],\\sdevice\\s([0-9]+):");
+    DeviceList l;
+    QRegExp rx_device("^card\\s([0-9]+).*\\[(.*)\\],\\sdevice\\s([0-9]+):");
 
-	QProcess p;
-	p.setProcessChannelMode( QProcess::MergedChannels );
-	p.setEnvironment( QStringList() << "LC_ALL=C" );
-	p.start("aplay", QStringList() << "-l");
+    QProcess p;
+    p.setProcessChannelMode(QProcess::MergedChannels);
+    p.setEnvironment(QStringList() << "LC_ALL=C");
+    p.start("aplay", QStringList() << "-l");
 
-	if (p.waitForFinished()) {
-		QByteArray line;
-		while (p.canReadLine()) {
-			line = p.readLine();
-			qDebug("DeviceInfo::alsaDevices: '%s'", line.constData());
-			if ( rx_device.indexIn(line) > -1 ) {
-				QString id = rx_device.cap(1);
-				id.append(".");
-				id.append(rx_device.cap(3));
-				QString desc = rx_device.cap(2);
-				qDebug("DeviceInfo::alsaDevices: found device: '%s' '%s'", id.toUtf8().constData(), desc.toUtf8().constData());
-				l.append( DeviceData(id, desc) );
-			}
-		}
-	} else {
-		qDebug("DeviceInfo::alsaDevices: could not start aplay, error %d", p.error());
-	}
+    if (p.waitForFinished()) {
+        QByteArray line;
 
-	return l;
+        while (p.canReadLine()) {
+            line = p.readLine();
+            qDebug("DeviceInfo::alsaDevices: '%s'", line.constData());
+
+            if (rx_device.indexIn(line) > -1) {
+                QString id = rx_device.cap(1);
+                id.append(".");
+                id.append(rx_device.cap(3));
+                QString desc = rx_device.cap(2);
+                qDebug("DeviceInfo::alsaDevices: found device: '%s' '%s'", id.toUtf8().constData(), desc.toUtf8().constData());
+                l.append(DeviceData(id, desc));
+            }
+        }
+    } else {
+        qDebug("DeviceInfo::alsaDevices: could not start aplay, error %d", p.error());
+    }
+
+    return l;
 }
 
-DeviceList DeviceInfo::xvAdaptors() {
-	qDebug("DeviceInfo::xvAdaptors");
+DeviceList DeviceInfo::xvAdaptors()
+{
+    qDebug("DeviceInfo::xvAdaptors");
 
-	DeviceList l;
-	QRegExp rx_device("^.*Adaptor #([0-9]+): \"(.*)\"");
+    DeviceList l;
+    QRegExp rx_device("^.*Adaptor #([0-9]+): \"(.*)\"");
 
-	QProcess p;
-	p.setProcessChannelMode( QProcess::MergedChannels );
-	p.setEnvironment( QProcess::systemEnvironment() << "LC_ALL=C" );
-	p.start("xvinfo");
+    QProcess p;
+    p.setProcessChannelMode(QProcess::MergedChannels);
+    p.setEnvironment(QProcess::systemEnvironment() << "LC_ALL=C");
+    p.start("xvinfo");
 
-	if (p.waitForFinished()) {
-		QByteArray line;
-		while (p.canReadLine()) {
-			line = p.readLine();
-			qDebug("DeviceInfo::xvAdaptors: '%s'", line.constData());
-			if ( rx_device.indexIn(line) > -1 ) {
-				QString id = rx_device.cap(1);
-				QString desc = rx_device.cap(2);
-				qDebug("DeviceInfo::xvAdaptors: found adaptor: '%s' '%s'", id.toUtf8().constData(), desc.toUtf8().constData());
-				l.append( DeviceData(id, desc) );
-			}
-		}
-	} else {
-		qDebug("DeviceInfo::xvAdaptors: could not start xvinfo, error %d", p.error());
-	}
+    if (p.waitForFinished()) {
+        QByteArray line;
 
-	return l;
+        while (p.canReadLine()) {
+            line = p.readLine();
+            qDebug("DeviceInfo::xvAdaptors: '%s'", line.constData());
+
+            if (rx_device.indexIn(line) > -1) {
+                QString id = rx_device.cap(1);
+                QString desc = rx_device.cap(2);
+                qDebug("DeviceInfo::xvAdaptors: found adaptor: '%s' '%s'", id.toUtf8().constData(), desc.toUtf8().constData());
+                l.append(DeviceData(id, desc));
+            }
+        }
+    } else {
+        qDebug("DeviceInfo::xvAdaptors: could not start xvinfo, error %d", p.error());
+    }
+
+    return l;
 }
 
 #endif

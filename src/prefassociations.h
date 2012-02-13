@@ -31,42 +31,42 @@ class Preferences;
 
 class PrefAssociations : public PrefWidget, public Ui::PrefAssociations
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	PrefAssociations( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~PrefAssociations();
+    PrefAssociations(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PrefAssociations();
 
-	virtual QString sectionName();
-	virtual QPixmap sectionIcon();
+    virtual QString sectionName();
+    virtual QPixmap sectionIcon();
 
-	// Pass data to the dialog
-	void setData(Preferences * pref);
+    // Pass data to the dialog
+    void setData(Preferences *pref);
 
-	// Apply changes
-	void getData(Preferences * pref);
+    // Apply changes
+    void getData(Preferences *pref);
 
-	void addItem(QString label); 
+    void addItem(QString label);
 
-	int ProcessAssociations(QStringList& current, QStringList& old);
-	void refreshList(); 
-
-protected:
-	QStringList m_regExtensions; 
-protected:
-	virtual void createHelp();
+    int ProcessAssociations(QStringList &current, QStringList &old);
+    void refreshList();
 
 protected:
-	virtual void retranslateStrings();
+    QStringList m_regExtensions;
+protected:
+    virtual void createHelp();
+
+protected:
+    virtual void retranslateStrings();
 
 public slots:
-	void selectAllClicked(bool); 
-	void selectNoneClicked(bool); 
-	void listItemClicked(QListWidgetItem* item); 
-	void listItemPressed(QListWidgetItem* item); 
-	
+    void selectAllClicked(bool);
+    void selectNoneClicked(bool);
+    void listItemClicked(QListWidgetItem *item);
+    void listItemPressed(QListWidgetItem *item);
+
 protected:
-	bool something_changed;
+    bool something_changed;
 };
 
 #endif

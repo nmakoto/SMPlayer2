@@ -25,27 +25,29 @@ class Recents
 {
 
 public:
-	Recents();
-	virtual ~Recents();
+    Recents();
+    virtual ~Recents();
 
-	virtual void clear();
+    virtual void clear();
 
-	virtual void addItem(QString s);
-	virtual QString item(int n);
+    virtual void addItem(QString s);
+    virtual QString item(int n);
 
-	virtual int count();
+    virtual int count();
 
-	virtual void setMaxItems(int n_items);
-	virtual int maxItems() { return max_items; };
+    virtual void setMaxItems(int n_items);
+    virtual int maxItems() {
+        return max_items;
+    };
 
-	virtual void fromStringList(QStringList list);
-	virtual QStringList toStringList();
+    virtual void fromStringList(QStringList list);
+    virtual QStringList toStringList();
 
-	virtual void list();
+    virtual void list();
 
 protected:
-	int max_items;
-	QStringList l;
+    int max_items;
+    QStringList l;
 };
 
 #endif

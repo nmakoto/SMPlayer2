@@ -20,115 +20,133 @@
 #include "preferences.h"
 #include "images.h"
 
-PrefPlaylist::PrefPlaylist(QWidget * parent, Qt::WindowFlags f)
-	: PrefWidget(parent, f )
+PrefPlaylist::PrefPlaylist(QWidget *parent, Qt::WindowFlags f)
+    : PrefWidget(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 
-	createHelp();
+    createHelp();
 }
 
 PrefPlaylist::~PrefPlaylist()
 {
 }
 
-QString PrefPlaylist::sectionName() {
-	return tr("Playlist");
+QString PrefPlaylist::sectionName()
+{
+    return tr("Playlist");
 }
 
-QPixmap PrefPlaylist::sectionIcon() {
+QPixmap PrefPlaylist::sectionIcon()
+{
     return Images::icon("playlist");
 }
 
-void PrefPlaylist::retranslateStrings() {
-	retranslateUi(this);
-	createHelp();
+void PrefPlaylist::retranslateStrings()
+{
+    retranslateUi(this);
+    createHelp();
 }
 
-void PrefPlaylist::setData(Preferences * pref) {
-	setAutoAddFilesToPlaylist( pref->auto_add_to_playlist );
-	setAddConsecutiveFiles( pref->add_to_playlist_consecutive_files );
+void PrefPlaylist::setData(Preferences *pref)
+{
+    setAutoAddFilesToPlaylist(pref->auto_add_to_playlist);
+    setAddConsecutiveFiles(pref->add_to_playlist_consecutive_files);
 }
 
-void PrefPlaylist::getData(Preferences * pref) {
-	requires_restart = false;
+void PrefPlaylist::getData(Preferences *pref)
+{
+    requires_restart = false;
 
-	pref->auto_add_to_playlist = autoAddFilesToPlaylist();
-	pref->add_to_playlist_consecutive_files = addConsecutiveFiles();
+    pref->auto_add_to_playlist = autoAddFilesToPlaylist();
+    pref->add_to_playlist_consecutive_files = addConsecutiveFiles();
 }
 
-void PrefPlaylist::setAutoAddFilesToPlaylist(bool b) {
-	auto_add_to_playlist_check->setChecked(b);
+void PrefPlaylist::setAutoAddFilesToPlaylist(bool b)
+{
+    auto_add_to_playlist_check->setChecked(b);
 }
 
-bool PrefPlaylist::autoAddFilesToPlaylist() {
-	return auto_add_to_playlist_check->isChecked();
+bool PrefPlaylist::autoAddFilesToPlaylist()
+{
+    return auto_add_to_playlist_check->isChecked();
 }
 
-void PrefPlaylist::setAddConsecutiveFiles(bool b) {
-	add_consecutive_files_check->setChecked(b);
+void PrefPlaylist::setAddConsecutiveFiles(bool b)
+{
+    add_consecutive_files_check->setChecked(b);
 }
 
-bool PrefPlaylist::addConsecutiveFiles() {
-	return add_consecutive_files_check->isChecked();
+bool PrefPlaylist::addConsecutiveFiles()
+{
+    return add_consecutive_files_check->isChecked();
 }
 
-void PrefPlaylist::setDirectoryRecursion(bool b) {
-	recursive_check->setChecked(b);
+void PrefPlaylist::setDirectoryRecursion(bool b)
+{
+    recursive_check->setChecked(b);
 }
 
-bool PrefPlaylist::directoryRecursion() {
-	return recursive_check->isChecked();
+bool PrefPlaylist::directoryRecursion()
+{
+    return recursive_check->isChecked();
 }
 
-void PrefPlaylist::setAutoGetInfo(bool b) {
-	getinfo_check->setChecked(b);
+void PrefPlaylist::setAutoGetInfo(bool b)
+{
+    getinfo_check->setChecked(b);
 }
 
-bool PrefPlaylist::autoGetInfo() {
-	return getinfo_check->isChecked();
+bool PrefPlaylist::autoGetInfo()
+{
+    return getinfo_check->isChecked();
 }
 
-void PrefPlaylist::setSavePlaylistOnExit(bool b) {
-	autosave_on_exit_check->setChecked(b);
+void PrefPlaylist::setSavePlaylistOnExit(bool b)
+{
+    autosave_on_exit_check->setChecked(b);
 }
 
-bool PrefPlaylist::savePlaylistOnExit() {
-	return autosave_on_exit_check->isChecked();
+bool PrefPlaylist::savePlaylistOnExit()
+{
+    return autosave_on_exit_check->isChecked();
 }
 
-void PrefPlaylist::setPlayFilesFromStart(bool b) {
-	play_from_start_check->setChecked(b);
+void PrefPlaylist::setPlayFilesFromStart(bool b)
+{
+    play_from_start_check->setChecked(b);
 }
 
-bool PrefPlaylist::playFilesFromStart() {
-	return play_from_start_check->isChecked();
+bool PrefPlaylist::playFilesFromStart()
+{
+    return play_from_start_check->isChecked();
 }
 
-void PrefPlaylist::createHelp() {
-	clearHelp();
+void PrefPlaylist::createHelp()
+{
+    clearHelp();
 
-	setWhatsThis(auto_add_to_playlist_check, tr("Automatically add files to playlist"),
-		tr("If this option is enabled, every time a file is opened, SMPlayer2 "
-           "will first clear the playlist and then add the file to it. In "
-           "case of DVDs, CDs and VCDs, all titles in the disc will be added "
-           "to the playlist.") );
+    setWhatsThis(auto_add_to_playlist_check, tr("Automatically add files to playlist"),
+                 tr("If this option is enabled, every time a file is opened, SMPlayer2 "
+                    "will first clear the playlist and then add the file to it. In "
+                    "case of DVDs, CDs and VCDs, all titles in the disc will be added "
+                    "to the playlist."));
 
-	setWhatsThis(add_consecutive_files_check, tr("Add consecutive files"),
-		tr("If this option is enabled, SMPlayer2 will look for consecutive "
-           "files (e.g. video_1.avi, video_2.avi...) and if found, they'll be "
-           "added to the playlist.") );
+    setWhatsThis(add_consecutive_files_check, tr("Add consecutive files"),
+                 tr("If this option is enabled, SMPlayer2 will look for consecutive "
+                    "files (e.g. video_1.avi, video_2.avi...) and if found, they'll be "
+                    "added to the playlist."));
 
-	setWhatsThis(recursive_check, tr("Add files in directories recursively"),
-		tr("Check this option if you want that adding a directory will also "
-        "add the files in subdirectories recursively. Otherwise only the "
-        "files in the selected directory will be added."));
+    setWhatsThis(recursive_check, tr("Add files in directories recursively"),
+                 tr("Check this option if you want that adding a directory will also "
+                    "add the files in subdirectories recursively. Otherwise only the "
+                    "files in the selected directory will be added."));
 
-	setWhatsThis(getinfo_check, tr("Add info automatically about files added"), 
-		tr("Check this option to inquire the files to be added to the playlist "
-        "for some info. That allows to show the title name (if available) and "
-        "length of the files. Otherwise this info won't be available until "
-        "the file is actually played. Beware: this option can be slow, "
-        "specially if you add many files."));
+    setWhatsThis(getinfo_check, tr("Add info automatically about files added"),
+                 tr("Check this option to inquire the files to be added to the playlist "
+                    "for some info. That allows to show the title name (if available) and "
+                    "length of the files. Otherwise this info won't be available until "
+                    "the file is actually played. Beware: this option can be slow, "
+                    "specially if you add many files."));
 
 }

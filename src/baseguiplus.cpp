@@ -46,559 +46,600 @@
 
 using namespace Global;
 
-BaseGuiPlus::BaseGuiPlus( bool use_server, QWidget * parent, Qt::WindowFlags flags)
-	: BaseGui( use_server, parent, flags )
+BaseGuiPlus::BaseGuiPlus(bool use_server, QWidget *parent, Qt::WindowFlags flags)
+    : BaseGui(use_server, parent, flags)
 {
-	// Initialize variables
-	mainwindow_visible = true;
-	//infowindow_visible = false;
-	trayicon_playlist_was_visible = false;
-	widgets_size = 0;
+    // Initialize variables
+    mainwindow_visible = true;
+    //infowindow_visible = false;
+    trayicon_playlist_was_visible = false;
+    widgets_size = 0;
 #if DOCK_PLAYLIST
-	fullscreen_playlist_was_visible = false;
-	fullscreen_playlist_was_floating = false;
-	compact_playlist_was_visible = false;
-	ignore_playlist_events = false;
+    fullscreen_playlist_was_visible = false;
+    fullscreen_playlist_was_floating = false;
+    compact_playlist_was_visible = false;
+    ignore_playlist_events = false;
 #endif
 
 
-	mainwindow_pos = pos();
+    mainwindow_pos = pos();
 
-	tray = new QSystemTrayIcon( Images::icon("logo", 22), this );
+    tray = new QSystemTrayIcon(Images::icon("logo", 22), this);
 
-	tray->setToolTip( "SMPlayer2" );
-	connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), 
-             this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+    tray->setToolTip("SMPlayer2");
+    connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+            this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
-	quitAct = new MyAction(QKeySequence("Ctrl+Q"), this, "quit");
-    connect( quitAct, SIGNAL(triggered()), this, SLOT(quit()) );
-	openMenu->addAction(quitAct);
+    quitAct = new MyAction(QKeySequence("Ctrl+Q"), this, "quit");
+    connect(quitAct, SIGNAL(triggered()), this, SLOT(quit()));
+    openMenu->addAction(quitAct);
 
-	showTrayAct = new MyAction(this, "show_tray_icon" );
-	showTrayAct->setCheckable(true);
-	connect( showTrayAct, SIGNAL(toggled(bool)),
-             tray, SLOT(setVisible(bool)) );
-	optionsMenu->addAction(showTrayAct);
+    showTrayAct = new MyAction(this, "show_tray_icon");
+    showTrayAct->setCheckable(true);
+    connect(showTrayAct, SIGNAL(toggled(bool)),
+            tray, SLOT(setVisible(bool)));
+    optionsMenu->addAction(showTrayAct);
 
-	showAllAct = new MyAction(this, "restore/hide");
-	connect( showAllAct, SIGNAL(triggered()),
-             this, SLOT(toggleShowAll()) );
+    showAllAct = new MyAction(this, "restore/hide");
+    connect(showAllAct, SIGNAL(triggered()),
+            this, SLOT(toggleShowAll()));
 
 
-	context_menu = new QMenu(this);
-	context_menu->addAction(showAllAct);
-	context_menu->addSeparator();
-	context_menu->addAction(openFileAct);
-	context_menu->addMenu(recentfiles_menu);
-	context_menu->addAction(openDirectoryAct);
-	context_menu->addAction(openDVDAct);
-	context_menu->addAction(openURLAct);
-	context_menu->addMenu(favorites);
+    context_menu = new QMenu(this);
+    context_menu->addAction(showAllAct);
+    context_menu->addSeparator();
+    context_menu->addAction(openFileAct);
+    context_menu->addMenu(recentfiles_menu);
+    context_menu->addAction(openDirectoryAct);
+    context_menu->addAction(openDVDAct);
+    context_menu->addAction(openURLAct);
+    context_menu->addMenu(favorites);
 #ifndef Q_OS_WIN
-	context_menu->addMenu(tvlist);
-	context_menu->addMenu(radiolist);
+    context_menu->addMenu(tvlist);
+    context_menu->addMenu(radiolist);
 #endif
-	context_menu->addSeparator();
-	context_menu->addAction(playOrPauseAct);
-	context_menu->addAction(stopAct);
-	context_menu->addSeparator();
-	context_menu->addAction(playPrevAct);
-	context_menu->addAction(playNextAct);
-	context_menu->addSeparator();
-	context_menu->addAction(showPlaylistAct);
-	context_menu->addAction(showPreferencesAct);
-	context_menu->addSeparator();
-	context_menu->addAction(quitAct);
-	
-	tray->setContextMenu( context_menu );
+    context_menu->addSeparator();
+    context_menu->addAction(playOrPauseAct);
+    context_menu->addAction(stopAct);
+    context_menu->addSeparator();
+    context_menu->addAction(playPrevAct);
+    context_menu->addAction(playNextAct);
+    context_menu->addSeparator();
+    context_menu->addAction(showPlaylistAct);
+    context_menu->addAction(showPreferencesAct);
+    context_menu->addSeparator();
+    context_menu->addAction(quitAct);
+
+    tray->setContextMenu(context_menu);
 
 #if DOCK_PLAYLIST
-	// Playlistdock
-	playlistdock = new PlaylistDock(this);
-	playlistdock->setObjectName("playlistdock");
-	playlistdock->setFloating(false); // To avoid that the playlist is visible for a moment
-	playlistdock->setWidget(playlist);
-	playlistdock->setAllowedAreas(Qt::TopDockWidgetArea | 
+    // Playlistdock
+    playlistdock = new PlaylistDock(this);
+    playlistdock->setObjectName("playlistdock");
+    playlistdock->setFloating(false); // To avoid that the playlist is visible for a moment
+    playlistdock->setWidget(playlist);
+    playlistdock->setAllowedAreas(Qt::TopDockWidgetArea |
                                   Qt::BottomDockWidgetArea
 #if PLAYLIST_ON_SIDES
-                                  | Qt::LeftDockWidgetArea | 
+                                  | Qt::LeftDockWidgetArea |
                                   Qt::RightDockWidgetArea
 #endif
-                                  );
-	addDockWidget(Qt::BottomDockWidgetArea, playlistdock);
-	playlistdock->hide();
-	playlistdock->setFloating(true); // Floating by default
+                                 );
+    addDockWidget(Qt::BottomDockWidgetArea, playlistdock);
+    playlistdock->hide();
+    playlistdock->setFloating(true); // Floating by default
 
-	connect( playlistdock, SIGNAL(closed()), this, SLOT(playlistClosed()) );
+    connect(playlistdock, SIGNAL(closed()), this, SLOT(playlistClosed()));
 #if USE_DOCK_TOPLEVEL_EVENT
-	connect( playlistdock, SIGNAL(topLevelChanged(bool)), 
-             this, SLOT(dockTopLevelChanged(bool)) );
+    connect(playlistdock, SIGNAL(topLevelChanged(bool)),
+            this, SLOT(dockTopLevelChanged(bool)));
 #else
-	connect( playlistdock, SIGNAL(visibilityChanged(bool)), 
-             this, SLOT(dockVisibilityChanged(bool)) );
+    connect(playlistdock, SIGNAL(visibilityChanged(bool)),
+            this, SLOT(dockVisibilityChanged(bool)));
 #endif // USE_DOCK_TOPLEVEL_EVENT
 
-	ignore_playlist_events = false;
+    ignore_playlist_events = false;
 #endif // DOCK_PLAYLIST
 
-	retranslateStrings();
+    retranslateStrings();
 
     loadConfig();
 }
 
-BaseGuiPlus::~BaseGuiPlus() {
-	saveConfig();
+BaseGuiPlus::~BaseGuiPlus()
+{
+    saveConfig();
 }
 
-bool BaseGuiPlus::startHidden() {
+bool BaseGuiPlus::startHidden()
+{
 #ifdef Q_OS_WIN
-	return false;
+    return false;
 #else
-	if ( (!showTrayAct->isChecked()) || (mainwindow_visible) ) 
-		return false;
-	else
-		return true;
+
+    if ((!showTrayAct->isChecked()) || (mainwindow_visible))
+        return false;
+    else
+        return true;
+
 #endif
 }
 
-void BaseGuiPlus::closeEvent( QCloseEvent * e ) {
-	qDebug("BaseGuiPlus::closeEvent");
-	e->ignore();
-	closeWindow();
+void BaseGuiPlus::closeEvent(QCloseEvent *e)
+{
+    qDebug("BaseGuiPlus::closeEvent");
+    e->ignore();
+    closeWindow();
 }
 
-void BaseGuiPlus::closeWindow() {
-	qDebug("BaseGuiPlus::closeWindow");
+void BaseGuiPlus::closeWindow()
+{
+    qDebug("BaseGuiPlus::closeWindow");
 
-	if (tray->isVisible()) {
-		//e->ignore();
-		exitFullscreen();
-		showAll(false); // Hide windows
-		if (core->state() == Core::Playing) core->stop();
+    if (tray->isVisible()) {
+        //e->ignore();
+        exitFullscreen();
+        showAll(false); // Hide windows
 
-		if (pref->balloon_count > 0) {
-			tray->showMessage( "SMPlayer2", 
-				tr("SMPlayer2 is still running here"), 
-        	    QSystemTrayIcon::Information, 3000 );
-			pref->balloon_count--;
-		}
+        if (core->state() == Core::Playing) core->stop();
 
-	} else {
-		BaseGui::closeWindow();
-	}
-	//tray->hide();
+        if (pref->balloon_count > 0) {
+            tray->showMessage("SMPlayer2",
+                              tr("SMPlayer2 is still running here"),
+                              QSystemTrayIcon::Information, 3000);
+            pref->balloon_count--;
+        }
+
+    } else {
+        BaseGui::closeWindow();
+    }
+
+    //tray->hide();
 
 }
 
-void BaseGuiPlus::quit() {
-	qDebug("BaseGuiPlus::quit");
-	BaseGui::closeWindow();
+void BaseGuiPlus::quit()
+{
+    qDebug("BaseGuiPlus::quit");
+    BaseGui::closeWindow();
 }
 
-void BaseGuiPlus::retranslateStrings() {
-	BaseGui::retranslateStrings();
+void BaseGuiPlus::retranslateStrings()
+{
+    BaseGui::retranslateStrings();
 
-	quitAct->change( Images::icon("exit"), tr("&Quit") );
-	showTrayAct->change( Images::icon("systray"), tr("S&how icon in system tray") );
+    quitAct->change(Images::icon("exit"), tr("&Quit"));
+    showTrayAct->change(Images::icon("systray"), tr("S&how icon in system tray"));
 
-	updateShowAllAct();
+    updateShowAllAct();
 
 #if DOCK_PLAYLIST
-    playlistdock->setWindowTitle( tr("Playlist") );
+    playlistdock->setWindowTitle(tr("Playlist"));
 #endif
 }
 
-void BaseGuiPlus::updateShowAllAct() {
-	if (isVisible()) 
-		showAllAct->change( tr("&Hide") );
-	else
-		showAllAct->change( tr("&Restore") );
+void BaseGuiPlus::updateShowAllAct()
+{
+    if (isVisible())
+        showAllAct->change(tr("&Hide"));
+    else
+        showAllAct->change(tr("&Restore"));
 }
 
-void BaseGuiPlus::saveConfig() {
-	qDebug("BaseGuiPlus::saveConfig");
+void BaseGuiPlus::saveConfig()
+{
+    qDebug("BaseGuiPlus::saveConfig");
 
-	QSettings * set = settings;
+    QSettings *set = settings;
 
-	set->beginGroup( "base_gui_plus");
+    set->beginGroup("base_gui_plus");
 
-	set->setValue( "show_tray_icon", showTrayAct->isChecked() );
-	set->setValue( "mainwindow_visible", isVisible() );
+    set->setValue("show_tray_icon", showTrayAct->isChecked());
+    set->setValue("mainwindow_visible", isVisible());
 
-	set->setValue( "trayicon_playlist_was_visible", trayicon_playlist_was_visible );
-	set->setValue( "widgets_size", widgets_size );
+    set->setValue("trayicon_playlist_was_visible", trayicon_playlist_was_visible);
+    set->setValue("widgets_size", widgets_size);
 #if DOCK_PLAYLIST
-	set->setValue( "fullscreen_playlist_was_visible", fullscreen_playlist_was_visible );
-	set->setValue( "fullscreen_playlist_was_floating", fullscreen_playlist_was_floating );
-	set->setValue( "compact_playlist_was_visible", compact_playlist_was_visible );
-	set->setValue( "ignore_playlist_events", ignore_playlist_events );
+    set->setValue("fullscreen_playlist_was_visible", fullscreen_playlist_was_visible);
+    set->setValue("fullscreen_playlist_was_floating", fullscreen_playlist_was_floating);
+    set->setValue("compact_playlist_was_visible", compact_playlist_was_visible);
+    set->setValue("ignore_playlist_events", ignore_playlist_events);
 #endif
 
-/*
+    /*
+    #if DOCK_PLAYLIST
+    	set->setValue( "playlist_and_toolbars_state", saveState() );
+    #endif
+    */
+
+    set->endGroup();
+}
+
+void BaseGuiPlus::loadConfig()
+{
+    qDebug("BaseGuiPlus::loadConfig");
+
+    QSettings *set = settings;
+
+    set->beginGroup("base_gui_plus");
+
+    bool show_tray_icon = set->value("show_tray_icon", false).toBool();
+    showTrayAct->setChecked(show_tray_icon);
+    //tray->setVisible( show_tray_icon );
+
+    mainwindow_visible = set->value("mainwindow_visible", true).toBool();
+
+    trayicon_playlist_was_visible = set->value("trayicon_playlist_was_visible", trayicon_playlist_was_visible).toBool();
+    widgets_size = set->value("widgets_size", widgets_size).toInt();
 #if DOCK_PLAYLIST
-	set->setValue( "playlist_and_toolbars_state", saveState() );
+    fullscreen_playlist_was_visible = set->value("fullscreen_playlist_was_visible", fullscreen_playlist_was_visible).toBool();
+    fullscreen_playlist_was_floating = set->value("fullscreen_playlist_was_floating", fullscreen_playlist_was_floating).toBool();
+    compact_playlist_was_visible = set->value("compact_playlist_was_visible", compact_playlist_was_visible).toBool();
+    ignore_playlist_events = set->value("ignore_playlist_events", ignore_playlist_events).toBool();
 #endif
-*/
 
-	set->endGroup();
+    /*
+    #if DOCK_PLAYLIST
+    	restoreState( set->value( "playlist_and_toolbars_state" ).toByteArray() );
+    #endif
+    */
+
+    set->endGroup();
+
+    updateShowAllAct();
 }
 
-void BaseGuiPlus::loadConfig() {
-	qDebug("BaseGuiPlus::loadConfig");
 
-	QSettings * set = settings;
+void BaseGuiPlus::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    qDebug("DefaultGui::trayIconActivated: %d", reason);
 
-	set->beginGroup( "base_gui_plus");
+    updateShowAllAct();
 
-	bool show_tray_icon = set->value( "show_tray_icon", false).toBool();
-	showTrayAct->setChecked( show_tray_icon );
-	//tray->setVisible( show_tray_icon );
+    if (reason == QSystemTrayIcon::Trigger) {
+        toggleShowAll();
+    } else if (reason == QSystemTrayIcon::MiddleClick) {
+        core->pause();
+    }
+}
 
-	mainwindow_visible = set->value("mainwindow_visible", true).toBool();
+void BaseGuiPlus::toggleShowAll()
+{
+    // Ignore if tray is not visible
+    if (tray->isVisible()) {
+        showAll(!isVisible());
+    }
+}
 
-	trayicon_playlist_was_visible = set->value( "trayicon_playlist_was_visible", trayicon_playlist_was_visible ).toBool();
-	widgets_size = set->value( "widgets_size", widgets_size ).toInt();
+void BaseGuiPlus::showAll(bool b)
+{
+    if (!b) {
+        // Hide all
 #if DOCK_PLAYLIST
-	fullscreen_playlist_was_visible = set->value( "fullscreen_playlist_was_visible", fullscreen_playlist_was_visible ).toBool();
-	fullscreen_playlist_was_floating = set->value( "fullscreen_playlist_was_floating", fullscreen_playlist_was_floating ).toBool();
-	compact_playlist_was_visible = set->value( "compact_playlist_was_visible", compact_playlist_was_visible ).toBool();
-	ignore_playlist_events = set->value( "ignore_playlist_events", ignore_playlist_events ).toBool();
-#endif
+        trayicon_playlist_was_visible = (playlistdock->isVisible() &&
+                                         playlistdock->isFloating());
 
-/*
-#if DOCK_PLAYLIST
-	restoreState( set->value( "playlist_and_toolbars_state" ).toByteArray() );
-#endif
-*/
+        if (trayicon_playlist_was_visible)
+            playlistdock->hide();
 
-	set->endGroup();
-
-	updateShowAllAct();
-}
-
-
-void BaseGuiPlus::trayIconActivated(QSystemTrayIcon::ActivationReason reason) {
-	qDebug("DefaultGui::trayIconActivated: %d", reason);
-
-	updateShowAllAct();
-
-	if (reason == QSystemTrayIcon::Trigger) {
-		toggleShowAll();
-	}
-	else
-	if (reason == QSystemTrayIcon::MiddleClick) {
-		core->pause();
-	}
-}
-
-void BaseGuiPlus::toggleShowAll() {
-	// Ignore if tray is not visible
-	if (tray->isVisible()) {
-		showAll( !isVisible() );
-	}
-}
-
-void BaseGuiPlus::showAll(bool b) {
-	if (!b) {
-		// Hide all
-#if DOCK_PLAYLIST
-		trayicon_playlist_was_visible = (playlistdock->isVisible() && 
-                                         playlistdock->isFloating() );
-		if (trayicon_playlist_was_visible)
-			playlistdock->hide();
-
-		/*
-		trayicon_playlist_was_visible = playlistdock->isVisible();
-		playlistdock->hide();
-		*/
+        /*
+        trayicon_playlist_was_visible = playlistdock->isVisible();
+        playlistdock->hide();
+        */
 #else
-		trayicon_playlist_was_visible = playlist->isVisible();
-		playlist_pos = playlist->pos();
-		playlist->hide();
+        trayicon_playlist_was_visible = playlist->isVisible();
+        playlist_pos = playlist->pos();
+        playlist->hide();
 #endif
 
-		mainwindow_pos = pos();
-		hide();
+        mainwindow_pos = pos();
+        hide();
 
-		/*
-		infowindow_visible = info_window->isVisible();
-		infowindow_pos = info_window->pos();
-		info_window->hide();
-		*/
-	} else {
-		// Show all
-		move(mainwindow_pos);
-		show();
+        /*
+        infowindow_visible = info_window->isVisible();
+        infowindow_pos = info_window->pos();
+        info_window->hide();
+        */
+    } else {
+        // Show all
+        move(mainwindow_pos);
+        show();
 
 #if DOCK_PLAYLIST
-		if (trayicon_playlist_was_visible) {
-			playlistdock->show();
-		}
+
+        if (trayicon_playlist_was_visible) {
+            playlistdock->show();
+        }
+
 #else
-		if (trayicon_playlist_was_visible) {
-			playlist->move(playlist_pos);
-			playlist->show();
-		}
+
+        if (trayicon_playlist_was_visible) {
+            playlist->move(playlist_pos);
+            playlist->show();
+        }
+
 #endif
 
-		/*
-		if (infowindow_visible) {
-			info_window->show();
-			info_window->move(infowindow_pos);
-		}
-		*/
-	}
-	updateShowAllAct();
+        /*
+        if (infowindow_visible) {
+        	info_window->show();
+        	info_window->move(infowindow_pos);
+        }
+        */
+    }
+
+    updateShowAllAct();
 }
 
-void BaseGuiPlus::resizeWindow(int w, int h, bool force) {
+void BaseGuiPlus::resizeWindow(int w, int h, bool force)
+{
     qDebug("BaseGuiPlus::resizeWindow: %d, %d", w, h);
 
-	if ( (tray->isVisible()) && (!isVisible()) ) showAll(true);
+    if ((tray->isVisible()) && (!isVisible())) showAll(true);
 
-	BaseGui::resizeWindow(w, h, force);
+    BaseGui::resizeWindow(w, h, force);
 }
 
-void BaseGuiPlus::updateMediaInfo() {
+void BaseGuiPlus::updateMediaInfo()
+{
     qDebug("BaseGuiPlus::updateMediaInfo");
-	BaseGui::updateMediaInfo();
+    BaseGui::updateMediaInfo();
 
-	tray->setToolTip( windowTitle() );
+    tray->setToolTip(windowTitle());
 }
 
-void BaseGuiPlus::setWindowCaption(const QString & title) {
-	tray->setToolTip( title );
+void BaseGuiPlus::setWindowCaption(const QString &title)
+{
+    tray->setToolTip(title);
 
-	BaseGui::setWindowCaption( title );
+    BaseGui::setWindowCaption(title);
 }
 
 
 // Playlist stuff
-void BaseGuiPlus::aboutToEnterFullscreen() {
+void BaseGuiPlus::aboutToEnterFullscreen()
+{
     qDebug("BaseGuiPlus::aboutToEnterFullscreen");
 
-	BaseGui::aboutToEnterFullscreen();
+    BaseGui::aboutToEnterFullscreen();
 
 #if DOCK_PLAYLIST
-	playlistdock->setAllowedAreas(Qt::NoDockWidgetArea);
+    playlistdock->setAllowedAreas(Qt::NoDockWidgetArea);
 
-	int playlist_screen = QApplication::desktop()->screenNumber(playlistdock);
-	int mainwindow_screen = QApplication::desktop()->screenNumber(this);
-	qDebug("BaseGuiPlus::aboutToEnterFullscreen: mainwindow screen: %d, playlist screen: %d", mainwindow_screen, playlist_screen);
+    int playlist_screen = QApplication::desktop()->screenNumber(playlistdock);
+    int mainwindow_screen = QApplication::desktop()->screenNumber(this);
+    qDebug("BaseGuiPlus::aboutToEnterFullscreen: mainwindow screen: %d, playlist screen: %d", mainwindow_screen, playlist_screen);
 
-	fullscreen_playlist_was_visible = playlistdock->isVisible();
-	fullscreen_playlist_was_floating = playlistdock->isFloating();
+    fullscreen_playlist_was_visible = playlistdock->isVisible();
+    fullscreen_playlist_was_floating = playlistdock->isFloating();
 
-	ignore_playlist_events = true;
+    ignore_playlist_events = true;
 
-	// Hide the playlist if it's in the same screen as the main window
-	if ((playlist_screen == mainwindow_screen) /* || 
-        (!fullscreen_playlist_was_floating) */ ) 
-	{
-		playlistdock->setFloating(true);
-		playlistdock->hide();
-	}
+    // Hide the playlist if it's in the same screen as the main window
+    if ((playlist_screen == mainwindow_screen) /* ||
+        (!fullscreen_playlist_was_floating) */) {
+        playlistdock->setFloating(true);
+        playlistdock->hide();
+    }
+
 #endif
 }
 
-void BaseGuiPlus::aboutToExitFullscreen() {
-	qDebug("BaseGuiPlus::aboutToExitFullscreen");
+void BaseGuiPlus::aboutToExitFullscreen()
+{
+    qDebug("BaseGuiPlus::aboutToExitFullscreen");
 
-	BaseGui::aboutToExitFullscreen();
+    BaseGui::aboutToExitFullscreen();
 
 #if DOCK_PLAYLIST
-	playlistdock->setAllowedAreas(Qt::TopDockWidgetArea | 
+    playlistdock->setAllowedAreas(Qt::TopDockWidgetArea |
                                   Qt::BottomDockWidgetArea
-                                  #if PLAYLIST_ON_SIDES
-                                  | Qt::LeftDockWidgetArea | 
+#if PLAYLIST_ON_SIDES
+                                  | Qt::LeftDockWidgetArea |
                                   Qt::RightDockWidgetArea
-                                  #endif
-                                  );
+#endif
+                                 );
 
-	if (fullscreen_playlist_was_visible) {
-		playlistdock->show();
-	}
-	playlistdock->setFloating( fullscreen_playlist_was_floating );
-	ignore_playlist_events = false;
+    if (fullscreen_playlist_was_visible) {
+        playlistdock->show();
+    }
+
+    playlistdock->setFloating(fullscreen_playlist_was_floating);
+    ignore_playlist_events = false;
 #endif
 }
 
-void BaseGuiPlus::aboutToEnterCompactMode() {
+void BaseGuiPlus::aboutToEnterCompactMode()
+{
 #if DOCK_PLAYLIST
-	compact_playlist_was_visible = (playlistdock->isVisible() && 
+    compact_playlist_was_visible = (playlistdock->isVisible() &&
                                     !playlistdock->isFloating());
-	if (compact_playlist_was_visible)
-		playlistdock->hide();
+
+    if (compact_playlist_was_visible)
+        playlistdock->hide();
+
 #endif
 
     widgets_size = height() - panel->height();
     qDebug("BaseGuiPlus::aboutToEnterCompactMode: widgets_size: %d", widgets_size);
 
-	BaseGui::aboutToEnterCompactMode();
+    BaseGui::aboutToEnterCompactMode();
 
-	if (pref->resize_method == Preferences::Always) {
-		resize( width(), height() - widgets_size );
-	}
+    if (pref->resize_method == Preferences::Always) {
+        resize(width(), height() - widgets_size);
+    }
 }
 
-void BaseGuiPlus::aboutToExitCompactMode() {
-	BaseGui::aboutToExitCompactMode();
+void BaseGuiPlus::aboutToExitCompactMode()
+{
+    BaseGui::aboutToExitCompactMode();
 
-	if (pref->resize_method == Preferences::Always) {
-		resize( width(), height() + widgets_size );
-	}
+    if (pref->resize_method == Preferences::Always) {
+        resize(width(), height() + widgets_size);
+    }
 
 #if DOCK_PLAYLIST
-	if (compact_playlist_was_visible)
-		playlistdock->show();
+
+    if (compact_playlist_was_visible)
+        playlistdock->show();
+
 #endif
 }
 
 #if DOCK_PLAYLIST
-void BaseGuiPlus::showPlaylist(bool b) {
-	qDebug("BaseGuiPlus::showPlaylist: %d", b);
-	qDebug("BaseGuiPlus::showPlaylist (before): playlist visible: %d", playlistdock->isVisible());
-	qDebug("BaseGuiPlus::showPlaylist (before): playlist position: %d, %d", playlistdock->pos().x(), playlistdock->pos().y());
-	qDebug("BaseGuiPlus::showPlaylist (before): playlist size: %d x %d", playlistdock->size().width(), playlistdock->size().height());
+void BaseGuiPlus::showPlaylist(bool b)
+{
+    qDebug("BaseGuiPlus::showPlaylist: %d", b);
+    qDebug("BaseGuiPlus::showPlaylist (before): playlist visible: %d", playlistdock->isVisible());
+    qDebug("BaseGuiPlus::showPlaylist (before): playlist position: %d, %d", playlistdock->pos().x(), playlistdock->pos().y());
+    qDebug("BaseGuiPlus::showPlaylist (before): playlist size: %d x %d", playlistdock->size().width(), playlistdock->size().height());
 
-	if ( !b ) {
-		playlistdock->hide();
-	} else {
-		exitFullscreenIfNeeded();
-		playlistdock->show();
+    if (!b) {
+        playlistdock->hide();
+    } else {
+        exitFullscreenIfNeeded();
+        playlistdock->show();
 
-		// Check if playlist is outside of the screen
-		if (playlistdock->isFloating()) {
-			if (!DesktopInfo::isInsideScreen(playlistdock)) {
-				qWarning("BaseGuiPlus::showPlaylist: playlist is outside of the screen");
-				playlistdock->move(0,0);
-			}
-		}
-	}
-	//updateWidgets();
+        // Check if playlist is outside of the screen
+        if (playlistdock->isFloating()) {
+            if (!DesktopInfo::isInsideScreen(playlistdock)) {
+                qWarning("BaseGuiPlus::showPlaylist: playlist is outside of the screen");
+                playlistdock->move(0, 0);
+            }
+        }
+    }
 
-	qDebug("BaseGuiPlus::showPlaylist (after): playlist visible: %d", playlistdock->isVisible());
-	qDebug("BaseGuiPlus::showPlaylist (after): playlist position: %d, %d", playlistdock->pos().x(), playlistdock->pos().y());
-	qDebug("BaseGuiPlus::showPlaylist (after): playlist size: %d x %d", playlistdock->size().width(), playlistdock->size().height());
+    //updateWidgets();
+
+    qDebug("BaseGuiPlus::showPlaylist (after): playlist visible: %d", playlistdock->isVisible());
+    qDebug("BaseGuiPlus::showPlaylist (after): playlist position: %d, %d", playlistdock->pos().x(), playlistdock->pos().y());
+    qDebug("BaseGuiPlus::showPlaylist (after): playlist size: %d x %d", playlistdock->size().width(), playlistdock->size().height());
 
 }
 
-void BaseGuiPlus::playlistClosed() {
-	showPlaylistAct->setChecked(false);
+void BaseGuiPlus::playlistClosed()
+{
+    showPlaylistAct->setChecked(false);
 }
 
 #if !USE_DOCK_TOPLEVEL_EVENT
-void BaseGuiPlus::dockVisibilityChanged(bool visible) {
-	qDebug("BaseGuiPlus::dockVisibilityChanged: %d", visible);
+void BaseGuiPlus::dockVisibilityChanged(bool visible)
+{
+    qDebug("BaseGuiPlus::dockVisibilityChanged: %d", visible);
 
-	if (!playlistdock->isFloating()) {
-		if (!visible) shrinkWindow(); else stretchWindow();
-	}
+    if (!playlistdock->isFloating()) {
+        if (!visible) shrinkWindow();
+        else stretchWindow();
+    }
 }
 
 #else
 
-void BaseGuiPlus::dockTopLevelChanged(bool floating) {
-	qDebug("BaseGuiPlus::dockTopLevelChanged: %d", floating);
+void BaseGuiPlus::dockTopLevelChanged(bool floating)
+{
+    qDebug("BaseGuiPlus::dockTopLevelChanged: %d", floating);
 
-	if (floating) shrinkWindow(); else stretchWindow();
+    if (floating) shrinkWindow();
+    else stretchWindow();
 }
 #endif
 
-void BaseGuiPlus::stretchWindow() {
-	qDebug("BaseGuiPlus::stretchWindow");
-	if ((ignore_playlist_events) || (pref->resize_method!=Preferences::Always)) return;
+void BaseGuiPlus::stretchWindow()
+{
+    qDebug("BaseGuiPlus::stretchWindow");
 
-	qDebug("BaseGuiPlus::stretchWindow: dockWidgetArea: %d", (int) dockWidgetArea(playlistdock) );
+    if ((ignore_playlist_events) || (pref->resize_method != Preferences::Always)) return;
 
-	if ( (dockWidgetArea(playlistdock) == Qt::TopDockWidgetArea) ||
-         (dockWidgetArea(playlistdock) == Qt::BottomDockWidgetArea) )
-	{
-		int new_height = height() + playlistdock->height();
+    qDebug("BaseGuiPlus::stretchWindow: dockWidgetArea: %d", (int) dockWidgetArea(playlistdock));
 
-		//if (new_height > DesktopInfo::desktop_size(this).height()) 
-		//	new_height = DesktopInfo::desktop_size(this).height() - 20;
+    if ((dockWidgetArea(playlistdock) == Qt::TopDockWidgetArea) ||
+            (dockWidgetArea(playlistdock) == Qt::BottomDockWidgetArea)) {
+        int new_height = height() + playlistdock->height();
 
-		qDebug("BaseGuiPlus::stretchWindow: stretching: new height: %d", new_height);
-		resize( width(), new_height );
+        //if (new_height > DesktopInfo::desktop_size(this).height())
+        //	new_height = DesktopInfo::desktop_size(this).height() - 20;
 
-		//resizeWindow(core->mset.win_width, core->mset.win_height);
-	}
+        qDebug("BaseGuiPlus::stretchWindow: stretching: new height: %d", new_height);
+        resize(width(), new_height);
 
-	else
+        //resizeWindow(core->mset.win_width, core->mset.win_height);
+    }
 
-	if ( (dockWidgetArea(playlistdock) == Qt::LeftDockWidgetArea) ||
-         (dockWidgetArea(playlistdock) == Qt::RightDockWidgetArea) )
-	{
-		int new_width = width() + playlistdock->width();
+    else
 
-		qDebug("BaseGuiPlus::stretchWindow: stretching: new width: %d", new_width);
-		resize( new_width, height() );
-	}
+        if ((dockWidgetArea(playlistdock) == Qt::LeftDockWidgetArea) ||
+                (dockWidgetArea(playlistdock) == Qt::RightDockWidgetArea)) {
+            int new_width = width() + playlistdock->width();
+
+            qDebug("BaseGuiPlus::stretchWindow: stretching: new width: %d", new_width);
+            resize(new_width, height());
+        }
 }
 
-void BaseGuiPlus::shrinkWindow() {
-	qDebug("BaseGuiPlus::shrinkWindow");
-	if ((ignore_playlist_events) || (pref->resize_method!=Preferences::Always)) return;
+void BaseGuiPlus::shrinkWindow()
+{
+    qDebug("BaseGuiPlus::shrinkWindow");
 
-	qDebug("BaseGuiPlus::shrinkWindow: dockWidgetArea: %d", (int) dockWidgetArea(playlistdock) );
+    if ((ignore_playlist_events) || (pref->resize_method != Preferences::Always)) return;
 
-	if ( (dockWidgetArea(playlistdock) == Qt::TopDockWidgetArea) ||
-         (dockWidgetArea(playlistdock) == Qt::BottomDockWidgetArea) )
-	{
-		int new_height = height() - playlistdock->height();
-		qDebug("DefaultGui::shrinkWindow: shrinking: new height: %d", new_height);
-		resize( width(), new_height );
+    qDebug("BaseGuiPlus::shrinkWindow: dockWidgetArea: %d", (int) dockWidgetArea(playlistdock));
 
-		//resizeWindow(core->mset.win_width, core->mset.win_height);
-	}
+    if ((dockWidgetArea(playlistdock) == Qt::TopDockWidgetArea) ||
+            (dockWidgetArea(playlistdock) == Qt::BottomDockWidgetArea)) {
+        int new_height = height() - playlistdock->height();
+        qDebug("DefaultGui::shrinkWindow: shrinking: new height: %d", new_height);
+        resize(width(), new_height);
 
-	else
+        //resizeWindow(core->mset.win_width, core->mset.win_height);
+    }
 
-	if ( (dockWidgetArea(playlistdock) == Qt::LeftDockWidgetArea) ||
-         (dockWidgetArea(playlistdock) == Qt::RightDockWidgetArea) )
-	{
-		int new_width = width() - playlistdock->width();
+    else
 
-		qDebug("BaseGuiPlus::shrinkWindow: shrinking: new width: %d", new_width);
-		resize( new_width, height() );
-	}
+        if ((dockWidgetArea(playlistdock) == Qt::LeftDockWidgetArea) ||
+                (dockWidgetArea(playlistdock) == Qt::RightDockWidgetArea)) {
+            int new_width = width() - playlistdock->width();
+
+            qDebug("BaseGuiPlus::shrinkWindow: shrinking: new width: %d", new_width);
+            resize(new_width, height());
+        }
 }
 
 #endif
 
 // Convenience functions intended for other GUI's
-TimeSliderAction * BaseGuiPlus::createTimeSliderAction(QWidget * parent) {
-	TimeSliderAction * timeslider_action = new TimeSliderAction( parent );
-	timeslider_action->setObjectName("timeslider_action");
+TimeSliderAction *BaseGuiPlus::createTimeSliderAction(QWidget *parent)
+{
+    TimeSliderAction *timeslider_action = new TimeSliderAction(parent);
+    timeslider_action->setObjectName("timeslider_action");
 
 #ifdef SEEKBAR_RESOLUTION
-	connect( timeslider_action, SIGNAL( posChanged(int) ), 
-             core, SLOT(goToPosition(int)) );
-	connect( core, SIGNAL(positionChanged(int)), 
-             timeslider_action, SLOT(setPos(int)) );
+    connect(timeslider_action, SIGNAL(posChanged(int)),
+            core, SLOT(goToPosition(int)));
+    connect(core, SIGNAL(positionChanged(int)),
+            timeslider_action, SLOT(setPos(int)));
 #else
-	connect( timeslider_action, SIGNAL( posChanged(int) ), 
-             core, SLOT(goToPos(int)) );
-	connect( core, SIGNAL(posChanged(int)), 
-             timeslider_action, SLOT(setPos(int)) );
+    connect(timeslider_action, SIGNAL(posChanged(int)),
+            core, SLOT(goToPos(int)));
+    connect(core, SIGNAL(posChanged(int)),
+            timeslider_action, SLOT(setPos(int)));
 #endif
-	connect( timeslider_action, SIGNAL( draggingPos(int) ), 
-             this, SLOT(displayGotoTime(int)) );
-	connect( timeslider_action, SIGNAL( draggingPos(int) ), 
-             this, SLOT(goToPosOnDragging(int)) );
+    connect(timeslider_action, SIGNAL(draggingPos(int)),
+            this, SLOT(displayGotoTime(int)));
+    connect(timeslider_action, SIGNAL(draggingPos(int)),
+            this, SLOT(goToPosOnDragging(int)));
 
-	return timeslider_action;
+    return timeslider_action;
 }
 
-VolumeSliderAction * BaseGuiPlus::createVolumeSliderAction(QWidget * parent) {
-	VolumeSliderAction * volumeslider_action = new VolumeSliderAction(parent);
-	volumeslider_action->setObjectName("volumeslider_action");
+VolumeSliderAction *BaseGuiPlus::createVolumeSliderAction(QWidget *parent)
+{
+    VolumeSliderAction *volumeslider_action = new VolumeSliderAction(parent);
+    volumeslider_action->setObjectName("volumeslider_action");
 
-	connect( volumeslider_action, SIGNAL( valueChanged(int) ), 
-             core, SLOT( setVolume(int) ) );
-	connect( core, SIGNAL(volumeChanged(int)),
-             volumeslider_action, SLOT(setValue(int)) );
+    connect(volumeslider_action, SIGNAL(valueChanged(int)),
+            core, SLOT(setVolume(int)));
+    connect(core, SIGNAL(volumeChanged(int)),
+            volumeslider_action, SLOT(setValue(int)));
 
-	return volumeslider_action;
+    return volumeslider_action;
 }

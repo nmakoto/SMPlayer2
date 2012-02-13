@@ -27,96 +27,100 @@ class Encodings;
 
 class PrefSubtitles : public PrefWidget, public Ui::PrefSubtitles
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	PrefSubtitles( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~PrefSubtitles();
+    PrefSubtitles(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PrefSubtitles();
 
-	virtual QString sectionName();
-	virtual QPixmap sectionIcon();
+    virtual QString sectionName();
+    virtual QPixmap sectionIcon();
 
     // Pass data to the dialog
-    void setData(Preferences * pref);
+    void setData(Preferences *pref);
 
     // Apply changes
-    void getData(Preferences * pref);
+    void getData(Preferences *pref);
 
 protected:
-	virtual void createHelp();
+    virtual void createHelp();
 
-	void setUseMplayer2Defaults(bool b);
-	bool useMplayer2Defaults();
+    void setUseMplayer2Defaults(bool b);
+    bool useMplayer2Defaults();
 
-	void setFontName(QString font_name);
-	QString fontName();
+    void setFontName(QString font_name);
+    QString fontName();
 
-	void setFontFile(QString font_file);
-	QString fontFile();
+    void setFontFile(QString font_file);
+    QString fontFile();
 
-	void setUseFontconfig(bool b);
-	bool useFontconfig();
+    void setUseFontconfig(bool b);
+    bool useFontconfig();
 
-	void setFontAutoscale(int n);
-	int fontAutoscale();
+    void setFontAutoscale(int n);
+    int fontAutoscale();
 
-	void setFontTextscale(double n);
-	double fontTextscale();
+    void setFontTextscale(double n);
+    double fontTextscale();
 
-	void setAssFontScale(double n);
-	double assFontScale();
+    void setAssFontScale(double n);
+    double assFontScale();
 
-	void setAutoloadSub(bool v);
-	bool autoloadSub();
+    void setAutoloadSub(bool v);
+    bool autoloadSub();
 
-	void setPreferExternal(bool v);
-	bool preferExternal();
+    void setPreferExternal(bool v);
+    bool preferExternal();
 
-	void setFontEncoding(QString s);
-	QString fontEncoding();
+    void setFontEncoding(QString s);
+    QString fontEncoding();
 
-	void setUseEnca(bool v);
-	bool useEnca();
+    void setUseEnca(bool v);
+    bool useEnca();
 
-	void setEncaLang(QString s);
-	QString encaLang();
+    void setEncaLang(QString s);
+    QString encaLang();
 
-	void setSubPos(int pos);
-	int subPos();
+    void setSubPos(int pos);
+    int subPos();
 
-	void setUseFontASS(bool v);
-	bool useFontASS();
+    void setUseFontASS(bool v);
+    bool useFontASS();
 
-	void setAssLineSpacing(int spacing);
-	int assLineSpacing();
+    void setAssLineSpacing(int spacing);
+    int assLineSpacing();
 
-	void setForceAssStyles(bool b);
-	bool forceAssStyles();
+    void setForceAssStyles(bool b);
+    bool forceAssStyles();
 
-	void setCustomizedAssStyle(QString style) { forced_ass_style = style; };
-	QString customizedAssStyle() { return forced_ass_style; };
+    void setCustomizedAssStyle(QString style) {
+        forced_ass_style = style;
+    };
+    QString customizedAssStyle() {
+        return forced_ass_style;
+    };
 
-	void setFontFuzziness(int n);
-	int fontFuzziness();
+    void setFontFuzziness(int n);
+    int fontFuzziness();
 
-	void setSubtitlesOnScreenshots(bool b);
-	bool subtitlesOnScreenshots();
+    void setSubtitlesOnScreenshots(bool b);
+    bool subtitlesOnScreenshots();
 
-	void setFreetypeSupport(bool b);
-	bool freetypeSupport();
+    void setFreetypeSupport(bool b);
+    bool freetypeSupport();
 
 protected slots:
-	void on_ass_subs_button_toggled(bool b);
-	void on_ass_customize_button_clicked();
-	void on_freetype_check_toggled(bool b);
-	void checkBorderStyleCombo( int index );
+    void on_ass_subs_button_toggled(bool b);
+    void on_ass_customize_button_clicked();
+    void on_freetype_check_toggled(bool b);
+    void checkBorderStyleCombo(int index);
 
 protected:
-	virtual void retranslateStrings();
+    virtual void retranslateStrings();
 
 private:
-	Encodings * encodings;
-	QString forced_ass_style;
+    Encodings *encodings;
+    QString forced_ass_style;
 };
 
 #endif

@@ -31,79 +31,101 @@ class QProcess;
 class MyProcess;
 #endif
 
-class InfoData {
+class InfoData
+{
 
 public:
-	InfoData() {};
-	InfoData( QString name, QString desc) {
-		_name = name;
-		_desc = desc;
-	};
-	~InfoData() {};
+    InfoData() {};
+    InfoData(QString name, QString desc) {
+        _name = name;
+        _desc = desc;
+    };
+    ~InfoData() {};
 
-	void setName(QString name) { _name = name; };
-	void setDesc(QString desc) { _desc = desc; };
+    void setName(QString name) {
+        _name = name;
+    };
+    void setDesc(QString desc) {
+        _desc = desc;
+    };
 
-	QString name() { return _name; };
-	QString desc() { return _desc; };
+    QString name() {
+        return _name;
+    };
+    QString desc() {
+        return _desc;
+    };
 
 private:
-	QString _name, _desc;
+    QString _name, _desc;
 };
 
 
 typedef QList<InfoData> InfoList;
 
 
-class InfoReader : QObject {
-	Q_OBJECT
+class InfoReader : QObject
+{
+    Q_OBJECT
 
 public:
-	InfoReader( QString mplayer_bin, QObject * parent = 0 );
-	~InfoReader();
+    InfoReader(QString mplayer_bin, QObject *parent = 0);
+    ~InfoReader();
 
-	void getInfo();
+    void getInfo();
 
-	InfoList voList() { return vo_list; };
-	InfoList aoList() { return ao_list; };
-	InfoList demuxerList() { return demuxer_list; };
-	InfoList vcList() { return vc_list; };
-	InfoList acList() { return ac_list; };
+    InfoList voList() {
+        return vo_list;
+    };
+    InfoList aoList() {
+        return ao_list;
+    };
+    InfoList demuxerList() {
+        return demuxer_list;
+    };
+    InfoList vcList() {
+        return vc_list;
+    };
+    InfoList acList() {
+        return ac_list;
+    };
 
-	int mplayerVersion() { return mplayer_svn; };
+    int mplayerVersion() {
+        return mplayer_svn;
+    };
 
-	//! Returns an InfoReader objects. If it didn't exist before, one
-	//! is created and getInfo() is called.
-	static InfoReader * obj();
+    //! Returns an InfoReader objects. If it didn't exist before, one
+    //! is created and getInfo() is called.
+    static InfoReader *obj();
 
 protected slots:
-	virtual void readLine(QByteArray);
+    virtual void readLine(QByteArray);
 
 protected:
-	bool run(QString options);
-	void list();
+    bool run(QString options);
+    void list();
 
 protected:
 #if USE_QPROCESS
-	QProcess * proc;
+    QProcess *proc;
 #else
-	MyProcess * proc;
+    MyProcess *proc;
 #endif
-	QString mplayerbin;
+    QString mplayerbin;
 
-	InfoList vo_list;
-	InfoList ao_list;
-	InfoList demuxer_list;
-	InfoList vc_list;
-	InfoList ac_list;
+    InfoList vo_list;
+    InfoList ao_list;
+    InfoList demuxer_list;
+    InfoList vc_list;
+    InfoList ac_list;
 
-	int mplayer_svn;
+    int mplayer_svn;
 
 private:
-	bool waiting_for_key;
-	int reading_type;
+    bool waiting_for_key;
+    int reading_type;
 
-	static InfoReader * static_obj;
+    static InfoReader *static_obj;
 };
 
 #endif

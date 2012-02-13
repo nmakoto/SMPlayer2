@@ -23,448 +23,502 @@
 #include "paths.h"
 #include <QColorDialog>
 
-PrefAdvanced::PrefAdvanced(QWidget * parent, Qt::WindowFlags f)
-	: PrefWidget(parent, f )
+PrefAdvanced::PrefAdvanced(QWidget *parent, Qt::WindowFlags f)
+    : PrefWidget(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 
 #if !USE_COLORKEY
-	colorkey_label->hide();
-	colorkey_view->hide();
-	changeButton->hide();
+    colorkey_label->hide();
+    colorkey_view->hide();
+    changeButton->hide();
 #endif
 
 #if !REPAINT_BACKGROUND_OPTION
-	repaint_video_background_check->hide();
+    repaint_video_background_check->hide();
 #endif
 
-	// Monitor aspect
-	monitoraspect_combo->addItem("Auto");
-	monitoraspect_combo->addItem("4:3");
-	monitoraspect_combo->addItem("16:9");
-	monitoraspect_combo->addItem("5:4");
-	monitoraspect_combo->addItem("16:10");
+    // Monitor aspect
+    monitoraspect_combo->addItem("Auto");
+    monitoraspect_combo->addItem("4:3");
+    monitoraspect_combo->addItem("16:9");
+    monitoraspect_combo->addItem("5:4");
+    monitoraspect_combo->addItem("16:10");
 
-	retranslateStrings();
+    retranslateStrings();
 }
 
 PrefAdvanced::~PrefAdvanced()
 {
 }
 
-QString PrefAdvanced::sectionName() {
-	return tr("Advanced");
+QString PrefAdvanced::sectionName()
+{
+    return tr("Advanced");
 }
 
-QPixmap PrefAdvanced::sectionIcon() {
+QPixmap PrefAdvanced::sectionIcon()
+{
     return Images::icon("pref_advanced");
 }
 
 
-void PrefAdvanced::retranslateStrings() {
-	retranslateUi(this);
+void PrefAdvanced::retranslateStrings()
+{
+    retranslateUi(this);
 
-	monitor_aspect_icon->setPixmap( Images::icon("monitor") );
+    monitor_aspect_icon->setPixmap(Images::icon("monitor"));
 
-	monitoraspect_combo->setItemText(0, tr("Auto") );
+    monitoraspect_combo->setItemText(0, tr("Auto"));
 
-	createHelp();
+    createHelp();
 }
 
-void PrefAdvanced::setData(Preferences * pref) {
-	setMonitorAspect( pref->monitor_aspect );
+void PrefAdvanced::setData(Preferences *pref)
+{
+    setMonitorAspect(pref->monitor_aspect);
 
-#if REPAINT_BACKGROUND_OPTION	
-	setRepaintVideoBackground( pref->repaint_video_background );
+#if REPAINT_BACKGROUND_OPTION
+    setRepaintVideoBackground(pref->repaint_video_background);
 #endif
-	setUseMplayerWindow( pref->use_mplayer_window );
-	setMplayerAdditionalArguments( pref->mplayer_additional_options );
-	setMplayerAdditionalVideoFilters( pref->mplayer_additional_video_filters );
-	setMplayerAdditionalAudioFilters( pref->mplayer_additional_audio_filters );
+    setUseMplayerWindow(pref->use_mplayer_window);
+    setMplayerAdditionalArguments(pref->mplayer_additional_options);
+    setMplayerAdditionalVideoFilters(pref->mplayer_additional_video_filters);
+    setMplayerAdditionalAudioFilters(pref->mplayer_additional_audio_filters);
 #if USE_COLORKEY
-	setColorKey( pref->color_key );
+    setColorKey(pref->color_key);
 #endif
-	setPreferIpv4( pref->prefer_ipv4 );
-	setUseIdx( pref->use_idx );
-	setUseCorrectPts( pref->use_correct_pts );
-	setActionsToRun( pref->actions_to_run );
-	setShowTagInTitle( pref->show_tag_in_window_title );
+    setPreferIpv4(pref->prefer_ipv4);
+    setUseIdx(pref->use_idx);
+    setUseCorrectPts(pref->use_correct_pts);
+    setActionsToRun(pref->actions_to_run);
+    setShowTagInTitle(pref->show_tag_in_window_title);
 
-	setLogMplayer( pref->log_mplayer );
-	setMplayerLogVerbose( pref->verbose_log );
-	setLogSmplayer( pref->log_smplayer2 );
-	setLogFilter( pref->log_filter );
+    setLogMplayer(pref->log_mplayer);
+    setMplayerLogVerbose(pref->verbose_log);
+    setLogSmplayer(pref->log_smplayer2);
+    setLogFilter(pref->log_filter);
 
-    setSaveMplayerLog( pref->autosave_mplayer_log );
-    setMplayerLogName( pref->mplayer_log_saveto );
+    setSaveMplayerLog(pref->autosave_mplayer_log);
+    setMplayerLogName(pref->mplayer_log_saveto);
 
-	setSaveSmplayerLog( pref->save_smplayer2_log );
+    setSaveSmplayerLog(pref->save_smplayer2_log);
 }
 
-void PrefAdvanced::getData(Preferences * pref) {
-	requires_restart = false;
+void PrefAdvanced::getData(Preferences *pref)
+{
+    requires_restart = false;
 
 #if REPAINT_BACKGROUND_OPTION
-	repaint_video_background_changed = false;
+    repaint_video_background_changed = false;
 #endif
 
-	monitor_aspect_changed = false;
+    monitor_aspect_changed = false;
 #if USE_COLORKEY
-	colorkey_changed = false;
+    colorkey_changed = false;
 #endif
-	pref->prefer_ipv4 = preferIpv4();
-	TEST_AND_SET(pref->use_idx, useIdx());
-	TEST_AND_SET(pref->use_correct_pts, useCorrectPts());
-	pref->actions_to_run = actionsToRun();
-	//TEST_AND_SET(pref->show_tag_in_window_title, showTagInTitle());
-	pref->show_tag_in_window_title = showTagInTitle(); // TODO: detect change and apply
+    pref->prefer_ipv4 = preferIpv4();
+    TEST_AND_SET(pref->use_idx, useIdx());
+    TEST_AND_SET(pref->use_correct_pts, useCorrectPts());
+    pref->actions_to_run = actionsToRun();
+    //TEST_AND_SET(pref->show_tag_in_window_title, showTagInTitle());
+    pref->show_tag_in_window_title = showTagInTitle(); // TODO: detect change and apply
 
-	if (pref->monitor_aspect != monitorAspect()) {
-		pref->monitor_aspect = monitorAspect();
-		monitor_aspect_changed = true;
-		requires_restart = true;
-	}
-
-#if REPAINT_BACKGROUND_OPTION
-	if (pref->repaint_video_background != repaintVideoBackground()) {
-		pref->repaint_video_background = repaintVideoBackground();
-		repaint_video_background_changed = true;
+    if (pref->monitor_aspect != monitorAspect()) {
+        pref->monitor_aspect = monitorAspect();
+        monitor_aspect_changed = true;
+        requires_restart = true;
     }
+
+#if REPAINT_BACKGROUND_OPTION
+
+    if (pref->repaint_video_background != repaintVideoBackground()) {
+        pref->repaint_video_background = repaintVideoBackground();
+        repaint_video_background_changed = true;
+    }
+
 #endif
 
-	TEST_AND_SET(pref->use_mplayer_window, useMplayerWindow());
-	TEST_AND_SET(pref->mplayer_additional_options, mplayerAdditionalArguments());
-	TEST_AND_SET(pref->mplayer_additional_video_filters, mplayerAdditionalVideoFilters());
-	TEST_AND_SET(pref->mplayer_additional_audio_filters, mplayerAdditionalAudioFilters());
+    TEST_AND_SET(pref->use_mplayer_window, useMplayerWindow());
+    TEST_AND_SET(pref->mplayer_additional_options, mplayerAdditionalArguments());
+    TEST_AND_SET(pref->mplayer_additional_video_filters, mplayerAdditionalVideoFilters());
+    TEST_AND_SET(pref->mplayer_additional_audio_filters, mplayerAdditionalAudioFilters());
 #if USE_COLORKEY
-	if (pref->color_key != colorKey()) {
-		pref->color_key = colorKey();
-		colorkey_changed = true;
-		requires_restart = true;
-	}
+
+    if (pref->color_key != colorKey()) {
+        pref->color_key = colorKey();
+        colorkey_changed = true;
+        requires_restart = true;
+    }
+
 #endif
-	pref->log_mplayer = logMplayer();
-	TEST_AND_SET( pref->verbose_log, mplayerLogVerbose() );
-	pref->log_smplayer2 = logSmplayer();
-	pref->log_filter = logFilter();
+    pref->log_mplayer = logMplayer();
+    TEST_AND_SET(pref->verbose_log, mplayerLogVerbose());
+    pref->log_smplayer2 = logSmplayer();
+    pref->log_filter = logFilter();
     pref->autosave_mplayer_log = saveMplayerLog();
     pref->mplayer_log_saveto = mplayerLogName();
 
-	pref->save_smplayer2_log = saveSmplayerLog();
+    pref->save_smplayer2_log = saveSmplayerLog();
 }
 
-void PrefAdvanced::setMonitorAspect(QString asp) {
-	if (asp.isEmpty())
-		monitoraspect_combo->setCurrentIndex( 0 );
-	else
-		monitoraspect_combo->setCurrentText(asp);
-		//monitoraspect_combo->setEditText(asp);
+void PrefAdvanced::setMonitorAspect(QString asp)
+{
+    if (asp.isEmpty())
+        monitoraspect_combo->setCurrentIndex(0);
+    else
+        monitoraspect_combo->setCurrentText(asp);
+
+    //monitoraspect_combo->setEditText(asp);
 }
 
-QString PrefAdvanced::monitorAspect() {
-	if (monitoraspect_combo->currentIndex() == 0 ) 
-		return "";
-	else
-		return monitoraspect_combo->currentText();
+QString PrefAdvanced::monitorAspect()
+{
+    if (monitoraspect_combo->currentIndex() == 0)
+        return "";
+    else
+        return monitoraspect_combo->currentText();
 }
 
 #if REPAINT_BACKGROUND_OPTION
-void PrefAdvanced::setRepaintVideoBackground(bool b) {
-	repaint_video_background_check->setChecked(b);
+void PrefAdvanced::setRepaintVideoBackground(bool b)
+{
+    repaint_video_background_check->setChecked(b);
 }
 
-bool PrefAdvanced::repaintVideoBackground() {
-	return repaint_video_background_check->isChecked();
+bool PrefAdvanced::repaintVideoBackground()
+{
+    return repaint_video_background_check->isChecked();
 }
 #endif
 
-void PrefAdvanced::setUseMplayerWindow(bool v) {
-	mplayer_use_window_check->setChecked(v);
+void PrefAdvanced::setUseMplayerWindow(bool v)
+{
+    mplayer_use_window_check->setChecked(v);
 }
 
-bool PrefAdvanced::useMplayerWindow() {
-	return mplayer_use_window_check->isChecked();
+bool PrefAdvanced::useMplayerWindow()
+{
+    return mplayer_use_window_check->isChecked();
 }
 
-void PrefAdvanced::setMplayerAdditionalArguments(QString args) {
-	mplayer_args_edit->setText(args);
+void PrefAdvanced::setMplayerAdditionalArguments(QString args)
+{
+    mplayer_args_edit->setText(args);
 }
 
-QString PrefAdvanced::mplayerAdditionalArguments() {
-	return mplayer_args_edit->text();
+QString PrefAdvanced::mplayerAdditionalArguments()
+{
+    return mplayer_args_edit->text();
 }
 
-void PrefAdvanced::setMplayerAdditionalVideoFilters(QString s) {
-	mplayer_vfilters_edit->setText(s);
+void PrefAdvanced::setMplayerAdditionalVideoFilters(QString s)
+{
+    mplayer_vfilters_edit->setText(s);
 }
 
-QString PrefAdvanced::mplayerAdditionalVideoFilters() {
-	return mplayer_vfilters_edit->text();
+QString PrefAdvanced::mplayerAdditionalVideoFilters()
+{
+    return mplayer_vfilters_edit->text();
 }
 
-void PrefAdvanced::setMplayerAdditionalAudioFilters(QString s) {
-	mplayer_afilters_edit->setText(s);
+void PrefAdvanced::setMplayerAdditionalAudioFilters(QString s)
+{
+    mplayer_afilters_edit->setText(s);
 }
 
-QString PrefAdvanced::mplayerAdditionalAudioFilters() {
-	return mplayer_afilters_edit->text();
+QString PrefAdvanced::mplayerAdditionalAudioFilters()
+{
+    return mplayer_afilters_edit->text();
 }
 
 #if USE_COLORKEY
-void PrefAdvanced::setColorKey(unsigned int c) {
-	QString color = QString::number(c, 16);
-	while (color.length() < 6) color = "0"+color;
-	colorkey_view->setText( "#" + color );
+void PrefAdvanced::setColorKey(unsigned int c)
+{
+    QString color = QString::number(c, 16);
+
+    while (color.length() < 6) color = "0" + color;
+
+    colorkey_view->setText("#" + color);
 }
 
-unsigned int PrefAdvanced::colorKey() {
-	QString c = colorkey_view->text();
-	if (c.startsWith("#")) c = c.mid(1);
+unsigned int PrefAdvanced::colorKey()
+{
+    QString c = colorkey_view->text();
 
-	bool ok;
-	unsigned int color = c.toUInt(&ok, 16);
+    if (c.startsWith("#")) c = c.mid(1);
 
-	if (!ok) 
-		qWarning("PrefAdvanced::colorKey: cannot convert color to uint");
+    bool ok;
+    unsigned int color = c.toUInt(&ok, 16);
 
-	qDebug("PrefAdvanced::colorKey: color: %s", QString::number(color,16).toUtf8().data() );
+    if (!ok)
+        qWarning("PrefAdvanced::colorKey: cannot convert color to uint");
 
-	return color;
+    qDebug("PrefAdvanced::colorKey: color: %s", QString::number(color, 16).toUtf8().data());
+
+    return color;
 }
 #endif
 
-void PrefAdvanced::setPreferIpv4(bool b) {
-	if (b) 
-		ipv4_button->setChecked(true);
-	else 
-		ipv6_button->setChecked(true);
+void PrefAdvanced::setPreferIpv4(bool b)
+{
+    if (b)
+        ipv4_button->setChecked(true);
+    else
+        ipv6_button->setChecked(true);
 }
 
-bool PrefAdvanced::preferIpv4() {
-	return ipv4_button->isChecked();
+bool PrefAdvanced::preferIpv4()
+{
+    return ipv4_button->isChecked();
 }
 
-void PrefAdvanced::setUseIdx(bool b) {
-	idx_check->setChecked(b);
+void PrefAdvanced::setUseIdx(bool b)
+{
+    idx_check->setChecked(b);
 }
 
-bool PrefAdvanced::useIdx() {
-	return idx_check->isChecked();
+bool PrefAdvanced::useIdx()
+{
+    return idx_check->isChecked();
 }
 
-void PrefAdvanced::setUseCorrectPts(Preferences::OptionState value) {
-	correct_pts_combo->setState(value);
+void PrefAdvanced::setUseCorrectPts(Preferences::OptionState value)
+{
+    correct_pts_combo->setState(value);
 }
 
-Preferences::OptionState PrefAdvanced::useCorrectPts() {
-	return correct_pts_combo->state();
+Preferences::OptionState PrefAdvanced::useCorrectPts()
+{
+    return correct_pts_combo->state();
 }
 
-void PrefAdvanced::setActionsToRun(QString actions) {
-	actions_to_run_edit->setText(actions);
+void PrefAdvanced::setActionsToRun(QString actions)
+{
+    actions_to_run_edit->setText(actions);
 }
 
-QString PrefAdvanced::actionsToRun() {
-	return actions_to_run_edit->text();
+QString PrefAdvanced::actionsToRun()
+{
+    return actions_to_run_edit->text();
 }
 
-void PrefAdvanced::setShowTagInTitle(bool b) {
-	show_tag_in_title_check->setChecked(b);
+void PrefAdvanced::setShowTagInTitle(bool b)
+{
+    show_tag_in_title_check->setChecked(b);
 }
 
-bool PrefAdvanced::showTagInTitle() {
-	return show_tag_in_title_check->isChecked();
+bool PrefAdvanced::showTagInTitle()
+{
+    return show_tag_in_title_check->isChecked();
 }
 
-void PrefAdvanced::on_changeButton_clicked() {
-	//bool ok;
-	//int color = colorkey_view->text().toUInt(&ok, 16);
-	QColor color( colorkey_view->text() );
-	QColor c = QColorDialog::getColor ( color, this );
-	if (c.isValid()) {
-		//colorkey_view->setText( QString::number( c.rgb(), 16 ) );
-		colorkey_view->setText( c.name() );
-	}
+void PrefAdvanced::on_changeButton_clicked()
+{
+    //bool ok;
+    //int color = colorkey_view->text().toUInt(&ok, 16);
+    QColor color(colorkey_view->text());
+    QColor c = QColorDialog::getColor(color, this);
+
+    if (c.isValid()) {
+        //colorkey_view->setText( QString::number( c.rgb(), 16 ) );
+        colorkey_view->setText(c.name());
+    }
 }
 
 // Log options
-void PrefAdvanced::setLogMplayer(bool b) {
-	log_mplayer_check->setChecked(b);
+void PrefAdvanced::setLogMplayer(bool b)
+{
+    log_mplayer_check->setChecked(b);
 }
 
-bool PrefAdvanced::logMplayer() {
-	return log_mplayer_check->isChecked();
+bool PrefAdvanced::logMplayer()
+{
+    return log_mplayer_check->isChecked();
 }
 
-void PrefAdvanced::setMplayerLogVerbose(bool b) {
-	verbose_check->setChecked(b);
+void PrefAdvanced::setMplayerLogVerbose(bool b)
+{
+    verbose_check->setChecked(b);
 }
 
-bool PrefAdvanced::mplayerLogVerbose() {
-	return verbose_check->isChecked();
+bool PrefAdvanced::mplayerLogVerbose()
+{
+    return verbose_check->isChecked();
 }
 
-void PrefAdvanced::setLogSmplayer(bool b) {
-	log_smplayer2_check->setChecked(b);
+void PrefAdvanced::setLogSmplayer(bool b)
+{
+    log_smplayer2_check->setChecked(b);
 }
 
-bool PrefAdvanced::logSmplayer() {
-	return log_smplayer2_check->isChecked();
+bool PrefAdvanced::logSmplayer()
+{
+    return log_smplayer2_check->isChecked();
 }
 
-void PrefAdvanced::setLogFilter(QString filter) {
-	log_filter_edit->setText(filter);
+void PrefAdvanced::setLogFilter(QString filter)
+{
+    log_filter_edit->setText(filter);
 }
 
-QString PrefAdvanced::logFilter() {
-	return log_filter_edit->text();
+QString PrefAdvanced::logFilter()
+{
+    return log_filter_edit->text();
 }
 
 
-void PrefAdvanced::setSaveMplayerLog(bool b) {
+void PrefAdvanced::setSaveMplayerLog(bool b)
+{
     log_mplayer_save_check->setChecked(b);
 }
 
-bool PrefAdvanced::saveMplayerLog() {
+bool PrefAdvanced::saveMplayerLog()
+{
     return log_mplayer_save_check->isChecked();
 }
 
-void PrefAdvanced::setMplayerLogName(QString filter) {
+void PrefAdvanced::setMplayerLogName(QString filter)
+{
     log_mplayer_save_name->setText(filter);
 }
 
-QString PrefAdvanced::mplayerLogName() {
+QString PrefAdvanced::mplayerLogName()
+{
     return log_mplayer_save_name->text();
 }
 
-void PrefAdvanced::setSaveSmplayerLog(bool b) {
-	log_smplayer2_save_check->setChecked(b);
+void PrefAdvanced::setSaveSmplayerLog(bool b)
+{
+    log_smplayer2_save_check->setChecked(b);
 }
 
-bool PrefAdvanced::saveSmplayerLog(){
+bool PrefAdvanced::saveSmplayerLog()
+{
     return log_smplayer2_save_check->isChecked();
 }
 
 
-void PrefAdvanced::createHelp() {
-	clearHelp();
+void PrefAdvanced::createHelp()
+{
+    clearHelp();
 
-	addSectionTitle(tr("Advanced"));
+    addSectionTitle(tr("Advanced"));
 
-	setWhatsThis(monitoraspect_combo, tr("Monitor aspect"),
-        tr("Select the aspect ratio of your monitor.") );
+    setWhatsThis(monitoraspect_combo, tr("Monitor aspect"),
+                 tr("Select the aspect ratio of your monitor."));
 
-	setWhatsThis(mplayer_use_window_check, tr("Run mplayer2 in its own window"),
-        tr("If you check this option, the mplayer2 video window won't be "
-           "embedded in SMPlayer2's main window but instead it will use its "
-           "own window. Note that mouse and keyboard events will be handled "
-           "directly by mplayer2, that means key shortcuts and mouse clicks "
-           "probably won't work as expected when the mplayer2 window has the "
-           "focus.") );
+    setWhatsThis(mplayer_use_window_check, tr("Run mplayer2 in its own window"),
+                 tr("If you check this option, the mplayer2 video window won't be "
+                    "embedded in SMPlayer2's main window but instead it will use its "
+                    "own window. Note that mouse and keyboard events will be handled "
+                    "directly by mplayer2, that means key shortcuts and mouse clicks "
+                    "probably won't work as expected when the mplayer2 window has the "
+                    "focus."));
 
-	setWhatsThis(idx_check, tr("Rebuild index if needed"),
-		tr("Rebuilds index of files if no index was found, allowing seeking. "
-		   "Useful with broken/incomplete downloads, or badly created files. "
-           "This option only works if the underlying media supports "
-           "seeking (i.e. not with stdin, pipe, etc).<br> "
-           "<b>Note:</b> the creation of the index may take some time.") );
+    setWhatsThis(idx_check, tr("Rebuild index if needed"),
+                 tr("Rebuilds index of files if no index was found, allowing seeking. "
+                    "Useful with broken/incomplete downloads, or badly created files. "
+                    "This option only works if the underlying media supports "
+                    "seeking (i.e. not with stdin, pipe, etc).<br> "
+                    "<b>Note:</b> the creation of the index may take some time."));
 
-	setWhatsThis(correct_pts_combo, tr("Correct pts"),
-		tr("Switches mplayer2 to an experimental mode where timestamps for "
-           "video frames are calculated differently and video filters which "
-           "add new frames or modify timestamps of existing ones are "
-           "supported. The more accurate timestamps can be visible for "
-           "example when playing subtitles timed to scene changes with the "
-           "SSA/ASS library enabled. Without correct pts the subtitle timing "
-           "will typically be off by some frames. This option does not work "
-           "correctly with some demuxers and codecs.") );
+    setWhatsThis(correct_pts_combo, tr("Correct pts"),
+                 tr("Switches mplayer2 to an experimental mode where timestamps for "
+                    "video frames are calculated differently and video filters which "
+                    "add new frames or modify timestamps of existing ones are "
+                    "supported. The more accurate timestamps can be visible for "
+                    "example when playing subtitles timed to scene changes with the "
+                    "SSA/ASS library enabled. Without correct pts the subtitle timing "
+                    "will typically be off by some frames. This option does not work "
+                    "correctly with some demuxers and codecs."));
 
 #if REPAINT_BACKGROUND_OPTION
-	setWhatsThis(repaint_video_background_check, 
-        tr("Repaint the background of the video window"),
-		tr("Checking this option may reduce flickering, but it also might "
-           "produce that the video won't be displayed properly.") );
+    setWhatsThis(repaint_video_background_check,
+                 tr("Repaint the background of the video window"),
+                 tr("Checking this option may reduce flickering, but it also might "
+                    "produce that the video won't be displayed properly."));
 #endif
 
 #if USE_COLORKEY
-	setWhatsThis(colorkey_view, tr("Colorkey"),
-        tr("If you see parts of the video over any other window, you can "
-           "change the colorkey to fix it. Try to select a color close to "
-           "black.") );
+    setWhatsThis(colorkey_view, tr("Colorkey"),
+                 tr("If you see parts of the video over any other window, you can "
+                    "change the colorkey to fix it. Try to select a color close to "
+                    "black."));
 #endif
 
-	setWhatsThis(actions_to_run_edit, tr("Actions list"),
-		tr("Here you can specify a list of <i>actions</i> which will be "
-           "run every time a file is opened. You'll find all available "
-           "actions in the key shortcut editor in the <b>Keyboard and mouse</b> "
-           "section. The actions must be separated by spaces. Checkable "
-           "actions can be followed by <i>true</i> or <i>false</i> to "
-           "enable or disable the action.") +"<br>"+
-		tr("Example:") +" <i>auto_zoom compact true</i><br>" +
-		tr("Limitation: the actions are run only when a file is opened and "
-           "not when the mplayer process is restarted (e.g. you select an "
-           "audio or video filter).") );
+    setWhatsThis(actions_to_run_edit, tr("Actions list"),
+                 tr("Here you can specify a list of <i>actions</i> which will be "
+                    "run every time a file is opened. You'll find all available "
+                    "actions in the key shortcut editor in the <b>Keyboard and mouse</b> "
+                    "section. The actions must be separated by spaces. Checkable "
+                    "actions can be followed by <i>true</i> or <i>false</i> to "
+                    "enable or disable the action.") + "<br>" +
+                 tr("Example:") + " <i>auto_zoom compact true</i><br>" +
+                 tr("Limitation: the actions are run only when a file is opened and "
+                    "not when the mplayer process is restarted (e.g. you select an "
+                    "audio or video filter)."));
 
-	setWhatsThis(show_tag_in_title_check, tr("Show tag info in window title"),
-		tr("If this option is enabled, information from tags will be "
-		   "shown in window title. "
-           "Otherwise only the filename will be shown.") );
+    setWhatsThis(show_tag_in_title_check, tr("Show tag info in window title"),
+                 tr("If this option is enabled, information from tags will be "
+                    "shown in window title. "
+                    "Otherwise only the filename will be shown."));
 
-	addSectionTitle(tr("Options for mplayer2"));
+    addSectionTitle(tr("Options for mplayer2"));
 
-	setWhatsThis(mplayer_args_edit, tr("Options"),
-        tr("Here you can type options for mplayer2. Write them separated "
-           "by spaces.") );
+    setWhatsThis(mplayer_args_edit, tr("Options"),
+                 tr("Here you can type options for mplayer2. Write them separated "
+                    "by spaces."));
 
-	setWhatsThis(mplayer_vfilters_edit, tr("Video filters"),
-        tr("Here you can add video filters for mplayer2. Write them separated "
-           "by commas. Don't use spaces!") );
+    setWhatsThis(mplayer_vfilters_edit, tr("Video filters"),
+                 tr("Here you can add video filters for mplayer2. Write them separated "
+                    "by commas. Don't use spaces!"));
 
-	setWhatsThis(mplayer_afilters_edit, tr("Audio filters"),
-        tr("Here you can add audio filters for mplayer2. Write them separated "
-           "by commas. Don't use spaces!") );
+    setWhatsThis(mplayer_afilters_edit, tr("Audio filters"),
+                 tr("Here you can add audio filters for mplayer2. Write them separated "
+                    "by commas. Don't use spaces!"));
 
-	addSectionTitle(tr("Network"));
+    addSectionTitle(tr("Network"));
 
-	setWhatsThis(ipv4_button, tr("IPv4"),
-		tr("Use IPv4 on network connections. Falls back on IPv6 automatically."));
+    setWhatsThis(ipv4_button, tr("IPv4"),
+                 tr("Use IPv4 on network connections. Falls back on IPv6 automatically."));
 
-	setWhatsThis(ipv6_button, tr("IPv6"),
-		tr("Use IPv6 on network connections. Falls back on IPv4 automatically."));
+    setWhatsThis(ipv6_button, tr("IPv6"),
+                 tr("Use IPv6 on network connections. Falls back on IPv4 automatically."));
 
-	addSectionTitle(tr("Logs"));
+    addSectionTitle(tr("Logs"));
 
-	setWhatsThis(log_smplayer2_check, tr("Log SMPlayer2 output"),
-		tr("If this option is checked, SMPlayer2 will store the debugging "
-           "messages that SMPlayer2 outputs "
-           "(you can see the log in <b>Options -> View logs -> SMPlayer2</b>). "
-           "This information can be very useful for the developer in case "
-           "you find a bug." ) );
+    setWhatsThis(log_smplayer2_check, tr("Log SMPlayer2 output"),
+                 tr("If this option is checked, SMPlayer2 will store the debugging "
+                    "messages that SMPlayer2 outputs "
+                    "(you can see the log in <b>Options -> View logs -> SMPlayer2</b>). "
+                    "This information can be very useful for the developer in case "
+                    "you find a bug."));
 
-	setWhatsThis(log_smplayer2_save_check, tr("Save SMPlayer2 log to file"),
-		tr("If this option is checked, the SMPlayer2 log wil be recorded to %1")
-          .arg( "<i>"+ Paths::configPath() + "/smplayer2_log.txt</i>" ) );
+    setWhatsThis(log_smplayer2_save_check, tr("Save SMPlayer2 log to file"),
+                 tr("If this option is checked, the SMPlayer2 log wil be recorded to %1")
+                 .arg("<i>" + Paths::configPath() + "/smplayer2_log.txt</i>"));
 
-	setWhatsThis(log_mplayer_check, tr("Log mplayer2 output"),
-		tr("If checked, SMPlayer2 will store the output of mplayer2 "
-           "(you can see it in <b>Options -> View logs -> mplayer2</b>). "
-           "In case of problems this log can contain important information, "
-           "so it's recommended to keep this option checked.") );
+    setWhatsThis(log_mplayer_check, tr("Log mplayer2 output"),
+                 tr("If checked, SMPlayer2 will store the output of mplayer2 "
+                    "(you can see it in <b>Options -> View logs -> mplayer2</b>). "
+                    "In case of problems this log can contain important information, "
+                    "so it's recommended to keep this option checked."));
 
-	setWhatsThis(log_mplayer_save_check, tr("Autosave mplayer2 log"),
-		tr("If this option is checked, the mplayer2 log will be saved to the "
-           "specified file every time a new file starts to play. "
-           "It's intended for external applications, so they can get "
-           "info about the file you're playing.") );
+    setWhatsThis(log_mplayer_save_check, tr("Autosave mplayer2 log"),
+                 tr("If this option is checked, the mplayer2 log will be saved to the "
+                    "specified file every time a new file starts to play. "
+                    "It's intended for external applications, so they can get "
+                    "info about the file you're playing."));
 
-	setWhatsThis(log_mplayer_save_name, tr("Autosave mplayer2 log filename"),
- 		tr("Enter here the path and filename that will be used to save the "
-           "mplayer2 log.") );
+    setWhatsThis(log_mplayer_save_name, tr("Autosave mplayer2 log filename"),
+                 tr("Enter here the path and filename that will be used to save the "
+                    "mplayer2 log."));
 
-	setWhatsThis(log_filter_edit, tr("Filter for SMPlayer2 logs"),
-		tr("This option allows to filter the SMPlayer2 messages that will "
-           "be stored in the log. Here you can write any regular expression.<br>"
-           "For instance: <i>^Core::.*</i> will display only the lines "
-           "starting with <i>Core::</i>") );
+    setWhatsThis(log_filter_edit, tr("Filter for SMPlayer2 logs"),
+                 tr("This option allows to filter the SMPlayer2 messages that will "
+                    "be stored in the log. Here you can write any regular expression.<br>"
+                    "For instance: <i>^Core::.*</i> will display only the lines "
+                    "starting with <i>Core::</i>"));
 
 }

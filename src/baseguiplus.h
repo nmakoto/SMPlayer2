@@ -32,84 +32,84 @@ class VolumeSliderAction;
 
 class BaseGuiPlus : public BaseGui
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	BaseGuiPlus( bool use_server, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-	~BaseGuiPlus();
+    BaseGuiPlus(bool use_server, QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    ~BaseGuiPlus();
 
-	virtual bool startHidden();
+    virtual bool startHidden();
 
 protected:
-	virtual void retranslateStrings();
+    virtual void retranslateStrings();
 
-	void loadConfig();
-	void saveConfig();
-	void updateShowAllAct();
+    void loadConfig();
+    void saveConfig();
+    void updateShowAllAct();
 
     virtual void aboutToEnterFullscreen();
     virtual void aboutToExitFullscreen();
-	virtual void aboutToEnterCompactMode();
-	virtual void aboutToExitCompactMode();
+    virtual void aboutToEnterCompactMode();
+    virtual void aboutToExitCompactMode();
 
-	virtual void closeEvent( QCloseEvent * e );
+    virtual void closeEvent(QCloseEvent *e);
 
-	// Functions for other GUI's
-	TimeSliderAction * createTimeSliderAction(QWidget * parent);
-	VolumeSliderAction * createVolumeSliderAction(QWidget * parent);
+    // Functions for other GUI's
+    TimeSliderAction *createTimeSliderAction(QWidget *parent);
+    VolumeSliderAction *createVolumeSliderAction(QWidget *parent);
 
 protected slots:
-	// Reimplemented methods
-	virtual void closeWindow();
-	virtual void setWindowCaption(const QString & title);
-	virtual void resizeWindow(int w, int h, bool force);
-	virtual void updateMediaInfo();
-	// New
-	virtual void trayIconActivated(QSystemTrayIcon::ActivationReason);
-	virtual void toggleShowAll();
-	virtual void showAll(bool b);
-	virtual void quit();
+    // Reimplemented methods
+    virtual void closeWindow();
+    virtual void setWindowCaption(const QString &title);
+    virtual void resizeWindow(int w, int h, bool force);
+    virtual void updateMediaInfo();
+    // New
+    virtual void trayIconActivated(QSystemTrayIcon::ActivationReason);
+    virtual void toggleShowAll();
+    virtual void showAll(bool b);
+    virtual void quit();
 
 #if DOCK_PLAYLIST
-	virtual void showPlaylist(bool b);
-	void playlistClosed();
+    virtual void showPlaylist(bool b);
+    void playlistClosed();
 
 #if !USE_DOCK_TOPLEVEL_EVENT
-	void dockVisibilityChanged(bool visible);
+    void dockVisibilityChanged(bool visible);
 #else
-	void dockTopLevelChanged(bool floating);
+    void dockTopLevelChanged(bool floating);
 #endif
 
-	void stretchWindow();
-	void shrinkWindow();
+    void stretchWindow();
+    void shrinkWindow();
 #endif
 
 protected:
-	QSystemTrayIcon * tray;
-	QMenu * context_menu;
+    QSystemTrayIcon *tray;
+    QMenu *context_menu;
 
-	MyAction * quitAct;
-	MyAction * showTrayAct;
-	MyAction * showAllAct;
+    MyAction *quitAct;
+    MyAction *showTrayAct;
+    MyAction *showAllAct;
 
-	// To save state
-	QPoint mainwindow_pos;
-	bool mainwindow_visible;
+    // To save state
+    QPoint mainwindow_pos;
+    bool mainwindow_visible;
 
-	QPoint playlist_pos;
-	bool trayicon_playlist_was_visible;
+    QPoint playlist_pos;
+    bool trayicon_playlist_was_visible;
 
-	//QPoint infowindow_pos;
-	//bool infowindow_visible;
+    //QPoint infowindow_pos;
+    //bool infowindow_visible;
 
-   int widgets_size; // To be able to restore the original size after exiting from compact mode
+    int widgets_size; // To be able to restore the original size after exiting from compact mode
 
 #if DOCK_PLAYLIST
-    PlaylistDock * playlistdock;
-	bool fullscreen_playlist_was_visible;
-	bool fullscreen_playlist_was_floating;
-	bool compact_playlist_was_visible;
-	bool ignore_playlist_events;
+    PlaylistDock *playlistdock;
+    bool fullscreen_playlist_was_visible;
+    bool fullscreen_playlist_was_floating;
+    bool compact_playlist_was_visible;
+    bool ignore_playlist_events;
 #endif
 
 };

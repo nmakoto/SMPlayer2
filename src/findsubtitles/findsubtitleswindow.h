@@ -38,97 +38,103 @@ class QuaZip;
 
 class FindSubtitlesWindow : public QDialog, public Ui::FindSubtitlesWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	FindSubtitlesWindow( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~FindSubtitlesWindow();
+    FindSubtitlesWindow(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~FindSubtitlesWindow();
 
-	QString language();
+    QString language();
 #ifdef DOWNLOAD_SUBS
-	bool includeLangOnFilename() { return include_lang_on_filename; };
+    bool includeLangOnFilename() {
+        return include_lang_on_filename;
+    };
 #endif
 
-	void setSettings(QSettings * settings);
-	QSettings * settings() { return set; };
+    void setSettings(QSettings *settings);
+    QSettings *settings() {
+        return set;
+    };
 
 public slots:
-	void setMovie(QString filename);
-	void setLanguage(const QString & lang);
-	void refresh();
-	void download();
-	void copyLink();
+    void setMovie(QString filename);
+    void setLanguage(const QString &lang);
+    void refresh();
+    void download();
+    void copyLink();
 #ifdef DOWNLOAD_SUBS
-	void setIncludeLangOnFilename(bool b) { include_lang_on_filename = b; };
+    void setIncludeLangOnFilename(bool b) {
+        include_lang_on_filename = b;
+    };
 #endif
 
 protected slots:
-	void applyFilter(const QString & filter);
-	void applyCurrentFilter();
+    void applyFilter(const QString &filter);
+    void applyCurrentFilter();
 
-	void showError(QString error);
-	void connecting(QString host);
-	void updateDataReadProgress(int done, int total);
-	void downloadFinished();
+    void showError(QString error);
+    void connecting(QString host);
+    void updateDataReadProgress(int done, int total);
+    void downloadFinished();
 
-	void updateRefreshButton();
+    void updateRefreshButton();
 
-	void parseInfo(QByteArray xml_text);
+    void parseInfo(QByteArray xml_text);
 
-	void itemActivated(const QModelIndex & index );
-	void currentItemChanged(const QModelIndex & current, const QModelIndex & previous);
+    void itemActivated(const QModelIndex &index);
+    void currentItemChanged(const QModelIndex &current, const QModelIndex &previous);
 
-	void showContextMenu(const QPoint & pos);
+    void showContextMenu(const QPoint &pos);
 
 #ifdef DOWNLOAD_SUBS
-	void archiveDownloaded(const QByteArray & buffer);
+    void archiveDownloaded(const QByteArray &buffer);
 #endif
 
-	void on_configure_button_clicked();
+    void on_configure_button_clicked();
 
 protected:
-	virtual void retranslateStrings();
-	virtual void changeEvent(QEvent * event);
+    virtual void retranslateStrings();
+    virtual void changeEvent(QEvent *event);
 
-	void setProxy(QNetworkProxy proxy);
-	void setupProxy();
+    void setProxy(QNetworkProxy proxy);
+    void setupProxy();
 
-	void saveSettings();
-	void loadSettings();
+    void saveSettings();
+    void loadSettings();
 
 #ifdef DOWNLOAD_SUBS
 signals:
-	void subtitleDownloaded(const QString & filename);
+    void subtitleDownloaded(const QString &filename);
 
 protected:
-	bool uncompressZip(const QString & filename, const QString & output_path, const QString & preferred_output_name);
-	bool extractFile(QuaZip & zip, const QString & filename, const QString & output_name);
+    bool uncompressZip(const QString &filename, const QString &output_path, const QString &preferred_output_name);
+    bool extractFile(QuaZip &zip, const QString &filename, const QString &output_name);
 #endif
 
 protected:
-	SimpleHttp * downloader;
-	QStandardItemModel * table;
-	QSortFilterProxyModel * proxy_model;
-	QString last_file;
+    SimpleHttp *downloader;
+    QStandardItemModel *table;
+    QSortFilterProxyModel *proxy_model;
+    QString last_file;
 
-	QMenu * context_menu;
-	QAction * downloadAct;
-	QAction * copyLinkAct;
+    QMenu *context_menu;
+    QAction *downloadAct;
+    QAction *copyLinkAct;
 
 #ifdef DOWNLOAD_SUBS
-	FileDownloader * file_downloader;
-	bool include_lang_on_filename;
+    FileDownloader *file_downloader;
+    bool include_lang_on_filename;
 #endif
 
-	// Proxy
-	bool use_proxy;
-	int proxy_type;
-	QString proxy_host;
-	int proxy_port;
-	QString proxy_username;
-	QString proxy_password;
+    // Proxy
+    bool use_proxy;
+    int proxy_type;
+    QString proxy_host;
+    int proxy_port;
+    QString proxy_username;
+    QString proxy_password;
 
-	QSettings * set;
+    QSettings *set;
 };
 
 #endif

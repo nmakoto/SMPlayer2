@@ -22,35 +22,39 @@
 #include "mplayerprocess.h"
 #include <QFileInfo>
 
-MediaData InfoProvider::getInfo(QString mplayer_bin, QString filename) {
-	qDebug("InfoProvider::getInfo: %s", filename.toUtf8().data());
+MediaData InfoProvider::getInfo(QString mplayer_bin, QString filename)
+{
+    qDebug("InfoProvider::getInfo: %s", filename.toUtf8().data());
 
-	MplayerProcess proc;
+    MplayerProcess proc;
 
-	QFileInfo fi(mplayer_bin);
+    QFileInfo fi(mplayer_bin);
+
     if (fi.exists() && fi.isExecutable() && !fi.isDir()) {
         mplayer_bin = fi.absoluteFilePath();
-	}
+    }
 
-	proc.addArgument(mplayer_bin);
-	proc.addArgument("-identify");
-	proc.addArgument("-frames");
-	proc.addArgument("0");
-	proc.addArgument("-vo");
-	proc.addArgument("null");
-	proc.addArgument("-ao");
-	proc.addArgument("null");
-	proc.addArgument(filename);
+    proc.addArgument(mplayer_bin);
+    proc.addArgument("-identify");
+    proc.addArgument("-frames");
+    proc.addArgument("0");
+    proc.addArgument("-vo");
+    proc.addArgument("null");
+    proc.addArgument("-ao");
+    proc.addArgument("null");
+    proc.addArgument(filename);
 
-	proc.start();
-	if (!proc.waitForFinished()) {
-		qWarning("InfoProvider::getInfo: process didn't finish. Killing it...");
-		proc.kill();
-	}
+    proc.start();
 
-	return proc.mediaData();
+    if (!proc.waitForFinished()) {
+        qWarning("InfoProvider::getInfo: process didn't finish. Killing it...");
+        proc.kill();
+    }
+
+    return proc.mediaData();
 }
 
-MediaData InfoProvider::getInfo(QString filename) {
-	return getInfo( Global::pref->mplayer_bin, filename );
+MediaData InfoProvider::getInfo(QString filename)
+{
+    return getInfo(Global::pref->mplayer_bin, filename);
 }

@@ -23,80 +23,89 @@
 #include <QFile>
 #include <QDir>
 
-FileSettingsHash::FileSettingsHash(QString directory) : FileSettingsBase(directory) 
+FileSettingsHash::FileSettingsHash(QString directory) : FileSettingsBase(directory)
 {
-	base_dir = directory + "/file_settings";
+    base_dir = directory + "/file_settings";
 }
 
-FileSettingsHash::~FileSettingsHash() {
+FileSettingsHash::~FileSettingsHash()
+{
 }
 
 
-QString FileSettingsHash::configFile(const QString & filename, QString * output_dir) {
-	QString res;
+QString FileSettingsHash::configFile(const QString &filename, QString *output_dir)
+{
+    QString res;
 
-	QString hash = OSParser::calculateHash(filename);
-	if (!hash.isEmpty()) {
-		if (output_dir != 0) (*output_dir) = hash[0];
-		res = base_dir +"/"+ hash[0] +"/"+ hash + ".ini";
-	}
-	return res;
+    QString hash = OSParser::calculateHash(filename);
+
+    if (!hash.isEmpty()) {
+        if (output_dir != 0)(*output_dir) = hash[0];
+
+        res = base_dir + "/" + hash[0] + "/" + hash + ".ini";
+    }
+
+    return res;
 }
 
-bool FileSettingsHash::existSettingsFor(QString filename) {
-	qDebug("FileSettingsHash::existSettingsFor: '%s'", filename.toUtf8().constData());
+bool FileSettingsHash::existSettingsFor(QString filename)
+{
+    qDebug("FileSettingsHash::existSettingsFor: '%s'", filename.toUtf8().constData());
 
-	QString config_file = configFile(filename);
+    QString config_file = configFile(filename);
 
-	qDebug("FileSettingsHash::existSettingsFor: config_file: '%s'", config_file.toUtf8().constData());
+    qDebug("FileSettingsHash::existSettingsFor: config_file: '%s'", config_file.toUtf8().constData());
 
-	return QFile::exists(config_file);
+    return QFile::exists(config_file);
 }
 
-void FileSettingsHash::loadSettingsFor(QString filename, MediaSettings & mset) {
-	qDebug("FileSettings::loadSettingsFor: '%s'", filename.toUtf8().constData());
+void FileSettingsHash::loadSettingsFor(QString filename, MediaSettings &mset)
+{
+    qDebug("FileSettings::loadSettingsFor: '%s'", filename.toUtf8().constData());
 
-	QString config_file = configFile(filename);
+    QString config_file = configFile(filename);
 
-	qDebug("FileSettingsHash::loadSettingsFor: config_file: '%s'", config_file.toUtf8().constData());
+    qDebug("FileSettingsHash::loadSettingsFor: config_file: '%s'", config_file.toUtf8().constData());
 
-	mset.reset();
+    mset.reset();
 
-	if ((!config_file.isEmpty()) && (QFile::exists(config_file))) {
-		QSettings settings(config_file, QSettings::IniFormat);
+    if ((!config_file.isEmpty()) && (QFile::exists(config_file))) {
+        QSettings settings(config_file, QSettings::IniFormat);
 
-		settings.beginGroup("file_settings");
-		mset.load(&settings);
-		settings.endGroup();
-	}
+        settings.beginGroup("file_settings");
+        mset.load(&settings);
+        settings.endGroup();
+    }
 }
 
-void FileSettingsHash::saveSettingsFor(QString filename, MediaSettings & mset) {
-	qDebug("FileSettingsHash::saveSettingsFor: '%s'", filename.toUtf8().constData());
+void FileSettingsHash::saveSettingsFor(QString filename, MediaSettings &mset)
+{
+    qDebug("FileSettingsHash::saveSettingsFor: '%s'", filename.toUtf8().constData());
 
-	QString output_dir;
-	QString config_file = configFile(filename, &output_dir);
+    QString output_dir;
+    QString config_file = configFile(filename, &output_dir);
 
-	qDebug("FileSettingsHash::saveSettingsFor: config_file: '%s'", config_file.toUtf8().constData());
-	qDebug("FileSettingsHash::saveSettingsFor: output_dir: '%s'", output_dir.toUtf8().constData());
+    qDebug("FileSettingsHash::saveSettingsFor: config_file: '%s'", config_file.toUtf8().constData());
+    qDebug("FileSettingsHash::saveSettingsFor: output_dir: '%s'", output_dir.toUtf8().constData());
 
-	if (!config_file.isEmpty()) {
-		QDir d(base_dir);
-		if (!d.exists(output_dir)) {
-			if (!d.mkpath(output_dir)) {
-				qWarning("FileSettingsHash::saveSettingsFor: can't create directory '%s'", QString(base_dir + "/" + output_dir).toUtf8().constData());
-				return;
-			}
-		}
+    if (!config_file.isEmpty()) {
+        QDir d(base_dir);
 
-		QSettings settings(config_file, QSettings::IniFormat);
+        if (!d.exists(output_dir)) {
+            if (!d.mkpath(output_dir)) {
+                qWarning("FileSettingsHash::saveSettingsFor: can't create directory '%s'", QString(base_dir + "/" + output_dir).toUtf8().constData());
+                return;
+            }
+        }
 
-		/* settings.setValue("filename", filename); */
+        QSettings settings(config_file, QSettings::IniFormat);
 
-		settings.beginGroup("file_settings");
-		mset.save(&settings);
-		settings.endGroup();
-		settings.sync();
-	}
+        /* settings.setValue("filename", filename); */
+
+        settings.beginGroup("file_settings");
+        mset.save(&settings);
+        settings.endGroup();
+        settings.sync();
+    }
 }
 

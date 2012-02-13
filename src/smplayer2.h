@@ -27,42 +27,42 @@
 class SMPlayer2 : public QObject
 {
 public:
-	enum ExitCode { ErrorArgument = -3, NoAction = -2, NoRunningInstance = -1, NoError = 0, NoExit = 1 };
+    enum ExitCode { ErrorArgument = -3, NoAction = -2, NoRunningInstance = -1, NoError = 0, NoExit = 1 };
 
-	SMPlayer2(const QString & config_path = QString::null, QObject * parent = 0);
-	~SMPlayer2();
+    SMPlayer2(const QString &config_path = QString::null, QObject *parent = 0);
+    ~SMPlayer2();
 
-	//! Process arguments. If ExitCode != NoExit the application must be exited.
-	ExitCode processArgs(QStringList args);
+    //! Process arguments. If ExitCode != NoExit the application must be exited.
+    ExitCode processArgs(QStringList args);
 
-	BaseGui * gui();
+    BaseGui *gui();
 
-	void start();
+    void start();
 
 private:
 #ifndef Q_OS_WIN
-	void createConfigDirectory();
+    void createConfigDirectory();
 #endif
-	void showInfo();
+    void showInfo();
 
-	BaseGui * main_window;
+    BaseGui *main_window;
 
     QStringList files_to_play;
     QString subtitle_file;
     QString actions_list; //!< Actions to be run on startup
-	QString gui_to_use;
+    QString gui_to_use;
 
-	// Change position and size
-	bool move_gui;
-	QPoint gui_position;
+    // Change position and size
+    bool move_gui;
+    QPoint gui_position;
 
-	bool resize_gui;
-	QSize gui_size;
+    bool resize_gui;
+    QSize gui_size;
 
-	// Options to pass to gui
-	int close_at_end; // -1 = not set, 1 = true, 0 false
-	int start_in_fullscreen; // -1 = not set, 1 = true, 0 false
-	bool use_control_server;
+    // Options to pass to gui
+    int close_at_end; // -1 = not set, 1 = true, 0 false
+    int start_in_fullscreen; // -1 = not set, 1 = true, 0 false
+    bool use_control_server;
 };
 
 #endif

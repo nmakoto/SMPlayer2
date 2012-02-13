@@ -33,28 +33,28 @@ class FileDownloader : public QProgressDialog
     Q_OBJECT
 
 public:
-	FileDownloader(QWidget *parent = 0);
-	~FileDownloader();
+    FileDownloader(QWidget *parent = 0);
+    ~FileDownloader();
 
-	void setProxy(QNetworkProxy proxy);
+    void setProxy(QNetworkProxy proxy);
 
 public slots:
-	void download(QUrl url);
-	void cancelDownload();
+    void download(QUrl url);
+    void cancelDownload();
 
 signals:
-	void downloadFinished(const QByteArray & buffer);
-	void downloadFailed(const QString & reason);
+    void downloadFinished(const QByteArray &buffer);
+    void downloadFailed(const QString &reason);
 
 private slots:
-	void httpRequestFinished(int request_id, bool error);
-	void readResponseHeader(const QHttpResponseHeader &responseHeader);
-	void updateDataReadProgress(int bytes_read, int total_bytes);
+    void httpRequestFinished(int request_id, bool error);
+    void readResponseHeader(const QHttpResponseHeader &responseHeader);
+    void updateDataReadProgress(int bytes_read, int total_bytes);
 
 private:
-	QHttp * http;
-	int http_get_id;
-	bool http_request_aborted;
+    QHttp *http;
+    int http_get_id;
+    bool http_request_aborted;
 
 };
 

@@ -15,7 +15,7 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General Public 
+    You should have received a copy of the GNU Lesser General Public
     License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -31,17 +31,17 @@ class QTimer;
 
 class MySlider : public QSlider
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MySlider( QWidget * parent );
-	~MySlider();
+    MySlider(QWidget *parent);
+    ~MySlider();
 
 protected:
-	void mousePressEvent ( QMouseEvent * event );
+    void mousePressEvent(QMouseEvent *event);
 #if CODE_FOR_CLICK == 1
-	inline int pick(const QPoint &pt) const;
-	int pixelPosToRangeValue(int pos) const;
+    inline int pick(const QPoint &pt) const;
+    int pixelPosToRangeValue(int pos) const;
 #if QT_VERSION < 0x040300
     void initStyleOption(QStyleOptionSlider *option) const;
 #endif

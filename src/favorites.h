@@ -26,100 +26,130 @@
 class QAction;
 class QWidget;
 
-class Favorite 
+class Favorite
 {
 public:
-	Favorite() { is_subentry = false; }
-	Favorite(QString name, QString file, QString icon = QString::null, bool subentry = false) 
-	{ 
-		_name = name; _file = file; _icon = icon; is_subentry = subentry;
-	};
-	virtual ~Favorite() {};
+    Favorite() {
+        is_subentry = false;
+    }
+    Favorite(QString name, QString file, QString icon = QString::null, bool subentry = false) {
+        _name = name;
+        _file = file;
+        _icon = icon;
+        is_subentry = subentry;
+    };
+    virtual ~Favorite() {};
 
-	void setName(QString name) { _name = name; };
-	void setFile(QString file) { _file = file; };
-	void setIcon(QString file) { _icon = file; };
-	void setSubentry(bool b) { is_subentry = b; }
+    void setName(QString name) {
+        _name = name;
+    };
+    void setFile(QString file) {
+        _file = file;
+    };
+    void setIcon(QString file) {
+        _icon = file;
+    };
+    void setSubentry(bool b) {
+        is_subentry = b;
+    }
 
-	QString name() { return _name; };
-	QString file() { return _file; }
-	QString icon() { return _icon; };
-	bool isSubentry() { return is_subentry; };
+    QString name() {
+        return _name;
+    };
+    QString file() {
+        return _file;
+    }
+    QString icon() {
+        return _icon;
+    };
+    bool isSubentry() {
+        return is_subentry;
+    };
 
 protected:
-	QString _name, _file, _icon;
-	bool is_subentry; // Not a favorite file, but a new favorite list
+    QString _name, _file, _icon;
+    bool is_subentry; // Not a favorite file, but a new favorite list
 };
 
 typedef QList<Favorite> FavoriteList;
 
 class Favorites : public QMenu
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	Favorites(QString filename, QWidget * parent = 0);
-	~Favorites();
+    Favorites(QString filename, QWidget *parent = 0);
+    ~Favorites();
 
-	QAction * editAct() { return edit_act; };
-	QAction * jumpAct() { return jump_act; };
-	QAction * nextAct() { return next_act; };
-	QAction * previousAct() { return previous_act; };
-	QAction * addCurrentAct() { return add_current_act; };
+    QAction *editAct() {
+        return edit_act;
+    };
+    QAction *jumpAct() {
+        return jump_act;
+    };
+    QAction *nextAct() {
+        return next_act;
+    };
+    QAction *previousAct() {
+        return previous_act;
+    };
+    QAction *addCurrentAct() {
+        return add_current_act;
+    };
 
 public slots:
-	void next();
-	void previous();
+    void next();
+    void previous();
 
-	void getCurrentMedia(const QString & filename, const QString & title);
+    void getCurrentMedia(const QString &filename, const QString &title);
 
 signals:
-	void activated(QString filemane);
-	//! Signal to resend the data to child
-	void sendCurrentMedia(const QString & filename, const QString & title);
+    void activated(QString filemane);
+    //! Signal to resend the data to child
+    void sendCurrentMedia(const QString &filename, const QString &title);
 
 protected:
-	virtual void save();
-	virtual void load();
-	virtual void updateMenu();
-	virtual void populateMenu();
-	virtual Favorites * createNewObject(QString filename, QWidget * parent);
-	void delete_children();
+    virtual void save();
+    virtual void load();
+    virtual void updateMenu();
+    virtual void populateMenu();
+    virtual Favorites *createNewObject(QString filename, QWidget *parent);
+    void delete_children();
 
-	int findFile(QString filename);
+    int findFile(QString filename);
 
-	// Mark current action in the menu
-	void markCurrent();
+    // Mark current action in the menu
+    void markCurrent();
 
 protected slots:
-	void triggered_slot(QAction * action);
-	virtual void edit();
-	virtual void jump();
-	virtual void addCurrentPlaying(); // Adds to menu current (or last played) file
+    void triggered_slot(QAction *action);
+    virtual void edit();
+    virtual void jump();
+    virtual void addCurrentPlaying(); // Adds to menu current (or last played) file
 
 protected:
     virtual void retranslateStrings();
-    virtual void changeEvent(QEvent * event);
+    virtual void changeEvent(QEvent *event);
 
 protected:
-	FavoriteList f_list;
-	QString _filename;
-	QAction * edit_act;
-	QAction * jump_act;
-	QAction * next_act;
-	QAction * previous_act;
-	QAction * add_current_act;
+    FavoriteList f_list;
+    QString _filename;
+    QAction *edit_act;
+    QAction *jump_act;
+    QAction *next_act;
+    QAction *previous_act;
+    QAction *add_current_act;
 
-	QWidget * parent_widget;
+    QWidget *parent_widget;
 
-	// Current (or last) file clicked
-	QString current_file;
+    // Current (or last) file clicked
+    QString current_file;
 
-	// Last item selected in the jump dialog
-	int last_item;
+    // Last item selected in the jump dialog
+    int last_item;
 
-	QString received_file_playing;
-	QString received_title;
-	QList<Favorites*> child;
+    QString received_file_playing;
+    QString received_title;
+    QList<Favorites *> child;
 };
 
 #endif

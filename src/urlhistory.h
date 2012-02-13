@@ -24,13 +24,13 @@
 class URLHistory : public Recents
 {
 public:
-	URLHistory();
-	virtual ~URLHistory();
+    URLHistory();
+    virtual ~URLHistory();
 
-	virtual void addUrl(QString url);
+    virtual void addUrl(QString url);
 
-	//! Returns the URL
-	virtual QString url(int n);
+    //! Returns the URL
+    virtual QString url(int n);
 };
 
 #endif

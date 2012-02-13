@@ -24,44 +24,44 @@
 
 class VideoPreviewConfigDialog : public QDialog, public Ui::VideoPreviewConfigDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	VideoPreviewConfigDialog( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-	~VideoPreviewConfigDialog();
+    VideoPreviewConfigDialog(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~VideoPreviewConfigDialog();
 
-	void setVideoFile(const QString & video_file);
-	QString videoFile();
+    void setVideoFile(const QString &video_file);
+    QString videoFile();
 
-	void setDVDDevice(const QString & dvd_device);
-	QString DVDDevice();
+    void setDVDDevice(const QString &dvd_device);
+    QString DVDDevice();
 
-	void setCols(int cols);
-	int cols();
+    void setCols(int cols);
+    int cols();
 
-	void setRows(int rows);
-	int rows();
+    void setRows(int rows);
+    int rows();
 
-	void setInitialStep(int step);
-	int initialStep();
+    void setInitialStep(int step);
+    int initialStep();
 
-	void setMaxWidth(int w);
-	int maxWidth();
+    void setMaxWidth(int w);
+    int maxWidth();
 
-	void setDisplayOSD(bool b);
-	bool displayOSD();
+    void setDisplayOSD(bool b);
+    bool displayOSD();
 
-	void setAspectRatio(double asp);
-	double aspectRatio();
+    void setAspectRatio(double asp);
+    double aspectRatio();
 
-	void setFormat(VideoPreview::ExtractFormat format);
-	VideoPreview::ExtractFormat format();
+    void setFormat(VideoPreview::ExtractFormat format);
+    VideoPreview::ExtractFormat format();
 
-	void setSaveLastDirectory(bool b);
-	bool saveLastDirectory();
+    void setSaveLastDirectory(bool b);
+    bool saveLastDirectory();
 
 protected slots:
-	void filenameChanged(const QString &);
+    void filenameChanged(const QString &);
 };
 
 #endif

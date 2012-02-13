@@ -23,44 +23,57 @@
 #include <QVariant>
 #include <QList>
 
-class DeviceData {
+class DeviceData
+{
 
 public:
-	DeviceData() {};
-	DeviceData(QVariant ID, QString desc) { _id = ID; _desc = desc; };
-	~DeviceData() {};
+    DeviceData() {};
+    DeviceData(QVariant ID, QString desc) {
+        _id = ID;
+        _desc = desc;
+    };
+    ~DeviceData() {};
 
-	void setID(QVariant ID) { _id = ID; };
-	void setDesc(QString desc) { _desc = desc; };
+    void setID(QVariant ID) {
+        _id = ID;
+    };
+    void setDesc(QString desc) {
+        _desc = desc;
+    };
 
-	QVariant ID() { return _id; };
-	QString desc() { return _desc; };
+    QVariant ID() {
+        return _id;
+    };
+    QString desc() {
+        return _desc;
+    };
 
 private:
-	QVariant _id;
-	QString _desc;
+    QVariant _id;
+    QString _desc;
 };
 
 
 typedef QList<DeviceData> DeviceList;
 
 
-class DeviceInfo {
+class DeviceInfo
+{
 
 public:
 #ifdef Q_OS_WIN
-	static DeviceList dsoundDevices();
-	static DeviceList displayDevices();
+    static DeviceList dsoundDevices();
+    static DeviceList displayDevices();
 #else
-	static DeviceList alsaDevices();
-	static DeviceList xvAdaptors();
+    static DeviceList alsaDevices();
+    static DeviceList xvAdaptors();
 #endif
 
 protected:
 #ifdef Q_OS_WIN
-	enum DeviceType { Sound = 0, Display = 1 };
+    enum DeviceType { Sound = 0, Display = 1 };
 
-	static DeviceList retrieveDevices(DeviceType type);
+    static DeviceList retrieveDevices(DeviceType type);
 #endif
 };
 

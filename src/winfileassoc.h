@@ -30,22 +30,22 @@
 class WinFileAssoc
 {
 protected:
-	QString m_ClassId; //Application ClassId
-	QString m_ClassId2; //The ClassId created by explorer if user selects 'Open With...', usually smplayer2.exe
-	QString m_AppName;
+    QString m_ClassId; //Application ClassId
+    QString m_ClassId2; //The ClassId created by explorer if user selects 'Open With...', usually smplayer2.exe
+    QString m_AppName;
 
 protected:
-	bool CreateClassId(const QString& executablePath, const QString& friendlyName); 
-	bool RemoveClassId();
-	bool VistaGetDefaultApps(const QStringList &extensions, QStringList& registeredExt);
-	int  VistaSetAppsAsDefault(const QStringList& extensions);
+    bool CreateClassId(const QString &executablePath, const QString &friendlyName);
+    bool RemoveClassId();
+    bool VistaGetDefaultApps(const QStringList &extensions, QStringList &registeredExt);
+    int  VistaSetAppsAsDefault(const QStringList &extensions);
 public:
-	WinFileAssoc(const QString ClassId = "MPlayerFileVideo", const QString AppName="SMPlayer2");
-	//Checks the registry to see which extensions are registered with SMPlayer2
-	bool GetRegisteredExtensions(const QStringList& extensionsToCheck, QStringList& registeredExtensions);
+    WinFileAssoc(const QString ClassId = "MPlayerFileVideo", const QString AppName = "SMPlayer2");
+    //Checks the registry to see which extensions are registered with SMPlayer2
+    bool GetRegisteredExtensions(const QStringList &extensionsToCheck, QStringList &registeredExtensions);
 
-	int CreateFileAssociations(const QStringList& fileExtensions); 
-	int RestoreFileAssociations(const QStringList& fileExtensions);
+    int CreateFileAssociations(const QStringList &fileExtensions);
+    int RestoreFileAssociations(const QStringList &fileExtensions);
 };
 
 #endif

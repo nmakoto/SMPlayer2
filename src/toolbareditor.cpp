@@ -21,74 +21,79 @@
 #include <QToolBar>
 #include <QToolButton>
 
-QStringList ToolbarEditor::save(QWidget * w) {
-	qDebug("ToolbarEditor::save: '%s'", w->objectName().toUtf8().data());
+QStringList ToolbarEditor::save(QWidget *w)
+{
+    qDebug("ToolbarEditor::save: '%s'", w->objectName().toUtf8().data());
 
-	QList<QAction *> list = w->actions();
-	QStringList o;
-	QAction * action;
+    QList<QAction *> list = w->actions();
+    QStringList o;
+    QAction *action;
 
-	for (int n = 0; n < list.count(); n++) {
-		action = static_cast<QAction*> (list[n]);
-		if (action->isSeparator()) {
-			o << "separator";
-		}
-		else
-		if (!action->objectName().isEmpty()) {
-			o << action->objectName();
-		}
-		else
-		qWarning("ToolbarEditor::save: unknown action at pos %d", n);
-	}
+    for (int n = 0; n < list.count(); n++) {
+        action = static_cast<QAction *>(list[n]);
 
-	return o;
+        if (action->isSeparator()) {
+            o << "separator";
+        } else if (!action->objectName().isEmpty()) {
+            o << action->objectName();
+        } else
+            qWarning("ToolbarEditor::save: unknown action at pos %d", n);
+    }
+
+    return o;
 }
 
 void ToolbarEditor::load(QWidget *w, QStringList l, QList<QAction *> actions_list)
 {
-	qDebug("ToolbarEditor::load: '%s'", w->objectName().toUtf8().data());
+    qDebug("ToolbarEditor::load: '%s'", w->objectName().toUtf8().data());
 
-	QAction * action;
+    QAction *action;
 
-	for (int n = 0; n < l.count(); n++) {
-		qDebug("ToolbarEditor::load: loading action %s", l[n].toUtf8().data());
+    for (int n = 0; n < l.count(); n++) {
+        qDebug("ToolbarEditor::load: loading action %s", l[n].toUtf8().data());
 
-		if (l[n] == "separator") {
-			qDebug("ToolbarEditor::load: adding separator");
-			QAction * sep = new QAction(w);
-			sep->setSeparator(true);
-			w->addAction(sep);
-		} else {
-			action = findAction(l[n], actions_list);
-			if (action) {
-				w->addAction(action);
-				if (action->objectName().endsWith("_menu")) {
-					// If the action is a menu and is in a toolbar, as a toolbutton, change some of its properties
-					QToolBar * toolbar = qobject_cast<QToolBar *>(w);
-					if (toolbar) {
-						QToolButton * button = qobject_cast<QToolButton *>(toolbar->widgetForAction(action));
-						if (button) {
-							//qDebug("ToolbarEditor::load: action %s is a toolbutton", action->objectName().toUtf8().constData());
-							button->setPopupMode(QToolButton::InstantPopup);
-							//button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-						}
-					}
-				}
-			} else {
-				qWarning("ToolbarEditor::load: action %s not found", l[n].toUtf8().data());
-			}
-		}
-	}
+        if (l[n] == "separator") {
+            qDebug("ToolbarEditor::load: adding separator");
+            QAction *sep = new QAction(w);
+            sep->setSeparator(true);
+            w->addAction(sep);
+        } else {
+            action = findAction(l[n], actions_list);
+
+            if (action) {
+                w->addAction(action);
+
+                if (action->objectName().endsWith("_menu")) {
+                    // If the action is a menu and is in a toolbar, as a toolbutton, change some of its properties
+                    QToolBar *toolbar = qobject_cast<QToolBar *>(w);
+
+                    if (toolbar) {
+                        QToolButton *button = qobject_cast<QToolButton *>(toolbar->widgetForAction(action));
+
+                        if (button) {
+                            //qDebug("ToolbarEditor::load: action %s is a toolbutton", action->objectName().toUtf8().constData());
+                            button->setPopupMode(QToolButton::InstantPopup);
+                            //button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+                        }
+                    }
+                }
+            } else {
+                qWarning("ToolbarEditor::load: action %s not found", l[n].toUtf8().data());
+            }
+        }
+    }
 }
 
-QAction * ToolbarEditor::findAction(QString s, QList<QAction *> actions_list) {
-	QAction * action;
+QAction *ToolbarEditor::findAction(QString s, QList<QAction *> actions_list)
+{
+    QAction *action;
 
-	for (int n = 0; n < actions_list.count(); n++) {
-		action = static_cast<QAction*> (actions_list[n]);
-		if (action->objectName() == s) return action;
-	}
+    for (int n = 0; n < actions_list.count(); n++) {
+        action = static_cast<QAction *>(actions_list[n]);
 
-	return 0;
+        if (action->objectName() == s) return action;
+    }
+
+    return 0;
 }
 

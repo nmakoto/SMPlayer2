@@ -23,20 +23,20 @@
 
 class TimeDialog : public QDialog, public Ui::TimeDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	TimeDialog( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-	~TimeDialog();
+    TimeDialog(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~TimeDialog();
 
-	int time();
-	int maximumTime();
-	QString label();
+    int time();
+    int maximumTime();
+    QString label();
 
 public slots:
-	void setTime(int seconds);
-	void setMaximumTime( int seconds );
-	void setLabel(const QString & label);
+    void setTime(int seconds);
+    void setMaximumTime(int seconds);
+    void setLabel(const QString &label);
 };
 
 #endif

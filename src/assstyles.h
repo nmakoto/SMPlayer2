@@ -23,32 +23,33 @@
 
 class QSettings;
 
-class AssStyles {
+class AssStyles
+{
 
 public:
-	AssStyles();
+    AssStyles();
 
-	QString fontname;
-	int fontsize;
-	unsigned int primarycolor;
-	unsigned int backcolor;
-	unsigned int outlinecolor;
-	bool bold;
-	bool italic;
-	int halignment;
-	int valignment;
-	int borderstyle;
-	double outline;
-	double shadow;
-	int marginl;
-	int marginr;
-	int marginv;
+    QString fontname;
+    int fontsize;
+    unsigned int primarycolor;
+    unsigned int backcolor;
+    unsigned int outlinecolor;
+    bool bold;
+    bool italic;
+    int halignment;
+    int valignment;
+    int borderstyle;
+    double outline;
+    double shadow;
+    int marginl;
+    int marginr;
+    int marginv;
 
-	void save(QSettings * set);
-	void load(QSettings * set);
+    void save(QSettings *set);
+    void load(QSettings *set);
 
-	bool exportStyles(const QString & filename);
-	QString toString();
+    bool exportStyles(const QString &filename);
+    QString toString();
 };
 
 #endif

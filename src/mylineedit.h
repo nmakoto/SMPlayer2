@@ -31,7 +31,7 @@ public:
     MyLineEdit(QWidget *parent = 0);
 
 protected:
-	virtual void setupButton();
+    virtual void setupButton();
 
 private slots:
     void updateCloseButton(const QString &text);

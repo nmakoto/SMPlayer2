@@ -24,17 +24,17 @@
 
 class Languages : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
 
-	//! Returns the ISO_639-1 language list
-	static QMap<QString,QString> list();
+    //! Returns the ISO_639-1 language list
+    static QMap<QString, QString> list();
 
-	//! Returns the list of translations available
-	static QMap<QString,QString> translations();
+    //! Returns the list of translations available
+    static QMap<QString, QString> translations();
 
-	static QMap<QString,QString> encodings();
+    static QMap<QString, QString> encodings();
 };
 
 #endif

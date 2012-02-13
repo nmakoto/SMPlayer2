@@ -24,75 +24,102 @@
 
 /* Class to store info about DVD titles */
 
-class TitleData {
+class TitleData
+{
 
 public:
-	TitleData() { _name = ""; _duration = 0; _ID = -1; _chapters = 0; _angles = 0; };
-	~TitleData() {};
+    TitleData() {
+        _name = "";
+        _duration = 0;
+        _ID = -1;
+        _chapters = 0;
+        _angles = 0;
+    };
+    ~TitleData() {};
 
-	void setName( const QString & n ) { _name = n; };
-	void setDuration( double d ) { _duration = d; };
-	void setChapters( int n ) { _chapters = n; };
-	void setAngles( int n ) { _angles = n; };
-	void setID( int id ) { _ID = id; };
+    void setName(const QString &n) {
+        _name = n;
+    };
+    void setDuration(double d) {
+        _duration = d;
+    };
+    void setChapters(int n) {
+        _chapters = n;
+    };
+    void setAngles(int n) {
+        _angles = n;
+    };
+    void setID(int id) {
+        _ID = id;
+    };
 
-	QString name() const { return _name; };
-	double duration() const { return _duration; };
-	int chapters() const { return _chapters; };
-	int angles() const { return _angles; };
-	int ID() const { return _ID; };
+    QString name() const {
+        return _name;
+    };
+    double duration() const {
+        return _duration;
+    };
+    int chapters() const {
+        return _chapters;
+    };
+    int angles() const {
+        return _angles;
+    };
+    int ID() const {
+        return _ID;
+    };
 
-	QString displayName() const {
-		QString dname = "";
+    QString displayName() const {
+        QString dname = "";
 
-	    if (!_name.isEmpty()) {
-	        dname = _name;
-		}
-		else
-	    dname = QString::number(_ID);
+        if (!_name.isEmpty()) {
+            dname = _name;
+        } else
+            dname = QString::number(_ID);
 
-		if (_duration > 0) {
-			dname += " ("+ Helper::formatTime( (int) _duration ) +")";
-		}
+        if (_duration > 0) {
+            dname += " (" + Helper::formatTime((int) _duration) + ")";
+        }
 
-		return dname;
-	};
+        return dname;
+    };
 
 protected:
-	QString _name;
-	double _duration;
-	int _chapters;
-	int _angles;
+    QString _name;
+    double _duration;
+    int _chapters;
+    int _angles;
 
-	int _ID;
+    int _ID;
 };
 
 
-class TitleTracks {
+class TitleTracks
+{
 
 public:
-	TitleTracks();
-	~TitleTracks();
+    TitleTracks();
+    ~TitleTracks();
 
-	void clear();
-	void list();
+    void clear();
+    void list();
 
-	void addName(int ID, QString name);
-	void addDuration(int ID, double duration);
-	void addChapters(int ID, int n);
-	void addAngles(int ID, int n);
-	void addID(int ID);
+    void addName(int ID, QString name);
+    void addDuration(int ID, double duration);
+    void addChapters(int ID, int n);
+    void addAngles(int ID, int n);
+    void addID(int ID);
 
-	int numItems();
-	bool existsItemAt(int n);
+    int numItems();
+    bool existsItemAt(int n);
 
-	TitleData itemAt(int n);
-	TitleData item(int ID);
-	int find(int ID);
+    TitleData itemAt(int n);
+    TitleData item(int ID);
+    int find(int ID);
 
 protected:
-	typedef QMap <int, TitleData> TitleMap;
-	TitleMap tm;
+    typedef QMap <int, TitleData> TitleMap;
+    TitleMap tm;
 };
 
 #endif

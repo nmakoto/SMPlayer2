@@ -24,18 +24,18 @@
 class FileSettingsHash : public FileSettingsBase
 {
 public:
-	FileSettingsHash(QString directory);
-	virtual ~FileSettingsHash();
+    FileSettingsHash(QString directory);
+    virtual ~FileSettingsHash();
 
-	virtual bool existSettingsFor(QString filename);
+    virtual bool existSettingsFor(QString filename);
 
-	virtual void loadSettingsFor(QString filename, MediaSettings & mset);
+    virtual void loadSettingsFor(QString filename, MediaSettings &mset);
 
-	virtual void saveSettingsFor(QString filename, MediaSettings & mset);
+    virtual void saveSettingsFor(QString filename, MediaSettings &mset);
 
 private:
-	QString configFile(const QString & filename, QString * output_dir = 0);
-	QString base_dir;
+    QString configFile(const QString &filename, QString *output_dir = 0);
+    QString base_dir;
 };
 
 #endif

@@ -26,36 +26,42 @@
 class EqSlider : public QWidget, public Ui::EqSlider
 {
     Q_OBJECT
-	Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
-	Q_PROPERTY(QString label READ label WRITE setLabel)
-	Q_PROPERTY(int value READ value WRITE setValue)
+    Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
+    Q_PROPERTY(QString label READ label WRITE setLabel)
+    Q_PROPERTY(int value READ value WRITE setValue)
 
 public:
-    EqSlider( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+    EqSlider(QWidget *parent = 0, Qt::WindowFlags f = 0);
     ~EqSlider();
 
 public slots:
-	void setIcon( QPixmap i);
-	void setLabel( QString s);
-	void setValue(int value);
+    void setIcon(QPixmap i);
+    void setLabel(QString s);
+    void setValue(int value);
 
 public:
-	int value() const;
-	const QPixmap * icon() const;
-	QString label() const;
+    int value() const;
+    const QPixmap *icon() const;
+    QString label() const;
 
-	QSlider * sliderWidget() { return _slider; };
-	VerticalText * labelWidget() { return _label; };
-	QLabel * iconWidget() { return _icon; };
+    QSlider *sliderWidget() {
+        return _slider;
+    };
+    VerticalText *labelWidget() {
+        return _label;
+    };
+    QLabel *iconWidget() {
+        return _icon;
+    };
 
 signals:
-	void valueChanged(int);
+    void valueChanged(int);
 
 protected slots:
-	void sliderValueChanged(int);
+    void sliderValueChanged(int);
 
 protected:
-	/* virtual void languageChange(); */
+    /* virtual void languageChange(); */
 
 };
 

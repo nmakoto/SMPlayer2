@@ -19,40 +19,44 @@
 #include "errordialog.h"
 #include "images.h"
 
-ErrorDialog::ErrorDialog( QWidget* parent, Qt::WindowFlags f )
-	: QDialog(parent, f)
+ErrorDialog::ErrorDialog(QWidget *parent, Qt::WindowFlags f)
+    : QDialog(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 
-	icon->setText("");
-	icon->setPixmap( Images::icon("warning") );
+    icon->setText("");
+    icon->setPixmap(Images::icon("warning"));
 
-	text->setText("");
-	toggleLog(false);
+    text->setText("");
+    toggleLog(false);
 
-	connect( viewlog_button, SIGNAL(toggled(bool)),
-             this, SLOT(toggleLog(bool)) );
+    connect(viewlog_button, SIGNAL(toggled(bool)),
+            this, SLOT(toggleLog(bool)));
 
-	layout()->setSizeConstraint(QLayout::SetFixedSize);
+    layout()->setSizeConstraint(QLayout::SetFixedSize);
 }
 
-ErrorDialog::~ErrorDialog() {
+ErrorDialog::~ErrorDialog()
+{
 }
 
-void ErrorDialog::setText(QString error) {
-	text->setText(error);
+void ErrorDialog::setText(QString error)
+{
+    text->setText(error);
 }
 
-void ErrorDialog::setLog(QString log_text) {
-	log->setPlainText("");
-	log->append(log_text); // To move cursor to the end
+void ErrorDialog::setLog(QString log_text)
+{
+    log->setPlainText("");
+    log->append(log_text); // To move cursor to the end
 }
 
-void ErrorDialog::toggleLog(bool checked) {
-	log->setVisible(checked);
+void ErrorDialog::toggleLog(bool checked)
+{
+    log->setVisible(checked);
 
-	if (checked) 
-		viewlog_button->setText(tr("Hide log"));
-	else
-		viewlog_button->setText(tr("Show log"));
+    if (checked)
+        viewlog_button->setText(tr("Hide log"));
+    else
+        viewlog_button->setText(tr("Show log"));
 }

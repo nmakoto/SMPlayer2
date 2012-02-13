@@ -36,33 +36,37 @@ class QTcpSocket;
 class MyClient : public QObject
 {
 public:
-	MyClient(quint16 port, QObject * parent = 0);
-	~MyClient();
+    MyClient(quint16 port, QObject *parent = 0);
+    ~MyClient();
 
-	//! Sets the maximum time that should wait in the waitFor... functions.
-	void setTimeOut(int ms) { timeout = ms; };
-	int timeOut() { return timeout; };
+    //! Sets the maximum time that should wait in the waitFor... functions.
+    void setTimeOut(int ms) {
+        timeout = ms;
+    };
+    int timeOut() {
+        return timeout;
+    };
 
-	//! Return true if it can open a connection to another instance.
-	bool openConnection();
-	void closeConnection();
+    //! Return true if it can open a connection to another instance.
+    bool openConnection();
+    void closeConnection();
 
-	//! Send the list of files to the other instance. Return true on success.
-	bool sendFiles( const QStringList & files, bool addToPlaylist = false);
+    //! Send the list of files to the other instance. Return true on success.
+    bool sendFiles(const QStringList &files, bool addToPlaylist = false);
 
-	//! Pass an action (pause, fullscreen...) to GUI.
-	bool sendAction( const QString & action );
+    //! Pass an action (pause, fullscreen...) to GUI.
+    bool sendAction(const QString &action);
 
-	bool sendSubtitleFile(const QString & file);
+    bool sendSubtitleFile(const QString &file);
 
 protected:
-	QString readLine();
-	void writeLine(QString);
+    QString readLine();
+    void writeLine(QString);
 
 private:
-	quint16 port;
-	QTcpSocket * socket;
-	int timeout;
+    quint16 port;
+    QTcpSocket *socket;
+    int timeout;
 };
 
 #endif

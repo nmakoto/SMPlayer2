@@ -21,65 +21,77 @@
 
 #define BE_VERBOSE 0
 
-MyTableWidget::MyTableWidget( QWidget * parent ) : QTableWidget(parent) 
+MyTableWidget::MyTableWidget(QWidget *parent) : QTableWidget(parent)
 {
 }
 
-MyTableWidget::MyTableWidget( int rows, int columns, QWidget * parent )
-	: QTableWidget(rows, columns, parent)
+MyTableWidget::MyTableWidget(int rows, int columns, QWidget *parent)
+    : QTableWidget(rows, columns, parent)
 {
 }
 
-QTableWidgetItem * MyTableWidget::getItem(int row, int column, bool * existed ) {
+QTableWidgetItem *MyTableWidget::getItem(int row, int column, bool *existed)
+{
 #if BE_VERBOSE
-	qDebug("MyTableWidget::getItem: %d, %d", row, column);
+    qDebug("MyTableWidget::getItem: %d, %d", row, column);
 #endif
-	QTableWidgetItem * i = item(row, column);
-	if (existed != 0) *existed = (i!=0); // Returns if the item already existed or not
-	if (i != 0) return i; else return createItem(column);
+    QTableWidgetItem *i = item(row, column);
+
+    if (existed != 0) *existed = (i != 0); // Returns if the item already existed or not
+
+    if (i != 0) return i;
+    else return createItem(column);
 }
 
-QTableWidgetItem * MyTableWidget::createItem(int /*col*/) {
+QTableWidgetItem *MyTableWidget::createItem(int /*col*/)
+{
 #if BE_VERBOSE
-	qDebug("MyTableWidget::createItem");
+    qDebug("MyTableWidget::createItem");
 #endif
-	QTableWidgetItem * i = new QTableWidgetItem();
-	i->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled);
-	return i;
+    QTableWidgetItem *i = new QTableWidgetItem();
+    i->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled);
+    return i;
 }
 
-void MyTableWidget::setText(int row, int column, const QString & text ) {
+void MyTableWidget::setText(int row, int column, const QString &text)
+{
 #if BE_VERBOSE
-	qDebug("MyTableWidget::setText: %d, %d", row, column);
+    qDebug("MyTableWidget::setText: %d, %d", row, column);
 #endif
-	bool existed;
-	QTableWidgetItem * i = getItem(row, column, &existed);
-	i->setText(text);
-	if (!existed) setItem(row, column, i);
+    bool existed;
+    QTableWidgetItem *i = getItem(row, column, &existed);
+    i->setText(text);
+
+    if (!existed) setItem(row, column, i);
 }
 
-QString MyTableWidget::text(int row, int column) {
+QString MyTableWidget::text(int row, int column)
+{
 #if BE_VERBOSE
-	qDebug("MyTableWidget::text: %d, %d", row, column);
+    qDebug("MyTableWidget::text: %d, %d", row, column);
 #endif
-	return getItem(row, column)->text();
+    return getItem(row, column)->text();
 }
 
-void MyTableWidget::setIcon(int row, int column, const QIcon & icon ) {
+void MyTableWidget::setIcon(int row, int column, const QIcon &icon)
+{
 #if BE_VERBOSE
-	qDebug("MyTableWidget::setIcon %d, %d", row, column);
+    qDebug("MyTableWidget::setIcon %d, %d", row, column);
 #endif
-	bool existed;
-	QTableWidgetItem * i = getItem(row, column, &existed);
-	i->setIcon(icon);
-	if (!existed) setItem(row, column, i);
+    bool existed;
+    QTableWidgetItem *i = getItem(row, column, &existed);
+    i->setIcon(icon);
+
+    if (!existed) setItem(row, column, i);
 }
 
-QIcon MyTableWidget::icon(int row, int column) {
-	return getItem(row, column)->icon();
+QIcon MyTableWidget::icon(int row, int column)
+{
+    return getItem(row, column)->icon();
 }
 
-bool MyTableWidget::isSelected(int row, int column) {
-	return getItem(row, column)->isSelected();
+bool MyTableWidget::isSelected(int row, int column)
+{
+    return getItem(row, column)->isSelected();
 }
 

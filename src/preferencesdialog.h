@@ -47,71 +47,82 @@ class Preferences;
 
 class PreferencesDialog : public QDialog, public Ui::PreferencesDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	enum Section { General=0, Drives=1, Performance=2,
-                   Subtitles=3, Gui=4, Mouse=5, Advanced=6, Associations=7 };
+    enum Section { General = 0, Drives = 1, Performance = 2,
+                   Subtitles = 3, Gui = 4, Mouse = 5, Advanced = 6, Associations = 7
+                 };
 
-	PreferencesDialog( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~PreferencesDialog();
+    PreferencesDialog(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PreferencesDialog();
 
-	PrefGeneral * mod_general() { return page_general; };
-	PrefInterface * mod_interface() { return page_interface; };
-	PrefInput * mod_input() { return page_input; };
-	PrefAdvanced * mod_advanced() { return page_advanced; };
-	PrefPlaylist * mod_playlist() { return page_playlist; };
+    PrefGeneral *mod_general() {
+        return page_general;
+    };
+    PrefInterface *mod_interface() {
+        return page_interface;
+    };
+    PrefInput *mod_input() {
+        return page_input;
+    };
+    PrefAdvanced *mod_advanced() {
+        return page_advanced;
+    };
+    PrefPlaylist *mod_playlist() {
+        return page_playlist;
+    };
 
-	void addSection(PrefWidget *w);
+    void addSection(PrefWidget *w);
 
-	// Pass data to the standard dialogs
-	void setData(Preferences * pref);
+    // Pass data to the standard dialogs
+    void setData(Preferences *pref);
 
-	// Apply changes
-	void getData(Preferences * pref);
+    // Apply changes
+    void getData(Preferences *pref);
 
-	// Return true if the mplayer process should be restarted.
-	bool requiresRestart();
+    // Return true if the mplayer process should be restarted.
+    bool requiresRestart();
 
 public slots:
-	void showSection(Section s);
+    void showSection(Section s);
 
-	virtual void accept(); // Reimplemented to send a signal
-	virtual void reject();
+    virtual void accept(); // Reimplemented to send a signal
+    virtual void reject();
 
 signals:
-	void applied();
+    void applied();
 
 protected:
-	virtual void retranslateStrings();
-	virtual void changeEvent ( QEvent * event ) ;
+    virtual void retranslateStrings();
+    virtual void changeEvent(QEvent *event) ;
 
 protected slots:
-	void apply();
-	void showHelp();
+    void apply();
+    void showHelp();
 
 protected:
-	PrefGeneral * page_general;
-	PrefDrives * page_drives;
-	PrefPerformance * page_performance;
-	PrefSubtitles * page_subtitles;
-	PrefInterface * page_interface;
-	PrefInput * page_input;
-	PrefPlaylist * page_playlist;
-	PrefTV * page_tv;
-	PrefAdvanced * page_advanced;
+    PrefGeneral *page_general;
+    PrefDrives *page_drives;
+    PrefPerformance *page_performance;
+    PrefSubtitles *page_subtitles;
+    PrefInterface *page_interface;
+    PrefInput *page_input;
+    PrefPlaylist *page_playlist;
+    PrefTV *page_tv;
+    PrefAdvanced *page_advanced;
 
 #if USE_ASSOCIATIONS
-	PrefAssociations* page_associations; 
+    PrefAssociations *page_associations;
 #endif
 
-	QTextBrowser * help_window;
+    QTextBrowser *help_window;
 
 private:
-    QPushButton * okButton;
-    QPushButton * cancelButton;
-	QPushButton * applyButton;
-    QPushButton * helpButton;
+    QPushButton *okButton;
+    QPushButton *cancelButton;
+    QPushButton *applyButton;
+    QPushButton *helpButton;
 };
 
 #endif

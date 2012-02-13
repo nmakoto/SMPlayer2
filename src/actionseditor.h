@@ -37,67 +37,67 @@ class ActionsEditor : public QWidget
     Q_OBJECT
 
 public:
-    ActionsEditor( QWidget * parent = 0, Qt::WindowFlags f = 0 );
-	~ActionsEditor();
+    ActionsEditor(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~ActionsEditor();
 
-	// Clear the actionlist
-	void clear();
+    // Clear the actionlist
+    void clear();
 
-	// There are no actions yet?
-	bool isEmpty();
+    // There are no actions yet?
+    bool isEmpty();
 
-	void addActions(QWidget * widget);
+    void addActions(QWidget *widget);
 
-	// Static functions
-	static QAction * findAction(QObject *o, const QString & name);
-	static QStringList actionsNames(QObject *o);
+    // Static functions
+    static QAction *findAction(QObject *o, const QString &name);
+    static QStringList actionsNames(QObject *o);
 
-	static void saveToConfig(QObject *o, QSettings *set);
-	static void loadFromConfig(QObject *o, QSettings *set);
+    static void saveToConfig(QObject *o, QSettings *set);
+    static void loadFromConfig(QObject *o, QSettings *set);
 
 #if USE_MULTIPLE_SHORTCUTS
-	static QString shortcutsToString(QList <QKeySequence> shortcuts_list);
-	static QList <QKeySequence> stringToShortcuts(QString shortcuts);
+    static QString shortcutsToString(QList <QKeySequence> shortcuts_list);
+    static QList <QKeySequence> stringToShortcuts(QString shortcuts);
 #endif
 
 public slots:
-	void applyChanges();
-	void saveActionsTable();
-	bool saveActionsTable(const QString & filename);
-	void loadActionsTable();
-	bool loadActionsTable(const QString & filename);
+    void applyChanges();
+    void saveActionsTable();
+    bool saveActionsTable(const QString &filename);
+    void loadActionsTable();
+    bool loadActionsTable(const QString &filename);
 
-	void updateView();
+    void updateView();
 
 protected:
-	virtual void retranslateStrings();
-	virtual void changeEvent ( QEvent * event ) ;
+    virtual void retranslateStrings();
+    virtual void changeEvent(QEvent *event) ;
 
-	// Find in table, not in actionslist
-	int findActionName(const QString & name);
-	int findActionAccel(const QString & accel, int ignoreRow = -1);
-	bool hasConflicts();
+    // Find in table, not in actionslist
+    int findActionName(const QString &name);
+    int findActionAccel(const QString &accel, int ignoreRow = -1);
+    bool hasConflicts();
 
 protected slots:
 #if !USE_SHORTCUTGETTER
-	void recordAction(QTableWidgetItem*);
-	void validateAction(QTableWidgetItem*);
+    void recordAction(QTableWidgetItem *);
+    void validateAction(QTableWidgetItem *);
 #else
-	void editShortcut();
+    void editShortcut();
 #endif
 
 private:
-	QTableWidget *actionsTable;
-    QList<QAction*> actionsList;
-	QPushButton *saveButton;
-	QPushButton *loadButton;
-	QString latest_dir;
+    QTableWidget *actionsTable;
+    QList<QAction *> actionsList;
+    QPushButton *saveButton;
+    QPushButton *loadButton;
+    QString latest_dir;
 
 #if USE_SHORTCUTGETTER
-	QPushButton *editButton;
+    QPushButton *editButton;
 #else
-	QString oldAccelText;
-	bool dont_validate;
+    QString oldAccelText;
+    bool dont_validate;
 #endif
 };
 

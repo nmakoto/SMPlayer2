@@ -40,76 +40,77 @@
 #define TYPE_AUDIO_CD 4
 #define TYPE_TV 5
 
-class MediaData {
+class MediaData
+{
 
 public:
-	MediaData();
-	virtual ~MediaData();
+    MediaData();
+    virtual ~MediaData();
 
-	virtual void reset();
+    virtual void reset();
 
-	QString filename;
-	double duration;
+    QString filename;
+    double duration;
 
-	//Resolution of the video
-	int video_width;
-	int video_height;
-	double video_aspect;
+    //Resolution of the video
+    int video_width;
+    int video_height;
+    double video_aspect;
 
-	int type; // file, dvd...
-	QString dvd_id;
+    int type; // file, dvd...
+    QString dvd_id;
 
-	bool novideo; // Only audio
+    bool novideo; // Only audio
 
-	bool initialized;
+    bool initialized;
 
-	void list();
+    void list();
 
 #if PROGRAM_SWITCH
-	Tracks programs;
+    Tracks programs;
 #endif
-	Tracks videos;
-	Tracks audios;
-	TitleTracks titles; // for DVDs
+    Tracks videos;
+    Tracks audios;
+    TitleTracks titles; // for DVDs
 
-	SubTracks subs;
+    SubTracks subs;
 
-	int chapters;
-	QMap<int,QString> chapters_name;
-	QMap<int,long long> chapters_timestamp;
-	int editions;
+    int chapters;
+    QMap<int, QString> chapters_name;
+    QMap<int, long long> chapters_timestamp;
+    int editions;
 
-	// Clip info
-	QString clip_name;
-	QString clip_artist;
-	QString clip_author;
-	QString clip_album;
-	QString clip_genre;
-	QString clip_date;
-	QString clip_track;
-	QString clip_copyright;
-	QString clip_comment;
-	QString clip_software;
+    // Clip info
+    QString clip_name;
+    QString clip_artist;
+    QString clip_author;
+    QString clip_album;
+    QString clip_genre;
+    QString clip_date;
+    QString clip_track;
+    QString clip_copyright;
+    QString clip_comment;
+    QString clip_software;
 
-	QString stream_title;
-	QString stream_url;
+    QString stream_title;
+    QString stream_url;
 
 
-	// Other data not really useful for us,
-	// just to show info to the user.
-	QString demuxer;
-	QString video_format;
-	QString audio_format;
-	int video_bitrate;
-	QString video_fps;
-	int audio_bitrate;
-	int audio_rate;
-	int audio_nch; // channels?
-	QString video_codec;
-	QString audio_codec;
+    // Other data not really useful for us,
+    // just to show info to the user.
+    QString demuxer;
+    QString video_format;
+    QString audio_format;
+    int video_bitrate;
+    QString video_fps;
+    int audio_bitrate;
+    int audio_rate;
+    int audio_nch; // channels?
+    QString video_codec;
+    QString audio_codec;
 
-	/*QString info();*/
-	QString displayName(bool show_tag = true);
+    /*QString info();*/
+    QString displayName(bool show_tag = true);
 };
 
 #endif

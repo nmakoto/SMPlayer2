@@ -19,52 +19,60 @@
 #include "prefwidget.h"
 #include <QEvent>
 
-PrefWidget::PrefWidget(QWidget * parent, Qt::WindowFlags f )
-	: QWidget(parent, f)
+PrefWidget::PrefWidget(QWidget *parent, Qt::WindowFlags f)
+    : QWidget(parent, f)
 {
-	requires_restart = false;
-	help_message = "";
+    requires_restart = false;
+    help_message = "";
 }
 
-PrefWidget::~PrefWidget() {
-}
-
-QString PrefWidget::sectionName() {
-	return QString();
-}
-
-QPixmap PrefWidget::sectionIcon() {
-	return QPixmap();
-}
-
-void PrefWidget::addSectionTitle(const QString & title) {
-	help_message += "<h2>"+title+"</h2>";
-}
-
-void PrefWidget::setWhatsThis( QWidget *w, const QString & title, 
-                               const QString & text)
+PrefWidget::~PrefWidget()
 {
-	w->setWhatsThis(text);
-	help_message += "<b>"+title+"</b><br>"+text+"<br><br>";
-
-	w->setToolTip( "<qt>"+ text +"</qt>" );
 }
 
-void PrefWidget::clearHelp() {
-	help_message = "<h1>" + sectionName() + "</h1>";
+QString PrefWidget::sectionName()
+{
+    return QString();
 }
 
-void PrefWidget::createHelp() {
+QPixmap PrefWidget::sectionIcon()
+{
+    return QPixmap();
+}
+
+void PrefWidget::addSectionTitle(const QString &title)
+{
+    help_message += "<h2>" + title + "</h2>";
+}
+
+void PrefWidget::setWhatsThis(QWidget *w, const QString &title,
+                              const QString &text)
+{
+    w->setWhatsThis(text);
+    help_message += "<b>" + title + "</b><br>" + text + "<br><br>";
+
+    w->setToolTip("<qt>" + text + "</qt>");
+}
+
+void PrefWidget::clearHelp()
+{
+    help_message = "<h1>" + sectionName() + "</h1>";
+}
+
+void PrefWidget::createHelp()
+{
 }
 
 // Language change stuff
-void PrefWidget::changeEvent(QEvent *e) {
-	if (e->type() == QEvent::LanguageChange) {
-		retranslateStrings();
-	} else {
-		QWidget::changeEvent(e);
-	}
+void PrefWidget::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange) {
+        retranslateStrings();
+    } else {
+        QWidget::changeEvent(e);
+    }
 }
 
-void PrefWidget::retranslateStrings() {
+void PrefWidget::retranslateStrings()
+{
 }

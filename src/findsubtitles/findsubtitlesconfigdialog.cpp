@@ -19,76 +19,91 @@
 #include "findsubtitlesconfigdialog.h"
 #include <QNetworkProxy>
 
-FindSubtitlesConfigDialog::FindSubtitlesConfigDialog( QWidget* parent, Qt::WindowFlags f )
-	: QDialog(parent, f)
+FindSubtitlesConfigDialog::FindSubtitlesConfigDialog(QWidget *parent, Qt::WindowFlags f)
+    : QDialog(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 
-	proxy_type_combo->addItem( tr("Http"), QNetworkProxy::HttpProxy);
-	proxy_type_combo->addItem( tr("Socks5"), QNetworkProxy::Socks5Proxy);
+    proxy_type_combo->addItem(tr("Http"), QNetworkProxy::HttpProxy);
+    proxy_type_combo->addItem(tr("Socks5"), QNetworkProxy::Socks5Proxy);
 
-	use_proxy_check->setWhatsThis( tr("Enable/disable the use of the proxy.") );
-	proxy_hostname_edit->setWhatsThis( tr("The host name of the proxy.") );
-	proxy_port_spin->setWhatsThis( tr("The port of the proxy.") );
-	proxy_username_edit->setWhatsThis( tr("If the proxy requires authentication, this sets the username.") );
-	proxy_password_edit->setWhatsThis( 
+    use_proxy_check->setWhatsThis(tr("Enable/disable the use of the proxy."));
+    proxy_hostname_edit->setWhatsThis(tr("The host name of the proxy."));
+    proxy_port_spin->setWhatsThis(tr("The port of the proxy."));
+    proxy_username_edit->setWhatsThis(tr("If the proxy requires authentication, this sets the username."));
+    proxy_password_edit->setWhatsThis(
         tr("The password for the proxy. <b>Warning:</b> the password will be saved "
-           "as plain text in the configuration file.") );
-	proxy_type_combo->setWhatsThis( tr("Select the proxy type to be used.") );
+           "as plain text in the configuration file."));
+    proxy_type_combo->setWhatsThis(tr("Select the proxy type to be used."));
 
-	layout()->setSizeConstraint(QLayout::SetFixedSize);
+    layout()->setSizeConstraint(QLayout::SetFixedSize);
 }
 
-FindSubtitlesConfigDialog::~FindSubtitlesConfigDialog() {
+FindSubtitlesConfigDialog::~FindSubtitlesConfigDialog()
+{
 }
 
-void FindSubtitlesConfigDialog::setUseProxy(bool b) {
-	use_proxy_check->setChecked(b);
+void FindSubtitlesConfigDialog::setUseProxy(bool b)
+{
+    use_proxy_check->setChecked(b);
 }
 
-bool FindSubtitlesConfigDialog::useProxy() {
-	return 	use_proxy_check->isChecked();
+bool FindSubtitlesConfigDialog::useProxy()
+{
+    return 	use_proxy_check->isChecked();
 }
 
-void FindSubtitlesConfigDialog::setProxyHostname(QString host) {
-	proxy_hostname_edit->setText(host);
+void FindSubtitlesConfigDialog::setProxyHostname(QString host)
+{
+    proxy_hostname_edit->setText(host);
 }
 
-QString FindSubtitlesConfigDialog::proxyHostname() {
-	return proxy_hostname_edit->text();
+QString FindSubtitlesConfigDialog::proxyHostname()
+{
+    return proxy_hostname_edit->text();
 }
 
-void FindSubtitlesConfigDialog::setProxyPort(int port) {
-	proxy_port_spin->setValue(port);
+void FindSubtitlesConfigDialog::setProxyPort(int port)
+{
+    proxy_port_spin->setValue(port);
 }
 
-int FindSubtitlesConfigDialog::proxyPort() {
-	return proxy_port_spin->value();
+int FindSubtitlesConfigDialog::proxyPort()
+{
+    return proxy_port_spin->value();
 }
 
-void FindSubtitlesConfigDialog::setProxyUsername(QString username) {
-	proxy_username_edit->setText(username);
+void FindSubtitlesConfigDialog::setProxyUsername(QString username)
+{
+    proxy_username_edit->setText(username);
 }
 
-QString FindSubtitlesConfigDialog::proxyUsername() {
-	return proxy_username_edit->text();
+QString FindSubtitlesConfigDialog::proxyUsername()
+{
+    return proxy_username_edit->text();
 }
 
-void FindSubtitlesConfigDialog::setProxyPassword(QString password) {
-	proxy_password_edit->setText(password);
+void FindSubtitlesConfigDialog::setProxyPassword(QString password)
+{
+    proxy_password_edit->setText(password);
 }
 
-QString FindSubtitlesConfigDialog::proxyPassword() {
-	return proxy_password_edit->text();
+QString FindSubtitlesConfigDialog::proxyPassword()
+{
+    return proxy_password_edit->text();
 }
 
-void FindSubtitlesConfigDialog::setProxyType(int type) {
-	int index = proxy_type_combo->findData(type);
-	if (index == -1) index = 0;
-	proxy_type_combo->setCurrentIndex(index);
+void FindSubtitlesConfigDialog::setProxyType(int type)
+{
+    int index = proxy_type_combo->findData(type);
+
+    if (index == -1) index = 0;
+
+    proxy_type_combo->setCurrentIndex(index);
 }
 
-int FindSubtitlesConfigDialog::proxyType() {
-	int index = proxy_type_combo->currentIndex();
-	return proxy_type_combo->itemData(index).toInt();
+int FindSubtitlesConfigDialog::proxyType()
+{
+    int index = proxy_type_combo->currentIndex();
+    return proxy_type_combo->itemData(index).toInt();
 }

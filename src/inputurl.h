@@ -24,14 +24,14 @@
 
 class InputURL : public QDialog, public Ui::InputURL
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	InputURL( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-	~InputURL();
+    InputURL(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~InputURL();
 
-	void setURL(QString url);
-	QString url();
+    void setURL(QString url);
+    QString url();
 };
 
 #endif

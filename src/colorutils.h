@@ -28,24 +28,25 @@
 class QWidget;
 class QColor;
 
-class ColorUtils {
+class ColorUtils
+{
 
 public:
 
-	//! Returns a string suitable to be used for -ass-color
-	static QString colorToRRGGBBAA(unsigned int color);
-	static QString colorToRRGGBB(unsigned int color);
+    //! Returns a string suitable to be used for -ass-color
+    static QString colorToRRGGBBAA(unsigned int color);
+    static QString colorToRRGGBB(unsigned int color);
 
-	//! Returns a string suitable to be used for -colorkey
-	static QString colorToRGB(unsigned int color);
+    //! Returns a string suitable to be used for -colorkey
+    static QString colorToRGB(unsigned int color);
 
-	static QString colorToAABBGGRR(unsigned int color);
+    static QString colorToAABBGGRR(unsigned int color);
 
-	//! Changes the foreground color of the specified widget
-	static void setForegroundColor(QWidget * w, const QColor & color);
+    //! Changes the foreground color of the specified widget
+    static void setForegroundColor(QWidget *w, const QColor &color);
 
-	//! Changes the background color of the specified widget
-	static void setBackgroundColor(QWidget * w, const QColor & color);
+    //! Changes the background color of the specified widget
+    static void setBackgroundColor(QWidget *w, const QColor &color);
 
     /**
      ** \brief Strip colors and tags from mplayer2 output lines

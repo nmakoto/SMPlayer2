@@ -21,36 +21,40 @@
 #include <QLineEdit>
 #include "filedialog.h"
 
-InputDVDDirectory::InputDVDDirectory( QWidget* parent, Qt::WindowFlags f )
-	: QDialog(parent, f)
+InputDVDDirectory::InputDVDDirectory(QWidget *parent, Qt::WindowFlags f)
+    : QDialog(parent, f)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
-InputDVDDirectory::~InputDVDDirectory() {
+InputDVDDirectory::~InputDVDDirectory()
+{
 }
 
-void InputDVDDirectory::setFolder(QString folder) {
-	dvd_directory_edit->setText( folder );
+void InputDVDDirectory::setFolder(QString folder)
+{
+    dvd_directory_edit->setText(folder);
 }
 
-QString InputDVDDirectory::folder() {
-	return dvd_directory_edit->text();
+QString InputDVDDirectory::folder()
+{
+    return dvd_directory_edit->text();
 }
 
-void InputDVDDirectory::on_searchButton_clicked() {
-	QString s = MyFileDialog::getExistingDirectory(
+void InputDVDDirectory::on_searchButton_clicked()
+{
+    QString s = MyFileDialog::getExistingDirectory(
                     this, tr("Choose a directory"),
-                    dvd_directory_edit->text() );
-	/*
-	QString s = QFileDialog::getOpenFileName(
+                    dvd_directory_edit->text());
+    /*
+    QString s = QFileDialog::getOpenFileName(
                     dvd_directory_edit->text(),
                     "*.*", this,
                     "select_dvd_device_dialog",
                     tr("Choose a directory or iso file") );
-	*/
+    */
 
-	if (!s.isEmpty()) {
-		dvd_directory_edit->setText(s);
-	}
+    if (!s.isEmpty()) {
+        dvd_directory_edit->setText(s);
+    }
 }

@@ -21,43 +21,46 @@
 #include <cmath>
 
 
-MediaData::MediaData() {
-	reset();
+MediaData::MediaData()
+{
+    reset();
 }
 
-MediaData::~MediaData() {
+MediaData::~MediaData()
+{
 }
 
-void MediaData::reset() {
-	filename="";
-	dvd_id="";
-	type = TYPE_UNKNOWN;
-	duration=0;
+void MediaData::reset()
+{
+    filename = "";
+    dvd_id = "";
+    type = TYPE_UNKNOWN;
+    duration = 0;
 
-	novideo = FALSE;
+    novideo = FALSE;
 
-	video_width=0;
-    video_height=0;
-    video_aspect= (double) 4/3;
+    video_width = 0;
+    video_height = 0;
+    video_aspect = (double) 4 / 3;
 
 #if PROGRAM_SWITCH
-	programs.clear();
+    programs.clear();
 #endif
-	videos.clear();
-	audios.clear();
-	titles.clear();
+    videos.clear();
+    audios.clear();
+    titles.clear();
 
-	subs.clear();
+    subs.clear();
 
-	chapters = 0;
-	chapters_name.clear();
-	chapters_timestamp.clear();
-	editions = -1;
+    chapters = 0;
+    chapters_name.clear();
+    chapters_timestamp.clear();
+    editions = -1;
 
-	initialized=false;
+    initialized = false;
 
-	// Clip info;
-	clip_name = "";
+    // Clip info;
+    clip_name = "";
     clip_artist = "";
     clip_author = "";
     clip_album = "";
@@ -68,84 +71,86 @@ void MediaData::reset() {
     clip_comment = "";
     clip_software = "";
 
-	stream_title = "";
-	stream_url = "";
+    stream_title = "";
+    stream_url = "";
 
-	// Other data
-	demuxer="";
-	video_format="";
-	audio_format="";
-	video_bitrate=0;
-	video_fps="";
-	audio_bitrate=0;
-	audio_rate=0;
-	audio_nch=0;
-	video_codec="";
-	audio_codec="";
+    // Other data
+    demuxer = "";
+    video_format = "";
+    audio_format = "";
+    video_bitrate = 0;
+    video_fps = "";
+    audio_bitrate = 0;
+    audio_rate = 0;
+    audio_nch = 0;
+    video_codec = "";
+    audio_codec = "";
 }
 
-QString MediaData::displayName(bool show_tag) {
-	if (show_tag) {
-		if (!clip_name.isEmpty()) return clip_name;
-		else
-		if (!stream_title.isEmpty()) return stream_title;
-	}
+QString MediaData::displayName(bool show_tag)
+{
+    if (show_tag) {
+        if (!clip_name.isEmpty()) return clip_name;
+        else if (!stream_title.isEmpty()) return stream_title;
+    }
 
-	QFileInfo fi(filename);
-	if (fi.exists()) 
-		return fi.fileName(); // filename without path
-	else
-		return filename;
+    QFileInfo fi(filename);
+
+    if (fi.exists())
+        return fi.fileName(); // filename without path
+    else
+        return filename;
 }
 
 
-void MediaData::list() {
-	qDebug("MediaData::list");
+void MediaData::list()
+{
+    qDebug("MediaData::list");
 
-	qDebug("  filename: '%s'", filename.toUtf8().data());
-	qDebug("  duration: %f", duration);
+    qDebug("  filename: '%s'", filename.toUtf8().data());
+    qDebug("  duration: %f", duration);
 
-	qDebug("  video_width: %d", video_width); 
-	qDebug("  video_height: %d", video_height); 
-	qDebug("  video_aspect: %f", video_aspect); 
+    qDebug("  video_width: %d", video_width);
+    qDebug("  video_height: %d", video_height);
+    qDebug("  video_aspect: %f", video_aspect);
 
-	qDebug("  type: %d", type);
-	qDebug("  novideo: %d", novideo);
-	qDebug("  dvd_id: '%s'", dvd_id.toUtf8().data());
+    qDebug("  type: %d", type);
+    qDebug("  novideo: %d", novideo);
+    qDebug("  dvd_id: '%s'", dvd_id.toUtf8().data());
 
-	qDebug("  initialized: %d", initialized);
+    qDebug("  initialized: %d", initialized);
 
-	qDebug("  chapters: %d", chapters);
-	qDebug("  editions: %d", editions > -1 ? editions : 0);
+    qDebug("  chapters: %d", chapters);
+    qDebug("  editions: %d", editions > -1 ? editions : 0);
 
-	qDebug("  Subs:");
-	subs.list();
+    qDebug("  Subs:");
+    subs.list();
 
 #if PROGRAM_SWITCH
-	qDebug("  Programs:");
-	programs.list();
+    qDebug("  Programs:");
+    programs.list();
 #endif
-	qDebug("  Videos:");
-	videos.list();
+    qDebug("  Videos:");
+    videos.list();
 
-	qDebug("  Audios:");
-	audios.list();
+    qDebug("  Audios:");
+    audios.list();
 
-	qDebug("  Titles:");
-	titles.list();
+    qDebug("  Titles:");
+    titles.list();
 
-	//qDebug("  chapters: %d", chapters);
-	//qDebug("  angles: %d", angles);
+    //qDebug("  chapters: %d", chapters);
+    //qDebug("  angles: %d", angles);
 
-	qDebug("  demuxer: '%s'", demuxer.toUtf8().data() );
-	qDebug("  video_format: '%s'", video_format.toUtf8().data() );
-	qDebug("  audio_format: '%s'", audio_format.toUtf8().data() );
-	qDebug("  video_bitrate: %d", video_bitrate );
-	qDebug("  video_fps: '%s'", video_fps.toUtf8().data() );
-	qDebug("  audio_bitrate: %d", audio_bitrate );
-	qDebug("  audio_rate: %d", audio_rate );
-	qDebug("  audio_nch: %d", audio_nch );
-	qDebug("  video_codec: '%s'", video_codec.toUtf8().data() );
-	qDebug("  audio_codec: '%s'", audio_codec.toUtf8().data() );
+    qDebug("  demuxer: '%s'", demuxer.toUtf8().data());
+    qDebug("  video_format: '%s'", video_format.toUtf8().data());
+    qDebug("  audio_format: '%s'", audio_format.toUtf8().data());
+    qDebug("  video_bitrate: %d", video_bitrate);
+    qDebug("  video_fps: '%s'", video_fps.toUtf8().data());
+    qDebug("  audio_bitrate: %d", audio_bitrate);
+    qDebug("  audio_rate: %d", audio_rate);
+    qDebug("  audio_nch: %d", audio_nch);
+    qDebug("  video_codec: '%s'", video_codec.toUtf8().data());
+    qDebug("  audio_codec: '%s'", audio_codec.toUtf8().data());
 }
 

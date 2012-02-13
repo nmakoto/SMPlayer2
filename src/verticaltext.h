@@ -11,17 +11,21 @@
 class VerticalText : public QWidget
 {
 public:
-    VerticalText(QWidget * parent, Qt::WindowFlags f = 0);
+    VerticalText(QWidget *parent, Qt::WindowFlags f = 0);
     ~VerticalText();
 
-	void setText(QString s) { _label = s; };
-	QString text() { return _label; };
+    void setText(QString s) {
+        _label = s;
+    };
+    QString text() {
+        return _label;
+    };
     QSize sizeHint() const;
-    QSizePolicy sizePolicy () const;
-	
+    QSizePolicy sizePolicy() const;
+
 protected:
-    void paintEvent ( QPaintEvent * event );
-	QString _label;
+    void paintEvent(QPaintEvent *event);
+    QString _label;
 };
 
 #endif

@@ -22,7 +22,7 @@
 
 // CONTROLWIDGET_OVER_VIDEO
 // if set to 1, the controlwidget will be shown in fullscreen
-// *over* the video (not moving the video) when the user move the mouse 
+// *over* the video (not moving the video) when the user move the mouse
 // to the bottom area of the screen.
 
 #define CONTROLWIDGET_OVER_VIDEO 1

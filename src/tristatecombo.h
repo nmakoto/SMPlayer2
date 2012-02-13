@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/*! 
+/*!
 	This class is to replace some QCheckBox with a combo with three possible
     values: true, false or autodetect
 */
@@ -29,18 +29,18 @@
 
 class TristateCombo : public QComboBox
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	TristateCombo( QWidget * parent = 0 );
-	~TristateCombo();
+    TristateCombo(QWidget *parent = 0);
+    ~TristateCombo();
 
-	void setState( Preferences::OptionState v );
-	Preferences::OptionState state();
+    void setState(Preferences::OptionState v);
+    Preferences::OptionState state();
 
 protected:
-	virtual void retranslateStrings();
-	virtual void changeEvent( QEvent * event );
+    virtual void retranslateStrings();
+    virtual void changeEvent(QEvent *event);
 
 };
 

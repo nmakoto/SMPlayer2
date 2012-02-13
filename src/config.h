@@ -58,7 +58,7 @@
 
 
 // USE_MINIMUMSIZE
-// if 1, the main window will not be smaller than the control widget 
+// if 1, the main window will not be smaller than the control widget
 // size hint or pref->gui_minimum_width.
 
 #define USE_MINIMUMSIZE 1

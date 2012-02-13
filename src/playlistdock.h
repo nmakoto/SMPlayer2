@@ -22,25 +22,25 @@
 #include <QDockWidget>
 #include "guiconfig.h"
 
-class PlaylistDock : public QDockWidget 
+class PlaylistDock : public QDockWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	PlaylistDock ( QWidget * parent = 0, Qt::WindowFlags flags = 0 );
-	~PlaylistDock();
+    PlaylistDock(QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    ~PlaylistDock();
 
 signals:
-	void closed();
+    void closed();
 #if QT_VERSION < 0x040300
-	void visibilityChanged(bool visible);
+    void visibilityChanged(bool visible);
 #endif
 
 protected:
-	virtual void closeEvent( QCloseEvent * e );
+    virtual void closeEvent(QCloseEvent *e);
 #if QT_VERSION < 0x040300
-	virtual void showEvent ( QShowEvent * event );
-	virtual void hideEvent ( QHideEvent * event );
+    virtual void showEvent(QShowEvent *event);
+    virtual void hideEvent(QHideEvent *event);
 #endif
 };
 

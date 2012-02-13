@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-//! This class disables and restores the windows screensaver 
+//! This class disables and restores the windows screensaver
 
 #ifndef _WINSCREENSAVER_H_
 #define _WINSCREENSAVER_H_
@@ -24,19 +24,19 @@
 class WinScreenSaver
 {
 public:
-	WinScreenSaver();
-	~WinScreenSaver();
+    WinScreenSaver();
+    ~WinScreenSaver();
 
-	void disable();
-	void enable();
-
-private:
-	void retrieveState();
-	void restoreState();
+    void disable();
+    void enable();
 
 private:
-	int lowpower, poweroff, screensaver;
-	bool state_saved, modified;
+    void retrieveState();
+    void restoreState();
+
+private:
+    int lowpower, poweroff, screensaver;
+    bool state_saved, modified;
 };
 
 #endif

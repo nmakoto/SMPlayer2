@@ -26,16 +26,16 @@ class Translator
 {
 
 public:
-	Translator();
-	~Translator();
+    Translator();
+    ~Translator();
 
-	void load(QString locale);
+    void load(QString locale);
 
 protected:
-	static bool loadCatalog(QTranslator & t, QString name, QString locale, QString dir);
+    static bool loadCatalog(QTranslator &t, QString name, QString locale, QString dir);
 
-	QTranslator app_trans;
-	QTranslator qt_trans;
+    QTranslator app_trans;
+    QTranslator qt_trans;
 };
 
 #endif

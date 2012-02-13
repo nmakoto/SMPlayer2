@@ -23,89 +23,98 @@
 
 #define DEBUG 0
 
-TimeSlider::TimeSlider( QWidget * parent ) : MySlider(parent)
+TimeSlider::TimeSlider(QWidget *parent) : MySlider(parent)
 {
-	dont_update = FALSE;
-	setMinimum(0);
+    dont_update = FALSE;
+    setMinimum(0);
 #ifdef SEEKBAR_RESOLUTION
-	setMaximum(SEEKBAR_RESOLUTION);
+    setMaximum(SEEKBAR_RESOLUTION);
 #else
-	setMaximum(100);
+    setMaximum(100);
 #endif
 
-	setFocusPolicy( Qt::NoFocus );
-	setSizePolicy( QSizePolicy::Expanding , QSizePolicy::Fixed );
+    setFocusPolicy(Qt::NoFocus);
+    setSizePolicy(QSizePolicy::Expanding , QSizePolicy::Fixed);
 
-	connect( this, SIGNAL( sliderPressed() ), this, SLOT( stopUpdate() ) );
-	connect( this, SIGNAL( sliderReleased() ), this, SLOT( resumeUpdate() ) );
-	connect( this, SIGNAL( sliderReleased() ), this, SLOT( mouseReleased() ) );
-	connect( this, SIGNAL( valueChanged(int) ), this, SLOT( valueChanged_slot(int) ) );
+    connect(this, SIGNAL(sliderPressed()), this, SLOT(stopUpdate()));
+    connect(this, SIGNAL(sliderReleased()), this, SLOT(resumeUpdate()));
+    connect(this, SIGNAL(sliderReleased()), this, SLOT(mouseReleased()));
+    connect(this, SIGNAL(valueChanged(int)), this, SLOT(valueChanged_slot(int)));
 }
 
-TimeSlider::~TimeSlider() {
+TimeSlider::~TimeSlider()
+{
 }
 
-void TimeSlider::stopUpdate() {
-	#if DEBUG
-	qDebug("TimeSlider::stopUpdate");
-	#endif
-	dont_update = TRUE;
+void TimeSlider::stopUpdate()
+{
+#if DEBUG
+    qDebug("TimeSlider::stopUpdate");
+#endif
+    dont_update = TRUE;
 }
 
-void TimeSlider::resumeUpdate() {
-	#if DEBUG
-	qDebug("TimeSlider::resumeUpdate");
-	#endif
-	dont_update = FALSE;
+void TimeSlider::resumeUpdate()
+{
+#if DEBUG
+    qDebug("TimeSlider::resumeUpdate");
+#endif
+    dont_update = FALSE;
 }
 
-void TimeSlider::mouseReleased() {
-	#if DEBUG
-	qDebug("TimeSlider::mouseReleased");
-	#endif
-	emit posChanged( value() );
+void TimeSlider::mouseReleased()
+{
+#if DEBUG
+    qDebug("TimeSlider::mouseReleased");
+#endif
+    emit posChanged(value());
 }
 
-void TimeSlider::valueChanged_slot(int v) {
-	#if DEBUG
-	qDebug("TimeSlider::changedValue_slot: %d", v);
-	#endif
+void TimeSlider::valueChanged_slot(int v)
+{
+#if DEBUG
+    qDebug("TimeSlider::changedValue_slot: %d", v);
+#endif
 
-	// Only to make things clear:
-	bool dragging = dont_update;
-	if (!dragging) {
-		if (v!=position) {
-			#if DEBUG
-			qDebug(" emitting posChanged");
-			#endif
-			emit posChanged(v);
-		}
-	} else {
-		#if DEBUG
-		qDebug(" emitting draggingPos");
-		#endif
-		emit draggingPos(v);
-	}
+    // Only to make things clear:
+    bool dragging = dont_update;
+
+    if (!dragging) {
+        if (v != position) {
+#if DEBUG
+            qDebug(" emitting posChanged");
+#endif
+            emit posChanged(v);
+        }
+    } else {
+#if DEBUG
+        qDebug(" emitting draggingPos");
+#endif
+        emit draggingPos(v);
+    }
 }
 
-void TimeSlider::setPos(int v) {
-	#if DEBUG
-	qDebug("TimeSlider::setPos: %d", v);
-	qDebug(" dont_update: %d", dont_update);
-	#endif
+void TimeSlider::setPos(int v)
+{
+#if DEBUG
+    qDebug("TimeSlider::setPos: %d", v);
+    qDebug(" dont_update: %d", dont_update);
+#endif
 
-	if (v!=pos()) {
-		if (!dont_update) {
-			position = v;
-			setValue(v);
-		}
-	}
+    if (v != pos()) {
+        if (!dont_update) {
+            position = v;
+            setValue(v);
+        }
+    }
 }
 
-int TimeSlider::pos() {
-	return position;
+int TimeSlider::pos()
+{
+    return position;
 }
 
-void TimeSlider::wheelEvent( QWheelEvent * e ) {
-	e->ignore();
+void TimeSlider::wheelEvent(QWheelEvent *e)
+{
+    e->ignore();
 }

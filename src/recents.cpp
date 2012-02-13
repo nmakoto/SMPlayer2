@@ -20,62 +20,74 @@
 
 Recents::Recents()
 {
-	l.clear();
-	max_items = 10;
+    l.clear();
+    max_items = 10;
 }
 
-Recents::~Recents() {
+Recents::~Recents()
+{
 }
 
-void Recents::clear() {
-	l.clear();
+void Recents::clear()
+{
+    l.clear();
 }
 
-int Recents::count() {
-	return l.count();
+int Recents::count()
+{
+    return l.count();
 }
 
-void Recents::setMaxItems(int n_items) {
-	max_items = n_items;
-	fromStringList(l);
+void Recents::setMaxItems(int n_items)
+{
+    max_items = n_items;
+    fromStringList(l);
 }
 
-void Recents::addItem(QString s) {
-	qDebug("Recents::addItem: '%s'", s.toUtf8().data());
+void Recents::addItem(QString s)
+{
+    qDebug("Recents::addItem: '%s'", s.toUtf8().data());
 
-	int pos = l.indexOf(s);
-	if (pos != -1) l.removeAt(pos);
-	l.prepend(s);
+    int pos = l.indexOf(s);
 
-	if (l.count() > max_items) l.removeLast();
+    if (pos != -1) l.removeAt(pos);
+
+    l.prepend(s);
+
+    if (l.count() > max_items) l.removeLast();
 }
 
-QString Recents::item(int n) {
-	return l[n];
+QString Recents::item(int n)
+{
+    return l[n];
 }
 
-void Recents::list() {
-	qDebug("Recents::list");
+void Recents::list()
+{
+    qDebug("Recents::list");
 
-	for (int n=0; n < l.count(); n++) {
-		qDebug(" * item %d: '%s'", n, l[n].toUtf8().constData() );
-	}
+    for (int n = 0; n < l.count(); n++) {
+        qDebug(" * item %d: '%s'", n, l[n].toUtf8().constData());
+    }
 }
 
-void Recents::fromStringList(QStringList list) {
-	l.clear();
+void Recents::fromStringList(QStringList list)
+{
+    l.clear();
 
-	int max = list.count();
-	if (max_items < max) max = max_items;
+    int max = list.count();
 
-	//qDebug("max_items: %d, count: %d max: %d", max_items, l.count(), max);
+    if (max_items < max) max = max_items;
 
-	for (int n = 0; n < max; n++) {
-		l.append( list[n] );
-	}
+    //qDebug("max_items: %d, count: %d max: %d", max_items, l.count(), max);
+
+    for (int n = 0; n < max; n++) {
+        l.append(list[n]);
+    }
 }
 
-QStringList Recents::toStringList() {
-	return l;
+QStringList Recents::toStringList()
+{
+    return l;
 }
 

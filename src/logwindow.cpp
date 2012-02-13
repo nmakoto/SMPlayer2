@@ -27,17 +27,18 @@
 
 #include "images.h"
 
-LogWindow::LogWindow( QWidget* parent )
-	: QWidget(parent, Qt::Window ) 
+LogWindow::LogWindow(QWidget *parent)
+    : QWidget(parent, Qt::Window)
 {
-	setupUi(this);
+    setupUi(this);
 
-	browser->setFont( QFont("fixed") );
+    browser->setFont(QFont("fixed"));
 
-	retranslateStrings();
+    retranslateStrings();
 }
 
-LogWindow::~LogWindow() {
+LogWindow::~LogWindow()
+{
 }
 
 /*
@@ -46,97 +47,110 @@ QTextEdit * LogWindow::editor() {
 }
 */
 
-void LogWindow::retranslateStrings() {
-	retranslateUi(this);
+void LogWindow::retranslateStrings()
+{
+    retranslateUi(this);
 
-	saveButton->setText("");
-	copyButton->setText("");
+    saveButton->setText("");
+    copyButton->setText("");
 
-	saveButton->setIcon( Images::icon("save") );
-	copyButton->setIcon( Images::icon("copy") );
+    saveButton->setIcon(Images::icon("save"));
+    copyButton->setIcon(Images::icon("copy"));
 
-	setWindowIcon( Images::icon("logo") );
+    setWindowIcon(Images::icon("logo"));
 }
 
 
-void LogWindow::setText(QString log) {
-	browser->setPlainText(log);
+void LogWindow::setText(QString log)
+{
+    browser->setPlainText(log);
 }
 
-QString LogWindow::text() {
-	return browser->toPlainText();
+QString LogWindow::text()
+{
+    return browser->toPlainText();
 }
 
-void LogWindow::setHtml(QString text) {
-	browser->setHtml(text);
+void LogWindow::setHtml(QString text)
+{
+    browser->setHtml(text);
 }
 
-QString LogWindow::html() {
-	return browser->toHtml();
+QString LogWindow::html()
+{
+    return browser->toHtml();
 }
 
-void LogWindow::clear() {
-	browser->clear();
+void LogWindow::clear()
+{
+    browser->clear();
 }
 
-void LogWindow::appendText(QString text) {
-	browser->moveCursor(QTextCursor::End);
-	browser->insertPlainText(text);
+void LogWindow::appendText(QString text)
+{
+    browser->moveCursor(QTextCursor::End);
+    browser->insertPlainText(text);
 }
 
-void LogWindow::appendHtml(QString text) {
-	browser->moveCursor(QTextCursor::End);
-	browser->insertHtml(text);
+void LogWindow::appendHtml(QString text)
+{
+    browser->moveCursor(QTextCursor::End);
+    browser->insertHtml(text);
 }
 
-void LogWindow::on_copyButton_clicked() {
-	browser->selectAll();
-	browser->copy();
+void LogWindow::on_copyButton_clicked()
+{
+    browser->selectAll();
+    browser->copy();
 }
 
-void LogWindow::on_saveButton_clicked() {
-	QString s = MyFileDialog::getSaveFileName(
-                    this, tr("Choose a filename to save under"), 
-                    "", tr("Logs") +" (*.log *.txt)" );
+void LogWindow::on_saveButton_clicked()
+{
+    QString s = MyFileDialog::getSaveFileName(
+                    this, tr("Choose a filename to save under"),
+                    "", tr("Logs") + " (*.log *.txt)");
 
-	if (!s.isEmpty()) {
-		if (QFileInfo(s).exists()) {
-			int res =QMessageBox::question( this, 
-                                   tr("Confirm overwrite?"),
-                                   tr("The file already exists.\n"
-                                      "Do you want to overwrite?"),
-                                   QMessageBox::Yes,
-                                   QMessageBox::No,
-                                   QMessageBox::NoButton);
-			if (res == QMessageBox::No ) {
-				return;
-			}
-		}
+    if (!s.isEmpty()) {
+        if (QFileInfo(s).exists()) {
+            int res = QMessageBox::question(this,
+                                            tr("Confirm overwrite?"),
+                                            tr("The file already exists.\n"
+                                               "Do you want to overwrite?"),
+                                            QMessageBox::Yes,
+                                            QMessageBox::No,
+                                            QMessageBox::NoButton);
 
-		QFile file( s );
-		if ( file.open( QIODevice::WriteOnly ) ) {
-	        QTextStream stream( &file );
-    		stream << browser->toPlainText();
-	        file.close();
-	    } else {
-			// Error opening file
-			qDebug("LogWindow::save: error saving file");
-			QMessageBox::warning ( this, 
-                                   tr("Error saving file"), 
-                                   tr("The log couldn't be saved"),
-                                   QMessageBox::Ok, 
-                                   QMessageBox::NoButton, 
-                                   QMessageBox::NoButton );
+            if (res == QMessageBox::No) {
+                return;
+            }
+        }
 
-		}
-	}
+        QFile file(s);
+
+        if (file.open(QIODevice::WriteOnly)) {
+            QTextStream stream(&file);
+            stream << browser->toPlainText();
+            file.close();
+        } else {
+            // Error opening file
+            qDebug("LogWindow::save: error saving file");
+            QMessageBox::warning(this,
+                                 tr("Error saving file"),
+                                 tr("The log couldn't be saved"),
+                                 QMessageBox::Ok,
+                                 QMessageBox::NoButton,
+                                 QMessageBox::NoButton);
+
+        }
+    }
 }
 
 // Language change stuff
-void LogWindow::changeEvent(QEvent *e) {
-	if (e->type() == QEvent::LanguageChange) {
-		retranslateStrings();
-	} else {
-		QWidget::changeEvent(e);
-	}
+void LogWindow::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange) {
+        retranslateStrings();
+    } else {
+        QWidget::changeEvent(e);
+    }
 }

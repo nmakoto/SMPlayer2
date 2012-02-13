@@ -27,65 +27,67 @@ class QPushButton;
 
 class FilePropertiesDialog : public QDialog, public Ui::FilePropertiesDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-    FilePropertiesDialog( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+    FilePropertiesDialog(QWidget *parent = 0, Qt::WindowFlags f = 0);
     ~FilePropertiesDialog();
 
-	void setMediaData(MediaData md);
+    void setMediaData(MediaData md);
 
-	void setDemuxer(QString demuxer, QString original_demuxer="");
-	QString demuxer();
+    void setDemuxer(QString demuxer, QString original_demuxer = "");
+    QString demuxer();
 
-	void setVideoCodec(QString vc, QString original_vc="");
-	QString videoCodec();
+    void setVideoCodec(QString vc, QString original_vc = "");
+    QString videoCodec();
 
-	void setAudioCodec(QString ac, QString original_ac="");
-	QString audioCodec();
+    void setAudioCodec(QString ac, QString original_ac = "");
+    QString audioCodec();
 
-	void setMplayerAdditionalArguments(QString args);
-	QString mplayerAdditionalArguments();
+    void setMplayerAdditionalArguments(QString args);
+    QString mplayerAdditionalArguments();
 
-	void setMplayerAdditionalVideoFilters(QString s);
-	QString mplayerAdditionalVideoFilters();
+    void setMplayerAdditionalVideoFilters(QString s);
+    QString mplayerAdditionalVideoFilters();
 
-	void setMplayerAdditionalAudioFilters(QString s);
-	QString mplayerAdditionalAudioFilters();
+    void setMplayerAdditionalAudioFilters(QString s);
+    QString mplayerAdditionalAudioFilters();
 
 public slots:
-	void accept(); // Reimplemented to send a signal
-	void apply();
+    void accept(); // Reimplemented to send a signal
+    void apply();
 
 signals:
-	void applied();
+    void applied();
 
 protected slots:
-	virtual void on_resetDemuxerButton_clicked();
-	virtual void on_resetACButton_clicked();
-	virtual void on_resetVCButton_clicked();
+    virtual void on_resetDemuxerButton_clicked();
+    virtual void on_resetACButton_clicked();
+    virtual void on_resetVCButton_clicked();
 
 protected:
-	// Call it as soon as possible
-	void setCodecs(InfoList vc, InfoList ac, InfoList demuxer);
-	bool hasCodecsList() { return codecs_set; };
+    // Call it as soon as possible
+    void setCodecs(InfoList vc, InfoList ac, InfoList demuxer);
+    bool hasCodecsList() {
+        return codecs_set;
+    };
 
-	int find(QString s, InfoList &list);
-	void showInfo();
+    int find(QString s, InfoList &list);
+    void showInfo();
 
 protected:
-	virtual void retranslateStrings();
-	virtual void changeEvent ( QEvent * event ) ;
+    virtual void retranslateStrings();
+    virtual void changeEvent(QEvent *event) ;
 
 private:
-	bool codecs_set;
-	InfoList vclist, aclist, demuxerlist;
-	QString orig_demuxer, orig_ac, orig_vc;
-	MediaData media_data;
+    bool codecs_set;
+    InfoList vclist, aclist, demuxerlist;
+    QString orig_demuxer, orig_ac, orig_vc;
+    MediaData media_data;
 
-	QPushButton * okButton;
-	QPushButton * cancelButton;
-	QPushButton * applyButton;
+    QPushButton *okButton;
+    QPushButton *cancelButton;
+    QPushButton *applyButton;
 };
 
 #endif

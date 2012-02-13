@@ -24,24 +24,29 @@
 LineEditWithIcon::LineEditWithIcon(QWidget *parent) : QLineEdit(parent)
 {
     button = new QToolButton(this);
-	button->setCursor(Qt::ArrowCursor);
-	setupButton();
+    button->setCursor(Qt::ArrowCursor);
+    setupButton();
 }
 
-void LineEditWithIcon::setupButton() {
+void LineEditWithIcon::setupButton()
+{
 }
 
-void LineEditWithIcon::setIcon(const QPixmap & pixmap) {
-	QPixmap p = pixmap;
-	//qDebug("height: %d, icon height: %d", height(), p.height());
-	int max_height = 16;
-	if (max_height > height()) max_height = height() - 4;
-	if (pixmap.height() > max_height) p = pixmap.scaledToHeight(max_height, Qt::SmoothTransformation);
-	button->setIcon(p);
-	button->setStyleSheet("QToolButton { border: none; padding: 0px; }");
+void LineEditWithIcon::setIcon(const QPixmap &pixmap)
+{
+    QPixmap p = pixmap;
+    //qDebug("height: %d, icon height: %d", height(), p.height());
+    int max_height = 16;
+
+    if (max_height > height()) max_height = height() - 4;
+
+    if (pixmap.height() > max_height) p = pixmap.scaledToHeight(max_height, Qt::SmoothTransformation);
+
+    button->setIcon(p);
+    button->setStyleSheet("QToolButton { border: none; padding: 0px; }");
 
     int frameWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-	//qDebug("frameWidth: %d", frameWidth);
+    //qDebug("frameWidth: %d", frameWidth);
     setStyleSheet(QString("QLineEdit { padding-right: %1px; } ").arg(button->sizeHint().width() + frameWidth + 1));
     /*
     QSize msz = minimumSizeHint();
@@ -55,15 +60,16 @@ void LineEditWithIcon::resizeEvent(QResizeEvent *)
     QSize sz = button->sizeHint();
     int frameWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
     button->move(rect().right() - frameWidth - sz.width(),
-                 (rect().bottom() + 1 - sz.height())/2);
+                 (rect().bottom() + 1 - sz.height()) / 2);
 }
 
 // Language change stuff
-void LineEditWithIcon::changeEvent(QEvent *e) {
-	if (e->type() == QEvent::LanguageChange) {
-		setupButton();
-	} else {
-		QWidget::changeEvent(e);
-	}
+void LineEditWithIcon::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange) {
+        setupButton();
+    } else {
+        QWidget::changeEvent(e);
+    }
 }
 

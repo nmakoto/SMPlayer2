@@ -32,19 +32,19 @@ class QToolBar;
 
 class MpcGui : public BaseGuiPlus
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MpcGui( bool use_server, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
-	~MpcGui();
+    MpcGui(bool use_server, QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    ~MpcGui();
 
 #if USE_MPCMUMSIZE
-	virtual QSize mpcmumSizeHint () const;
+    virtual QSize mpcmumSizeHint() const;
 #endif
 
 protected slots:
-	void showFloatingControl(QPoint p);
-	void hideFloatingControl();
+    void showFloatingControl(QPoint p);
+    void hideFloatingControl();
     void muteIconChange(bool b);
     void iconChange(Core::State state);
     void updateAudioChannels();
@@ -56,46 +56,46 @@ protected slots:
     void setJumpTexts();
     void updateWidgets();
 
-	// Reimplemented:
+    // Reimplemented:
 #if AUTODISABLE_ACTIONS
-	virtual void enableActionsOnPlaying();
-	virtual void disableActionsOnStop();
+    virtual void enableActionsOnPlaying();
+    virtual void disableActionsOnStop();
 #endif
 
 protected:
-	virtual void retranslateStrings();
+    virtual void retranslateStrings();
 
-	void createActions();
-	void createControlWidget();
-	void createFloatingControl();
+    void createActions();
+    void createControlWidget();
+    void createFloatingControl();
     void createStatusBar();
 
     void setupIcons();
 
-	void loadConfig();
-	void saveConfig();
+    void loadConfig();
+    void saveConfig();
 
-	// Reimplemented
-	virtual void aboutToEnterFullscreen();
-	virtual void aboutToExitFullscreen();
-	virtual void aboutToEnterCompactMode();
-	virtual void aboutToExitCompactMode();
+    // Reimplemented
+    virtual void aboutToEnterFullscreen();
+    virtual void aboutToExitFullscreen();
+    virtual void aboutToEnterCompactMode();
+    virtual void aboutToExitCompactMode();
 
 protected:
-	QToolBar* controlwidget;
-    QToolBar* timeslidewidget;
+    QToolBar *controlwidget;
+    QToolBar *timeslidewidget;
 
-    QLabel * audiochannel_display;
-	QLabel * time_display;
-	QLabel * frame_display;
+    QLabel *audiochannel_display;
+    QLabel *time_display;
+    QLabel *frame_display;
 
-	FloatingWidget * floating_control;
+    FloatingWidget *floating_control;
 
-	TimeSliderAction * timeslider_action;
+    TimeSliderAction *timeslider_action;
 #if USE_VOLUME_BAR
-	VolumeSliderAction * volumeslider_action;
+    VolumeSliderAction *volumeslider_action;
 #endif
-	TimeLabelAction * time_label_action;
+    TimeLabelAction *time_label_action;
 };
 
 #endif

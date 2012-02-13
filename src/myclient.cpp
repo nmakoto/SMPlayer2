@@ -22,116 +22,133 @@
 #include <QHostAddress>
 #include <QRegExp>
 
-MyClient::MyClient(quint16 port, QObject * parent) : QObject(parent) 
+MyClient::MyClient(quint16 port, QObject *parent) : QObject(parent)
 {
-	qDebug("MyClient::MyClient");
+    qDebug("MyClient::MyClient");
 
-	this->port = port;
-	timeout = 200;
+    this->port = port;
+    timeout = 200;
 
-	socket = new QTcpSocket(this);
+    socket = new QTcpSocket(this);
 }
 
-MyClient::~MyClient() {
-	delete socket;
+MyClient::~MyClient()
+{
+    delete socket;
 }
 
-QString MyClient::readLine() {
-	QString line;
+QString MyClient::readLine()
+{
+    QString line;
 
-	int n = 0;
-	while (!socket->canReadLine() && n < 5) {
-		//qDebug("Bytes available: %d", (int) socket->bytesAvailable());
-		socket->waitForReadyRead( timeout );
-		n++;
-	}
-	if (socket->canReadLine()) {
-		line = QString::fromUtf8(socket->readLine());
-		line.remove( QRegExp("[\r\n]") );
+    int n = 0;
+
+    while (!socket->canReadLine() && n < 5) {
+        //qDebug("Bytes available: %d", (int) socket->bytesAvailable());
+        socket->waitForReadyRead(timeout);
+        n++;
+    }
+
+    if (socket->canReadLine()) {
+        line = QString::fromUtf8(socket->readLine());
+        line.remove(QRegExp("[\r\n]"));
         qDebug("MyClient::readLine: '%s'", line.toUtf8().data());
-	} 
+    }
 
-	return line;
+    return line;
 }
 
-void MyClient::writeLine(QString l) {
-	socket->write( l.toUtf8() );
-	socket->flush();
-	socket->waitForBytesWritten( timeout );
+void MyClient::writeLine(QString l)
+{
+    socket->write(l.toUtf8());
+    socket->flush();
+    socket->waitForBytesWritten(timeout);
 }
 
-bool MyClient::openConnection() {
-	socket->connectToHost( QHostAddress::LocalHost, port, QIODevice::ReadWrite);
-	if (!socket->waitForConnected( timeout )) return false; // Can't connect
+bool MyClient::openConnection()
+{
+    socket->connectToHost(QHostAddress::LocalHost, port, QIODevice::ReadWrite);
 
-	QString line = readLine();
-	if (!line.startsWith("SMPlayer2")) return false;
-	qDebug("MyClient::sendFiles: connected to a SMPlayer2 instance!");
+    if (!socket->waitForConnected(timeout)) return false;   // Can't connect
 
-	line = readLine(); // Read help message
+    QString line = readLine();
 
-	return true;
+    if (!line.startsWith("SMPlayer2")) return false;
+
+    qDebug("MyClient::sendFiles: connected to a SMPlayer2 instance!");
+
+    line = readLine(); // Read help message
+
+    return true;
 }
 
 
-bool MyClient::sendFiles( const QStringList & files, bool addToPlaylist) {
-	QString line;
+bool MyClient::sendFiles(const QStringList &files, bool addToPlaylist)
+{
+    QString line;
 
-	writeLine("open_files_start\r\n");
-	line = readLine();
-	if (!line.startsWith("OK")) return false;
+    writeLine("open_files_start\r\n");
+    line = readLine();
 
-	for (int n=0; n < files.count(); n++) {
-		writeLine("open_files " + files[n] + "\r\n");
-		line = readLine();
-		if (!line.startsWith("OK")) return false;
-	}
+    if (!line.startsWith("OK")) return false;
 
-	if (!addToPlaylist) 
-		writeLine("open_files_end\r\n");
-	else
-		writeLine("add_files_end\r\n");
+    for (int n = 0; n < files.count(); n++) {
+        writeLine("open_files " + files[n] + "\r\n");
+        line = readLine();
 
-	writeLine("quit\r\n");
+        if (!line.startsWith("OK")) return false;
+    }
 
-	do {
-		line = readLine();
-	} while (!line.isNull());
+    if (!addToPlaylist)
+        writeLine("open_files_end\r\n");
+    else
+        writeLine("add_files_end\r\n");
 
-	/*
-	socket->disconnectFromHost();
-	socket->waitForDisconnected( timeout );
-	*/
+    writeLine("quit\r\n");
 
-	return true;
+    do {
+        line = readLine();
+    } while (!line.isNull());
+
+    /*
+    socket->disconnectFromHost();
+    socket->waitForDisconnected( timeout );
+    */
+
+    return true;
 }
 
-bool MyClient::sendAction( const QString & action ) {
-	QString line;
+bool MyClient::sendAction(const QString &action)
+{
+    QString line;
 
-	writeLine("f " + action + "\r\n");
-	line = readLine();
-	if (!line.startsWith("OK")) return false;
+    writeLine("f " + action + "\r\n");
+    line = readLine();
 
-	/*
-	socket->disconnectFromHost();
-	socket->waitForDisconnected( timeout );
-	*/
+    if (!line.startsWith("OK")) return false;
 
-	return true;
+    /*
+    socket->disconnectFromHost();
+    socket->waitForDisconnected( timeout );
+    */
+
+    return true;
 }
 
-bool MyClient::sendSubtitleFile(const QString & file) {
-	QString line;
+bool MyClient::sendSubtitleFile(const QString &file)
+{
+    QString line;
 
-	writeLine("load_sub " + file + "\r\n");
-	line = readLine();
-	if (!line.startsWith("OK")) return false;
+    writeLine("load_sub " + file + "\r\n");
+    line = readLine();
 
-	return true;
+    if (!line.startsWith("OK")) return false;
+
+    return true;
 }
 
-void MyClient::closeConnection() {
-	socket->disconnectFromHost();
-	socket->waitForDisconnected( timeout );
+void MyClient::closeConnection()
+{
+    socket->disconnectFromHost();
+    socket->waitForDisconnected(timeout);
 }

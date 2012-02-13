@@ -25,31 +25,31 @@ class QTextEdit;
 
 class LogWindow : public QWidget, public Ui::LogWindowBase
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	LogWindow( QWidget* parent = 0);
-	~LogWindow();
+    LogWindow(QWidget *parent = 0);
+    ~LogWindow();
 
-	void setText(QString log);
-	QString text();
+    void setText(QString log);
+    QString text();
 
-	void setHtml(QString text);
-	QString html();
+    void setHtml(QString text);
+    QString html();
 
-	void clear();
+    void clear();
 
-	void appendText(QString text);
-	void appendHtml(QString text);
+    void appendText(QString text);
+    void appendHtml(QString text);
 
-	/* QTextEdit * editor(); */
+    /* QTextEdit * editor(); */
 
 protected:
-	virtual void retranslateStrings();
-	virtual void changeEvent ( QEvent * event ) ;
+    virtual void retranslateStrings();
+    virtual void changeEvent(QEvent *event) ;
 
 protected slots:
-	void on_copyButton_clicked();
+    void on_copyButton_clicked();
     void on_saveButton_clicked();
 };
 

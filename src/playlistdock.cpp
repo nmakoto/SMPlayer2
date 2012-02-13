@@ -19,30 +19,34 @@
 #include "playlistdock.h"
 #include <QCloseEvent>
 
-PlaylistDock::PlaylistDock(QWidget * parent, Qt::WindowFlags flags)
-	: QDockWidget(parent, flags)
+PlaylistDock::PlaylistDock(QWidget *parent, Qt::WindowFlags flags)
+    : QDockWidget(parent, flags)
 {
-	//setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Expanding );
-	setAcceptDrops(true); // Fix for Qt 4.4, otherwise the playlist doesn't accept drops...
+    //setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Expanding );
+    setAcceptDrops(true); // Fix for Qt 4.4, otherwise the playlist doesn't accept drops...
 }
 
-PlaylistDock::~PlaylistDock() {
+PlaylistDock::~PlaylistDock()
+{
 }
 
-void PlaylistDock::closeEvent( QCloseEvent * e ) {
-	qDebug("PlaylistDock::closeEvent");
-	emit closed();
-	e->accept();
+void PlaylistDock::closeEvent(QCloseEvent *e)
+{
+    qDebug("PlaylistDock::closeEvent");
+    emit closed();
+    e->accept();
 }
 
 #if QT_VERSION < 0x040300
-void PlaylistDock::showEvent( QShowEvent * /* event */ ) {
-	qDebug("PlaylistDock::showEvent");
-	emit visibilityChanged(true);
+void PlaylistDock::showEvent(QShowEvent * /* event */)
+{
+    qDebug("PlaylistDock::showEvent");
+    emit visibilityChanged(true);
 }
 
-void PlaylistDock::hideEvent( QHideEvent * /* event */ ) {
-	qDebug("PlaylistDock::hideEvent");
-	emit visibilityChanged(false);
+void PlaylistDock::hideEvent(QHideEvent * /* event */)
+{
+    qDebug("PlaylistDock::hideEvent");
+    emit visibilityChanged(false);
 }
 #endif

@@ -19,83 +19,91 @@
 #include "myaction.h"
 #include <QWidget>
 
-MyAction::MyAction ( QObject * parent, const char * name, bool autoadd ) 
-	: QAction(parent)
+MyAction::MyAction(QObject *parent, const char *name, bool autoadd)
+    : QAction(parent)
 {
-	//qDebug("MyAction::MyAction: name: '%s'", name);
-	setObjectName(name);
-	if (autoadd) addActionToParent();
+    //qDebug("MyAction::MyAction: name: '%s'", name);
+    setObjectName(name);
+
+    if (autoadd) addActionToParent();
 }
 
 
-MyAction::MyAction( QObject * parent, bool autoadd )
-	: QAction(parent)
+MyAction::MyAction(QObject *parent, bool autoadd)
+    : QAction(parent)
 {
-	//qDebug("MyAction::MyAction: QObject, bool");
-	if (autoadd) addActionToParent();
+    //qDebug("MyAction::MyAction: QObject, bool");
+    if (autoadd) addActionToParent();
 }
 
-MyAction::MyAction(const QString & text, QKeySequence accel, 
-                   QObject * parent, const char * name, bool autoadd )
-	: QAction(parent)
+MyAction::MyAction(const QString &text, QKeySequence accel,
+                   QObject *parent, const char *name, bool autoadd)
+    : QAction(parent)
 {
-	setObjectName(name);
-	setText(text);
-	setShortcut(accel);
-	if (autoadd) addActionToParent();
+    setObjectName(name);
+    setText(text);
+    setShortcut(accel);
+
+    if (autoadd) addActionToParent();
 }
 
-MyAction::MyAction(QKeySequence accel, QObject * parent, const char * name, 
-                   bool autoadd )
-	: QAction(parent)
+MyAction::MyAction(QKeySequence accel, QObject *parent, const char *name,
+                   bool autoadd)
+    : QAction(parent)
 {
-	setObjectName(name);
-	setShortcut(accel);
-	if (autoadd) addActionToParent();
+    setObjectName(name);
+    setShortcut(accel);
+
+    if (autoadd) addActionToParent();
 }
 
-MyAction::~MyAction() {
+MyAction::~MyAction()
+{
 }
 
-void MyAction::addActionToParent() {
-	if (parent()) {
-		if (parent()->inherits("QWidget")) {
-			QWidget *w = static_cast<QWidget*> (parent());
-			w->addAction(this);
-		}
-	}
+void MyAction::addActionToParent()
+{
+    if (parent()) {
+        if (parent()->inherits("QWidget")) {
+            QWidget *w = static_cast<QWidget *>(parent());
+            w->addAction(this);
+        }
+    }
 }
 
-void MyAction::change(const QIcon & icon, const QString & text) {
-	setIcon( icon );
-	change(text);
+void MyAction::change(const QIcon &icon, const QString &text)
+{
+    setIcon(icon);
+    change(text);
 }
 
-void MyAction::change(const QString & text ) {
-	setText( text );
+void MyAction::change(const QString &text)
+{
+    setText(text);
 
-	QString accel_text = shortcut().toString();
+    QString accel_text = shortcut().toString();
 
-	QString s = text;
-	s.replace("&","");
-	if (!accel_text.isEmpty()) {
-		setToolTip( s + " ("+ accel_text +")");
-		setIconText( s );
-	}
+    QString s = text;
+    s.replace("&", "");
 
-	/*
-	if (text.isEmpty()) {
-		QString s = menuText;
-		s = s.replace("&","");
-		setText( s );
+    if (!accel_text.isEmpty()) {
+        setToolTip(s + " (" + accel_text + ")");
+        setIconText(s);
+    }
 
-		if (!accel_text.isEmpty())
-			setToolTip( s + " ("+ accel_text +")");
-	} else {
-		setText( text );
-		if (!accel_text.isEmpty())
-			setToolTip( text + " ("+ accel_text +")");
-	}
-	*/
+    /*
+    if (text.isEmpty()) {
+    	QString s = menuText;
+    	s = s.replace("&","");
+    	setText( s );
+
+    	if (!accel_text.isEmpty())
+    		setToolTip( s + " ("+ accel_text +")");
+    } else {
+    	setText( text );
+    	if (!accel_text.isEmpty())
+    		setToolTip( text + " ("+ accel_text +")");
+    }
+    */
 }
 
