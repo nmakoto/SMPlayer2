@@ -189,24 +189,26 @@ void Favorites::next()
 {
     qDebug("Favorites::next");
 
-    int current = findFile(current_file);
+    if (f_list.count() > 0) {
+        int current = findFile(current_file);
 
-    int i = current;
+        int i = current;
 
-    if (current < 0) current = 0;
+        if (current < 0) current = 0;
 
-    do {
-        i++;
+        do {
+            i++;
 
-        if (i == current) break;
+            if (i == current) break;
 
-        if (i >= f_list.count()) i = 0;
-    } while (f_list[i].isSubentry());
+            if (i >= f_list.count()) i = 0;
+        } while (f_list[i].isSubentry());
 
-    QAction *a = actions()[i+FIRST_MENU_ENTRY];  // Skip "edit" and separator
+        QAction *a = actions()[i+FIRST_MENU_ENTRY];  // Skip "edit" and separator
 
-    if (a != 0) {
-        a->trigger();
+        if (a != 0) {
+            a->trigger();
+        }
     }
 }
 
@@ -214,24 +216,26 @@ void Favorites::previous()
 {
     qDebug("Favorites::previous");
 
-    int current = findFile(current_file);
+    if (f_list.count() > 0) {
+        int current = findFile(current_file);
 
-    int i = current;
+        int i = current;
 
-    if (current < 0) current = 0;
+        if (current < 0) current = 0;
 
-    do {
-        i--;
+        do {
+            i--;
 
-        if (i == current) break;
+            if (i == current) break;
 
-        if (i < 0) i = f_list.count() - 1;
-    } while (f_list[i].isSubentry());
+            if (i < 0) i = f_list.count() - 1;
+        } while (f_list[i].isSubentry());
 
-    QAction *a = actions()[i+FIRST_MENU_ENTRY];  // Skip "edit" and separator
+        QAction *a = actions()[i+FIRST_MENU_ENTRY];  // Skip "edit" and separator
 
-    if (a != 0) {
-        a->trigger();
+        if (a != 0) {
+            a->trigger();
+        }
     }
 }
 
