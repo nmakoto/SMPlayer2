@@ -1331,6 +1331,59 @@ void Playlist::swapItems(int item1, int item2)
     setModified(true);
 }
 
+void Playlist::moveItems( int current, MoveItemsDirection moveUp )
+{
+    // up(1) = 1, down(0) = -1
+    int delta = (int) (moveUp)*2 - 1;
+    int limit = (int) (!moveUp)*( listView->rowCount() - 1 );
+
+    if( delta*current < delta*limit + 1 )
+        return;
+
+    int i;
+    int near;
+    QTableWidgetSelectionRange range;
+    QList<QTableWidgetSelectionRange> rangeList;
+    foreach( range, listView->selectedRanges() )
+    {
+        near = moveUp ? range.topRow() : range.bottomRow();
+        if( delta*near <= delta*limit )
+            return;
+
+        for( i = 0; i < range.rowCount(); ++i )
+            swapItems( near + delta*i, near + delta*(i - 1) );
+
+        // current_item increment is one of:
+        // out of range     = 0
+        // in range         = delta
+        // =topRow-1        = -bottomRow + topRow (if up)
+        // =bottomRow+1     = bottomRow - topRow (if down)
+        current_item -= delta * (
+            (int) (
+                current_item >= range.topRow() &&
+                current_item <= range.bottomRow()
+            ) - (int) (
+                current_item == near - delta
+            ) * range.rowCount()
+        );
+
+        rangeList.append(
+            QTableWidgetSelectionRange(
+                range.topRow() - delta,
+                range.leftColumn(),
+                range.bottomRow() - delta,
+                range.rightColumn()
+            )
+        );
+    }
+
+    updateView();
+    listView->clearSelection();
+    listView->setCurrentCell( current - delta, 0 );
+
+    foreach( range, rangeList )
+        listView->setRangeSelected( range, true );
+}
 
 void Playlist::upItem()
 {
@@ -1339,8 +1392,7 @@ void Playlist::upItem()
     int current = listView->currentRow();
     qDebug(" currentRow: %d", current);
 
-    moveItemUp(current);
-
+    moveItems( current, MoveItemUp );
 }
 
 void Playlist::downItem()
@@ -1350,38 +1402,19 @@ void Playlist::downItem()
     int current = listView->currentRow();
     qDebug(" currentRow: %d", current);
 
-    moveItemDown(current);
+    moveItems( current, MoveItemDown );
 }
 
 void Playlist::moveItemUp(int current)
 {
     qDebug("Playlist::moveItemUp");
-
-    if (current >= 1) {
-        swapItems(current, current - 1);
-
-        if (current_item == (current - 1)) current_item = current;
-        else if (current_item == current) current_item = current - 1;
-
-        updateView();
-        listView->clearSelection();
-        listView->setCurrentCell(current - 1, 0);
-    }
+    moveItems( current, MoveItemUp );
 }
+
 void Playlist::moveItemDown(int current)
 {
     qDebug("Playlist::moveItemDown");
-
-    if ((current > -1) && (current < (pl.count() - 1))) {
-        swapItems(current, current + 1);
-
-        if (current_item == (current + 1)) current_item = current;
-        else if (current_item == current) current_item = current + 1;
-
-        updateView();
-        listView->clearSelection();
-        listView->setCurrentCell(current + 1, 0);
-    }
+    moveItems( current, MoveItemDown );
 }
 
 void Playlist::editCurrentItem()

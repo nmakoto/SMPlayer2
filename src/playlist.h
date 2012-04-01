@@ -97,6 +97,7 @@ class Playlist : public QWidget
 
 public:
     enum AutoGetInfo { NoGetInfo = 0, GetInfo = 1, UserDefined = 2 };
+    enum MoveItemsDirection { MoveItemDown = 0, MoveItemUp = 1 };
 
     Playlist(Core *c, QWidget *parent = 0, Qt::WindowFlags f = Qt::Window);
     ~Playlist();
@@ -129,6 +130,7 @@ public slots:
 
     virtual void moveItemUp(int);
     virtual void moveItemDown(int);
+    virtual void moveItems(int, MoveItemsDirection);
 
     virtual void addCurrentFile();
     virtual void addFiles();
@@ -195,8 +197,8 @@ public:
 
     /*
     public:
-    	MyAction * playPrevAct() { return prevAct; };
-    	MyAction * playNextAct() { return nextAct; };
+        MyAction * playPrevAct() { return prevAct; };
+        MyAction * playNextAct() { return nextAct; };
     */
 
 signals:
