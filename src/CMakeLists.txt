@@ -1,6 +1,6 @@
-add_definitions(-DSMPLAYER2_VERSION=\"${SMPLAYER2_VERSION}\")
+add_definitions("-DSMPLAYER2_VERSION=\"${SMPLAYER2_VERSION}\"")
 if(NOT WIN32)
-	add_definitions(-DDATA_PATH=\"${CMAKE_INSTALL_PREFIX}/share/smplayer2\")
+	add_definitions("-DDATA_PATH=\"${CMAKE_INSTALL_PREFIX}/share/smplayer2\"")
 endif()
 
 find_package(Qt4 REQUIRED QtCore QtGui QtNetwork QtXml)

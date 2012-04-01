@@ -476,6 +476,11 @@ bool Playlist::isEmpty()
 
 void Playlist::addItem(QString filename, QString name, double duration)
 {
+    addItem(filename, name, duration, -1);
+}
+
+void Playlist::addItem(QString filename, QString name, double duration, int position)
+{
     qDebug("Playlist::addItem: '%s'", filename.toUtf8().data());
 
 #ifdef Q_OS_WIN
@@ -483,43 +488,30 @@ void Playlist::addItem(QString filename, QString name, double duration)
 #endif
 
     // Test if already is in the list
-    bool exists = false;
-
     for (int n = 0; n < pl.count(); n++) {
         if (pl[n].filename() == filename) {
-            exists = true;
-            int last_item =  pl.count() - 1;
-            pl.move(n, last_item);
-            qDebug("Playlist::addItem: item already in list (%d), moved to %d", n, last_item);
-
-            if (current_item > -1) {
-                if (current_item > n) current_item--;
-                else if (current_item == n) current_item = last_item;
-            }
-
-            break;
+            qDebug("Playlist::addItem: item already in list (%d), skipped", n);
+            return;
         }
     }
 
-    if (!exists) {
-        if (name.isEmpty()) {
-            QFileInfo fi(filename);
+    if (name.isEmpty()) {
+        QFileInfo fi(filename);
 
-            // Let's see if it looks like a file (no dvd://1 or something)
-            if (filename.indexOf(QRegExp("^.*://.*")) == -1) {
-                // Local file
-                name = fi.fileName(); //fi.baseName(TRUE);
-            } else {
-                // Stream
-                name = filename;
-            }
+        // Let's see if it looks like a file (no dvd://1 or something)
+        if (filename.indexOf(QRegExp("^.*://.*")) == -1) {
+            // Local file
+            name = fi.fileName(); //fi.baseName(TRUE);
+        } else {
+            // Stream
+            name = filename;
         }
-
-        pl.append(PlaylistItem(filename, name, duration));
-        //setModified( true ); // Better set the modified on a higher level
-    } else {
-        qDebug("Playlist::addItem: item not added, already in the list");
     }
+
+    pl.append(PlaylistItem(filename, name, duration));
+    if (position >= 0 && position < pl.count() - 1)
+        pl.move(pl.count() - 1, position);
+    //setModified( true ); // Better set the modified on a higher level
 }
 
 // EDIT BY NEO -->
@@ -1128,16 +1120,17 @@ void Playlist::addFiles(QStringList files, AutoGetInfo auto_get_info)
 
     QStringList::Iterator it = files.begin();
 
+    int placePos = current_item + 1;
     while (it != files.end()) {
 #if USE_INFOPROVIDER
 
         if ((get_info) && (QFile::exists((*it)))) {
             data = InfoProvider::getInfo((*it));
-            addItem((*it), data.displayName(), data.duration);
+            addItem((*it), data.displayName(), data.duration, placePos++);
             //updateView();
             //qApp->processEvents();
         } else {
-            addItem((*it), "", 0);
+            addItem((*it), "", 0, placePos++);
         }
 
 #else
@@ -1331,6 +1324,59 @@ void Playlist::swapItems(int item1, int item2)
     setModified(true);
 }
 
+void Playlist::moveItems( int current, MoveItemsDirection moveUp )
+{
+    // up(1) = 1, down(0) = -1
+    int delta = (int) (moveUp)*2 - 1;
+    int limit = (int) (!moveUp)*( listView->rowCount() - 1 );
+
+    if( delta*current < delta*limit + 1 )
+        return;
+
+    int i;
+    int near;
+    QTableWidgetSelectionRange range;
+    QList<QTableWidgetSelectionRange> rangeList;
+    foreach( range, listView->selectedRanges() )
+    {
+        near = moveUp ? range.topRow() : range.bottomRow();
+        if( delta*near <= delta*limit )
+            return;
+
+        for( i = 0; i < range.rowCount(); ++i )
+            swapItems( near + delta*i, near + delta*(i - 1) );
+
+        // current_item increment is one of:
+        // out of range     = 0
+        // in range         = delta
+        // =topRow-1        = -bottomRow + topRow (if up)
+        // =bottomRow+1     = bottomRow - topRow (if down)
+        current_item -= delta * (
+            (int) (
+                current_item >= range.topRow() &&
+                current_item <= range.bottomRow()
+            ) - (int) (
+                current_item == near - delta
+            ) * range.rowCount()
+        );
+
+        rangeList.append(
+            QTableWidgetSelectionRange(
+                range.topRow() - delta,
+                range.leftColumn(),
+                range.bottomRow() - delta,
+                range.rightColumn()
+            )
+        );
+    }
+
+    updateView();
+    listView->clearSelection();
+    listView->setCurrentCell( current - delta, 0 );
+
+    foreach( range, rangeList )
+        listView->setRangeSelected( range, true );
+}
 
 void Playlist::upItem()
 {
@@ -1339,8 +1385,7 @@ void Playlist::upItem()
     int current = listView->currentRow();
     qDebug(" currentRow: %d", current);
 
-    moveItemUp(current);
-
+    moveItems( current, MoveItemUp );
 }
 
 void Playlist::downItem()
@@ -1350,38 +1395,19 @@ void Playlist::downItem()
     int current = listView->currentRow();
     qDebug(" currentRow: %d", current);
 
-    moveItemDown(current);
+    moveItems( current, MoveItemDown );
 }
 
 void Playlist::moveItemUp(int current)
 {
     qDebug("Playlist::moveItemUp");
-
-    if (current >= 1) {
-        swapItems(current, current - 1);
-
-        if (current_item == (current - 1)) current_item = current;
-        else if (current_item == current) current_item = current - 1;
-
-        updateView();
-        listView->clearSelection();
-        listView->setCurrentCell(current - 1, 0);
-    }
+    moveItems( current, MoveItemUp );
 }
+
 void Playlist::moveItemDown(int current)
 {
     qDebug("Playlist::moveItemDown");
-
-    if ((current > -1) && (current < (pl.count() - 1))) {
-        swapItems(current, current + 1);
-
-        if (current_item == (current + 1)) current_item = current;
-        else if (current_item == current) current_item = current + 1;
-
-        updateView();
-        listView->clearSelection();
-        listView->setCurrentCell(current + 1, 0);
-    }
+    moveItems( current, MoveItemDown );
 }
 
 void Playlist::editCurrentItem()
