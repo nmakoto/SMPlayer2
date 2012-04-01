@@ -114,6 +114,7 @@ public:
 
 public slots:
     void addItem(QString filename, QString name, double duration);
+    void addItem(QString filename, QString name, double duration, int position);
 
     // Start playing, from item 0 if shuffle is off, or from
     // a random item otherwise

@@ -476,6 +476,11 @@ bool Playlist::isEmpty()
 
 void Playlist::addItem(QString filename, QString name, double duration)
 {
+    addItem(filename, name, duration, -1);
+}
+
+void Playlist::addItem(QString filename, QString name, double duration, int position)
+{
     qDebug("Playlist::addItem: '%s'", filename.toUtf8().data());
 
 #ifdef Q_OS_WIN
@@ -483,43 +488,30 @@ void Playlist::addItem(QString filename, QString name, double duration)
 #endif
 
     // Test if already is in the list
-    bool exists = false;
-
     for (int n = 0; n < pl.count(); n++) {
         if (pl[n].filename() == filename) {
-            exists = true;
-            int last_item =  pl.count() - 1;
-            pl.move(n, last_item);
-            qDebug("Playlist::addItem: item already in list (%d), moved to %d", n, last_item);
-
-            if (current_item > -1) {
-                if (current_item > n) current_item--;
-                else if (current_item == n) current_item = last_item;
-            }
-
-            break;
+            qDebug("Playlist::addItem: item already in list (%d), skipped", n);
+            return;
         }
     }
 
-    if (!exists) {
-        if (name.isEmpty()) {
-            QFileInfo fi(filename);
+    if (name.isEmpty()) {
+        QFileInfo fi(filename);
 
-            // Let's see if it looks like a file (no dvd://1 or something)
-            if (filename.indexOf(QRegExp("^.*://.*")) == -1) {
-                // Local file
-                name = fi.fileName(); //fi.baseName(TRUE);
-            } else {
-                // Stream
-                name = filename;
-            }
+        // Let's see if it looks like a file (no dvd://1 or something)
+        if (filename.indexOf(QRegExp("^.*://.*")) == -1) {
+            // Local file
+            name = fi.fileName(); //fi.baseName(TRUE);
+        } else {
+            // Stream
+            name = filename;
         }
-
-        pl.append(PlaylistItem(filename, name, duration));
-        //setModified( true ); // Better set the modified on a higher level
-    } else {
-        qDebug("Playlist::addItem: item not added, already in the list");
     }
+
+    pl.append(PlaylistItem(filename, name, duration));
+    if (position >= 0 && position < pl.count() - 1)
+        pl.move(pl.count() - 1, position);
+    //setModified( true ); // Better set the modified on a higher level
 }
 
 // EDIT BY NEO -->
@@ -1128,16 +1120,17 @@ void Playlist::addFiles(QStringList files, AutoGetInfo auto_get_info)
 
     QStringList::Iterator it = files.begin();
 
+    int placePos = current_item + 1;
     while (it != files.end()) {
 #if USE_INFOPROVIDER
 
         if ((get_info) && (QFile::exists((*it)))) {
             data = InfoProvider::getInfo((*it));
-            addItem((*it), data.displayName(), data.duration);
+            addItem((*it), data.displayName(), data.duration, placePos++);
             //updateView();
             //qApp->processEvents();
         } else {
-            addItem((*it), "", 0);
+            addItem((*it), "", 0, placePos++);
         }
 
 #else
