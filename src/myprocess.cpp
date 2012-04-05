@@ -172,7 +172,7 @@ void MyProcess::procFinished()
     qDebug("MyProcess::procFinished");
 
 #if !USE_TEMP_FILE
-    qDebug("MyProcess::procFinished: Bytes available: %"PRId64, (int64_t)bytesAvailable());
+    qDebug("MyProcess::procFinished: Bytes available: %" PRId64, (int64_t)bytesAvailable());
 
     if (bytesAvailable() > 0) readStdOut();
 
