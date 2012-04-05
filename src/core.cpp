@@ -1969,15 +1969,6 @@ void Core::startMplayer(QString file, double seek)
         proc->addArgument(pref->filters->item("noise").filter());
     }
 
-    // Postprocessing
-    if (mset.postprocessing_filter) {
-        proc->addArgument("-vf-add");
-        proc->addArgument("pp");
-        proc->addArgument("-autoq");
-        proc->addArgument(QString::number(pref->autoq));
-    }
-
-
     // Letterbox (expand)
     if ((mset.add_letterbox) || (pref->fullscreen && pref->add_blackborders_on_fullscreen)) {
         proc->addArgument("-vf-add");
@@ -2600,21 +2591,6 @@ void Core::toggleNoise(bool b)
 
     if (b != mset.noise_filter) {
         mset.noise_filter = b;
-        restartPlay();
-    }
-}
-
-void Core::togglePostprocessing()
-{
-    togglePostprocessing(!mset.postprocessing_filter);
-}
-
-void Core::togglePostprocessing(bool b)
-{
-    qDebug("Core::togglePostprocessing: %d", b);
-
-    if (b != mset.postprocessing_filter) {
-        mset.postprocessing_filter = b;
         restartPlay();
     }
 }

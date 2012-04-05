@@ -185,7 +185,6 @@ void PrefGeneral::setData(Preferences *pref)
     setAc3DTSPassthrough(pref->use_hwac3);
     setInitialVolNorm(pref->initial_volnorm);
     setAmplification(pref->softvol_max);
-    setInitialPostprocessing(pref->initial_postprocessing);
     setInitialDeinterlace(pref->initial_deinterlace);
     setInitialZoom(pref->initial_zoom_factor);
     setDirectRendering(pref->use_direct_rendering);
@@ -193,7 +192,6 @@ void PrefGeneral::setData(Preferences *pref)
     setUseSlices(pref->use_slices);
     setStartInFullscreen(pref->start_in_fullscreen);
     setBlackbordersOnFullscreen(pref->add_blackborders_on_fullscreen);
-    setAutoq(pref->autoq);
 
 #ifdef Q_OS_WIN
     setAvoidScreensaver(pref->avoid_screensaver);
@@ -265,7 +263,6 @@ void PrefGeneral::getData(Preferences *pref)
     TEST_AND_SET(pref->use_hwac3, Ac3DTSPassthrough());
     pref->initial_volnorm = initialVolNorm();
     TEST_AND_SET(pref->softvol_max, amplification());
-    pref->initial_postprocessing = initialPostprocessing();
     pref->initial_deinterlace = initialDeinterlace();
     pref->initial_zoom_factor = initialZoom();
     TEST_AND_SET(pref->use_direct_rendering, directRendering());
@@ -278,8 +275,6 @@ void PrefGeneral::getData(Preferences *pref)
 
         if (pref->fullscreen) requires_restart = true;
     }
-
-    TEST_AND_SET(pref->autoq, autoq());
 
 #ifdef Q_OS_WIN
     pref->avoid_screensaver = avoidScreensaver();
@@ -675,16 +670,6 @@ bool PrefGeneral::initialVolNorm()
     return volnorm_check->isChecked();
 }
 
-void PrefGeneral::setInitialPostprocessing(bool b)
-{
-    postprocessing_check->setChecked(b);
-}
-
-bool PrefGeneral::initialPostprocessing()
-{
-    return postprocessing_check->isChecked();
-}
-
 void PrefGeneral::setInitialDeinterlace(int ID)
 {
     int pos = deinterlace_combo->findData(ID);
@@ -829,16 +814,6 @@ bool PrefGeneral::blackbordersOnFullscreen()
     return blackborders_on_fs_check->isChecked();
 }
 
-void PrefGeneral::setAutoq(int n)
-{
-    autoq_spin->setValue(n);
-}
-
-int PrefGeneral::autoq()
-{
-    return autoq_spin->value();
-}
-
 void PrefGeneral::setScaleTempoFilter(Preferences::OptionState value)
 {
     scaletempo_combo->setState(value);
@@ -966,14 +941,6 @@ void PrefGeneral::createHelp()
            "driver, so it's wise to keep this option checked.") );
     */
 #endif
-
-    setWhatsThis(postprocessing_check, tr("Enable postprocessing by default"),
-                 tr("Postprocessing will be used by default on new opened files."));
-
-    setWhatsThis(autoq_spin, tr("Postprocessing quality"),
-                 tr("Dynamically changes the level of postprocessing depending on the "
-                    "available spare CPU time. The number you specify will be the "
-                    "maximum level used. Usually you can use some big number."));
 
     setWhatsThis(deinterlace_combo, tr("Deinterlace by default"),
                  tr("Select the deinterlace filter that you want to be used for new "

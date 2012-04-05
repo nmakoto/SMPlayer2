@@ -155,8 +155,6 @@ public slots:
     void toggleDering(bool b);
     void toggleNoise();
     void toggleNoise(bool b);
-    void togglePostprocessing();
-    void togglePostprocessing(bool b);
     void changeDenoise(int);
     void changeLetterbox(bool);
     void changeUpscale(bool);

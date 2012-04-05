@@ -89,7 +89,6 @@ public:
     bool use_double_buffer;
     bool use_soft_video_eq;
     bool use_slices;
-    int autoq; 	//!< Postprocessing quality
     bool add_blackborders_on_fullscreen;
 
 #ifdef Q_OS_WIN
@@ -397,7 +396,6 @@ public:
     //! 100 = 100% at the bottom
     int initial_sub_pos;
 
-    bool initial_postprocessing; //!< global postprocessing filter
     bool initial_volnorm;
 
     int initial_deinterlace;

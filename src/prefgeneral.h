@@ -122,9 +122,6 @@ protected:
     void setBlackbordersOnFullscreen(bool b);
     bool blackbordersOnFullscreen();
 
-    void setAutoq(int n);
-    int autoq();
-
     void setGlobalVolume(bool b);
     bool globalVolume();
 
@@ -151,9 +148,6 @@ protected:
 
     void setInitialVolNorm(bool b);
     bool initialVolNorm();
-
-    void setInitialPostprocessing(bool b);
-    bool initialPostprocessing();
 
     void setInitialDeinterlace(int ID);
     int initialDeinterlace();

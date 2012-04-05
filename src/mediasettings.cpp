@@ -77,7 +77,6 @@ void MediaSettings::reset()
     deblock_filter = false;
     dering_filter = false;
     noise_filter = false;
-    postprocessing_filter = pref->initial_postprocessing;
     upscaling_filter = false;
 
     //current_deinterlacer = NoDeinterlace;
@@ -263,7 +262,6 @@ void MediaSettings::list()
     qDebug("  deblock_filter: %d", deblock_filter);
     qDebug("  dering_filter: %d", dering_filter);
     qDebug("  noise_filter: %d", noise_filter);
-    qDebug("  postprocessing_filter: %d", postprocessing_filter);
     qDebug("  upscaling_filter: %d", upscaling_filter);
 
     qDebug("  current_deinterlacer: %d", current_deinterlacer);
@@ -359,7 +357,6 @@ void MediaSettings::save(QSettings *set)
     set->setValue("deblock_filter", deblock_filter);
     set->setValue("dering_filter", dering_filter);
     set->setValue("noise_filter", noise_filter);
-    set->setValue("postprocessing_filter", postprocessing_filter);
     set->setValue("upscaling_filter", upscaling_filter);
 
     set->setValue("current_deinterlacer", current_deinterlacer);
@@ -456,7 +453,6 @@ void MediaSettings::load(QSettings *set)
     deblock_filter = set->value("deblock_filter", deblock_filter).toBool();
     dering_filter = set->value("dering_filter", dering_filter).toBool();
     noise_filter = set->value("noise_filter", noise_filter).toBool();
-    postprocessing_filter = set->value("postprocessing_filter", postprocessing_filter).toBool();
     upscaling_filter = set->value("upscaling_filter", upscaling_filter).toBool();
 
     current_deinterlacer = set->value("current_deinterlacer", current_deinterlacer).toInt();
