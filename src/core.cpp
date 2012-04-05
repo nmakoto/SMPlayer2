@@ -3906,7 +3906,7 @@ void Core::displayMessage(QString text)
     qDebug("Core::displayMessage");
     emit showMessage(text);
 
-    if ((pref->fullscreen) && (state() != Stopped) {
+    if ((pref->fullscreen) && (state() != Stopped)) {
         displayTextOnOSD(text);
     }
 }
