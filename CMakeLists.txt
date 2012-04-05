@@ -50,9 +50,6 @@ summary_show()
 install(FILES smplayer2.desktop
 	DESTINATION share/applications
 )
-install(FILES smplayer2_enqueue.desktop
-	DESTINATION share/applications
-)
 
 # uninstall target
 configure_file(
