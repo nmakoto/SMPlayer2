@@ -237,7 +237,7 @@
       <attribute name="title">
        <string>&amp;Font and colors</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout">
+      <layout class="QGridLayout">
        <item row="2" column="0">
         <widget class="QCheckBox" name="use_mplayer2_defaults_check">
          <property name="text">
