@@ -116,8 +116,8 @@ static QRegExp rx_mkvchapters_timestamp("^ID_CHAPTER_(\\d+)_START=(\\d+)");
 static QRegExp rx_mkveditions("\\[mkv\\] Found (\\d+) editions, will play #(\\d+)");
 static QRegExp rx_chapter("^ANS_chapter=(.*)");
 static QRegExp rx_aspect2("^Movie-Aspect is ([0-9,.]+):1");
-static QRegExp rx_fontcache("^\\[ass\\] Updating font cache|^\\[ass\\] Init");
-static QRegExp rx_scanning_font("Scanning file");
+static QRegExp rx_fontcache("^\\[ass\\] Updating font cache|^\\[ass\\] Init|^\\[fontconfig\\] Scanning dir");
+static QRegExp rx_scanning_font("Scanning file|^\\[\\d+/\\d+\\]");
 #if DVDNAV_SUPPORT
 static QRegExp rx_dvdnav_switch_title("^DVDNAV, switched to title: (\\d+)");
 static QRegExp rx_dvdnav_length("^ANS_length=(.*)");
@@ -682,7 +682,7 @@ void MplayerProcess::parseLine(QByteArray ba)
                                                                                                                 //qDebug("MplayerProcess::parseLine: updating font cache");
                                                                                                                 emit receivedUpdatingFontCache();
                                                                                                             } else if (rx_scanning_font.indexIn(line) > -1) {
-                                                                                                                emit receivedScanningFont(line);
+                                                                                                                emit receivedScanningFont(line.trimmed());
                                                                                                             } else
 
                                                                                                                 // Catch starting message
