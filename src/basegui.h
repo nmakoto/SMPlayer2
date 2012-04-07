@@ -151,6 +151,7 @@ public slots:
     int forceStartInFullscreen() {
         return arg_start_in_fullscreen;
     };
+    void updateSubVisibility(bool);
 
 
 protected slots:
@@ -644,6 +645,8 @@ protected:
 
     QMenu *popup;
     QMenu *recentfiles_menu;
+
+    MyAction *subDisabledAct;
 
     LogWindow *mplayer_log_window;
     LogWindow *smplayer2_log_window;

@@ -3014,6 +3014,7 @@ void Core::changeSubVisibility(bool visible)
         displayMessage(tr("Subtitles on"));
     else
         displayMessage(tr("Subtitles off"));
+    emit subVisibilityChanged(visible);
 }
 
 // Audio equalizer functions

@@ -2601,6 +2601,7 @@ void BaseGui::createMenus()
 
     // let's show something, even a <empty> entry
     initializeMenus();
+    connect(core, SIGNAL(subVisibilityChanged(bool)), this, SLOT(updateSubVisibility(bool)));
 }
 
 /*
@@ -3125,6 +3126,11 @@ void BaseGui::initializeMenus()
 
     // Subtitles
     subtitleTrackGroup->clear(true);
+    subDisabledAct = new MyAction(this);
+    subDisabledAct->setText(tr("Subtitles off"));
+    subtitleTrackGroup->addAction(subDisabledAct);
+    subDisabledAct->setDisabled(true);
+    subDisabledAct->setVisible(false);
     QAction *subNoneAct = subtitleTrackGroup->addAction(tr("&None"));
     subNoneAct->setData(MediaSettings::SubNone);
     subNoneAct->setCheckable(true);
@@ -3475,6 +3481,7 @@ void BaseGui::updateWidgets()
 
     // Subtitle visibility
     subVisibilityAct->setChecked(pref->sub_visibility);
+    subDisabledAct->setVisible(!pref->sub_visibility);
 
     // Enable or disable subtitle options
     bool e = ((core->mset.current_sub_id != MediaSettings::SubNone) &&
@@ -4929,3 +4936,8 @@ void BaseGui::clear_just_stopped()
     just_stopped = false;
 }
 #endif
+
+void BaseGui::updateSubVisibility(bool visible)
+{
+    subDisabledAct->setVisible(!visible);
+}

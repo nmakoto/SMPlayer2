@@ -68,6 +68,8 @@ protected:
     //! And sends the stateChanged() signal.
     void setState(State s);
 
+signals:
+    void subVisibilityChanged(bool visible);
 public slots:
     //! Generic open, with autodetection of type
     void open(QString file, int seek = -1);
