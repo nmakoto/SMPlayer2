@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "minigui.h"
+#include "gui/minigui.h"
 #include "widgetactions.h"
 #include "floatingwidget.h"
 #include "myaction.h"

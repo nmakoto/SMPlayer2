@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "basegui.h"
+#include "gui/basegui.h"
 
 #include "filedialog.h"
 #include <QMessageBox>
@@ -2605,18 +2605,18 @@ void BaseGui::createMenus()
 
 /*
 void BaseGui::closeEvent( QCloseEvent * e )  {
-	qDebug("BaseGui::closeEvent");
+    qDebug("BaseGui::closeEvent");
 
-	qDebug("mplayer_log_window: %d x %d", mplayer_log_window->width(), mplayer_log_window->height() );
-	qDebug("smplayer2_log_window: %d x %d", smplayer2_log_window->width(), smplayer2_log_window->height() );
+    qDebug("mplayer_log_window: %d x %d", mplayer_log_window->width(), mplayer_log_window->height() );
+    qDebug("smplayer2_log_window: %d x %d", smplayer2_log_window->width(), smplayer2_log_window->height() );
 
-	mplayer_log_window->close();
-	smplayer2_log_window->close();
-	playlist->close();
-	equalizer->close();
+    mplayer_log_window->close();
+    smplayer2_log_window->close();
+    playlist->close();
+    equalizer->close();
 
-	core->stop();
-	e->accept();
+    core->stop();
+    e->accept();
 }
 */
 
@@ -2923,7 +2923,7 @@ void BaseGui::applyFileProperties()
 
 #undef TEST_AND_SET
 #define TEST_AND_SET( Pref, Dialog ) \
-	if ( Pref != Dialog ) { Pref = Dialog; need_restart = TRUE; }
+    if ( Pref != Dialog ) { Pref = Dialog; need_restart = TRUE; }
 
     QString prev_demuxer = core->mset.forced_demuxer;
 
@@ -3032,9 +3032,9 @@ void BaseGui::newMediaLoaded()
         }
     } /*else {
 
-		playlist->clear();
-		playlist->addCurrentFile();
-	}*/
+        playlist->clear();
+        playlist->addCurrentFile();
+    }*/
 
     if ((core->mdat.type == TYPE_FILE) && (pref->auto_add_to_playlist) && (pref->add_to_playlist_consecutive_files)) {
         // Look for consecutive files
@@ -3074,8 +3074,8 @@ void BaseGui::recordSmplayerLog(QString line)
 }
 
 /*!
-	Save the mplayer log to a file, so it can be used by external
-	applications.
+    Save the mplayer log to a file, so it can be used by external
+    applications.
 */
 void BaseGui::autosaveMplayerLog()
 {
@@ -3401,9 +3401,9 @@ void BaseGui::updateWidgets()
     // Mute button
     mutebutton->setOn(core->mset.mute);
     if (core->mset.mute)
-    	mutebutton->setPixmap( Images::icon("mute_small") );
+        mutebutton->setPixmap( Images::icon("mute_small") );
     else
-    	mutebutton->setPixmap( Images::icon("volume_small") );
+        mutebutton->setPixmap( Images::icon("volume_small") );
 
     // Volume slider
     volumeslider->setValue( core->mset.volume );
@@ -3514,19 +3514,19 @@ void BaseGui::updateAudioEqualizer()
 /*
 void BaseGui::playlistVisibilityChanged() {
 #if !DOCK_PLAYLIST
-	bool visible = playlist->isVisible();
+    bool visible = playlist->isVisible();
 
-	showPlaylistAct->setChecked( visible );
+    showPlaylistAct->setChecked( visible );
 #endif
 }
 */
 
 /*
 void BaseGui::openRecent(int item) {
-	qDebug("BaseGui::openRecent: %d", item);
-	if ((item > -1) && (item < RECENTS_CLEAR)) { // 1000 = Clear item
-		open( recents->item(item) );
-	}
+    qDebug("BaseGui::openRecent: %d", item);
+    if ((item > -1) && (item < RECENTS_CLEAR)) { // 1000 = Clear item
+        open( recents->item(item) );
+    }
 }
 */
 
@@ -3626,10 +3626,10 @@ void BaseGui::openURL()
 
     if ( ok && !s.isEmpty() ) {
 
-    	//playlist->clear();
-    	//playlistdock->hide();
+        //playlist->clear();
+        //playlistdock->hide();
 
-    	openURL(s);
+        openURL(s);
     } else {
         // user entered nothing or pressed Cancel
     }
@@ -4299,30 +4299,30 @@ void BaseGui::showPopupMenu(QPoint p)
 
 /*
 void BaseGui::mouseReleaseEvent( QMouseEvent * e ) {
-	qDebug("BaseGui::mouseReleaseEvent");
+    qDebug("BaseGui::mouseReleaseEvent");
 
-	if (e->button() == Qt::LeftButton) {
-		e->accept();
-		emit leftClicked();
-	}
-	else
-	if (e->button() == Qt::MidButton) {
-		e->accept();
-		emit middleClicked();
-	}
-	//
-	//else
-	//if (e->button() == Qt::RightButton) {
-	//	showPopupMenu( e->globalPos() );
+    if (e->button() == Qt::LeftButton) {
+        e->accept();
+        emit leftClicked();
+    }
+    else
+    if (e->button() == Qt::MidButton) {
+        e->accept();
+        emit middleClicked();
+    }
+    //
+    //else
+    //if (e->button() == Qt::RightButton) {
+    //	showPopupMenu( e->globalPos() );
     //}
-	//
-	else
-		e->ignore();
+    //
+    else
+        e->ignore();
 }
 
 void BaseGui::mouseDoubleClickEvent( QMouseEvent * e ) {
-	e->accept();
-	emit doubleClicked();
+    e->accept();
+    emit doubleClicked();
 }
 */
 
@@ -4645,7 +4645,7 @@ void BaseGui::exitFullscreenIfNeeded()
 {
     /*
     if (pref->fullscreen) {
-    	toggleFullscreen(FALSE);
+        toggleFullscreen(FALSE);
     }
     */
 }

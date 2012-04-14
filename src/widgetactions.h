@@ -22,7 +22,7 @@
 #include <QWidgetAction>
 #include "timeslider.h"
 #include "config.h"
-#include "guiconfig.h"
+#include "gui/guiconfig.h"
 
 class QStyle;
 

@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "baseguiplus.h"
+#include "gui/baseguiplus.h"
 #include "config.h"
 #include "myaction.h"
 #include "global.h"
@@ -248,7 +248,7 @@ void BaseGuiPlus::saveConfig()
 
     /*
     #if DOCK_PLAYLIST
-    	set->setValue( "playlist_and_toolbars_state", saveState() );
+        set->setValue( "playlist_and_toolbars_state", saveState() );
     #endif
     */
 
@@ -280,7 +280,7 @@ void BaseGuiPlus::loadConfig()
 
     /*
     #if DOCK_PLAYLIST
-    	restoreState( set->value( "playlist_and_toolbars_state" ).toByteArray() );
+        restoreState( set->value( "playlist_and_toolbars_state" ).toByteArray() );
     #endif
     */
 
@@ -362,8 +362,8 @@ void BaseGuiPlus::showAll(bool b)
 
         /*
         if (infowindow_visible) {
-        	info_window->show();
-        	info_window->move(infowindow_pos);
+            info_window->show();
+            info_window->move(infowindow_pos);
         }
         */
     }

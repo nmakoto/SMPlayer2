@@ -19,10 +19,10 @@
 #ifndef _BASEGUIPLUS_H_
 #define _BASEGUIPLUS_H_
 
-#include "basegui.h"
+#include "gui/basegui.h"
 #include <QSystemTrayIcon>
 #include <QPoint>
-#include "guiconfig.h"
+#include "gui/guiconfig.h"
 
 class QMenu;
 class PlaylistDock;

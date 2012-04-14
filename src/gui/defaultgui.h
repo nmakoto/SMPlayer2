@@ -19,8 +19,8 @@
 #ifndef _DEFAULTGUI_H_
 #define _DEFAULTGUI_H_
 
-#include "guiconfig.h"
-#include "baseguiplus.h"
+#include "gui/guiconfig.h"
+#include "gui/baseguiplus.h"
 #include <QPoint>
 
 class QToolBar;

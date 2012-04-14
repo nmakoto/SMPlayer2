@@ -26,7 +26,7 @@
 #include "preferences.h"
 #include "core.h"
 #include "config.h"
-#include "guiconfig.h"
+#include "gui/guiconfig.h"
 
 #ifdef Q_OS_WIN
 /* Disable screensaver by event */

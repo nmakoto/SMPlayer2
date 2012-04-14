@@ -17,9 +17,9 @@
 */
 
 #include "smplayer2.h"
-#include "defaultgui.h"
-#include "minigui.h"
-#include "mpcgui/mpcgui.h"
+#include "gui/defaultgui.h"
+#include "gui/minigui.h"
+#include "gui/mpcgui/mpcgui.h"
 #include "global.h"
 #include "paths.h"
 #include "translator.h"

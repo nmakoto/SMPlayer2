@@ -1,5 +1,5 @@
-/*  smplayer2, GUI front-end for mplayer2.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+/*  Mpcgui for SMPlayer2.
+    Copyright (C) 2008 matt_ <matt@endboss.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,11 +16,11 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MINI_GUI_H_
-#define _MINI_GUI_H_
+#ifndef _MPC_GUI_H_
+#define _MPC_GUI_H_
 
-#include "baseguiplus.h"
-#include "guiconfig.h"
+#include "gui/baseguiplus.h"
+#include "gui/guiconfig.h"
 
 #define USE_VOLUME_BAR 1
 
@@ -30,21 +30,31 @@ class TimeLabelAction;
 class FloatingWidget;
 class QToolBar;
 
-class MiniGui : public BaseGuiPlus
+class MpcGui : public BaseGuiPlus
 {
     Q_OBJECT
 
 public:
-    MiniGui(bool use_server, QWidget *parent = 0, Qt::WindowFlags flags = 0);
-    ~MiniGui();
+    MpcGui(bool use_server, QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    ~MpcGui();
 
-#if USE_MINIMUMSIZE
-    virtual QSize minimumSizeHint() const;
+#if USE_MPCMUMSIZE
+    virtual QSize mpcmumSizeHint() const;
 #endif
 
 protected slots:
     void showFloatingControl(QPoint p);
     void hideFloatingControl();
+    void muteIconChange(bool b);
+    void iconChange(Core::State state);
+    void updateAudioChannels();
+
+    void displayTime(QString text);
+    void displayFrame(int frame);
+    void showFullscreenControls();
+    void hideFullscreenControls();
+    void setJumpTexts();
+    void updateWidgets();
 
     // Reimplemented:
 #if AUTODISABLE_ACTIONS
@@ -58,6 +68,9 @@ protected:
     void createActions();
     void createControlWidget();
     void createFloatingControl();
+    void createStatusBar();
+
+    void setupIcons();
 
     void loadConfig();
     void saveConfig();
@@ -70,6 +83,11 @@ protected:
 
 protected:
     QToolBar *controlwidget;
+    QToolBar *timeslidewidget;
+
+    QLabel *audiochannel_display;
+    QLabel *time_display;
+    QLabel *frame_display;
 
     FloatingWidget *floating_control;
 

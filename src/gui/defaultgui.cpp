@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "defaultgui.h"
+#include "gui/defaultgui.h"
 #include "helper.h"
 #include "colorutils.h"
 #include "core.h"
@@ -95,10 +95,10 @@ DefaultGui::~DefaultGui()
 
 /*
 void DefaultGui::closeEvent( QCloseEvent * ) {
-	qDebug("DefaultGui::closeEvent");
+    qDebug("DefaultGui::closeEvent");
 
-	//BaseGuiPlus::closeEvent(e);
-	qDebug("w: %d h: %d", width(), height() );
+    //BaseGuiPlus::closeEvent(e);
+    qDebug("w: %d h: %d", width(), height() );
 }
 */
 

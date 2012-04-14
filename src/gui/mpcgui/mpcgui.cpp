@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "mpcgui.h"
-#include "mpcstyles.h"
+#include "gui/mpcgui/mpcgui.h"
+#include "gui/mpcgui/mpcstyles.h"
 #include "widgetactions.h"
 #include "floatingwidget.h"
 #include "myaction.h"
@@ -232,9 +232,9 @@ void MpcGui::saveConfig()
 
     /*
     #if USE_CONFIGURABLE_TOOLBARS
-    	set->beginGroup( "actions" );
-    	set->setValue("controlwidget", ToolbarEditor::save(controlwidget) );
-    	set->endGroup();
+        set->beginGroup( "actions" );
+        set->setValue("controlwidget", ToolbarEditor::save(controlwidget) );
+        set->endGroup();
     #endif
     */
 
