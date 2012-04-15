@@ -23,7 +23,7 @@
 //#define NO_SMPLAYER_SUPPORT
 
 #ifndef NO_SMPLAYER_SUPPORT
-#include "filedialog.h"
+#include "dialogs/filedialog.h"
 #include "images.h"
 #else
 #include <QFileDialog>

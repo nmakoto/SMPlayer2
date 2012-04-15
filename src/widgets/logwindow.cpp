@@ -18,7 +18,7 @@
 
 #include "logwindow.h"
 #include <QTextEdit>
-#include "filedialog.h"
+#include "dialogs/filedialog.h"
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>

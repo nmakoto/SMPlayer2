@@ -22,7 +22,7 @@
 #include "preferences.h"
 #include "paths.h"
 #include "assstyles.h"
-#include "filedialog.h"
+#include "dialogs/filedialog.h"
 #include "languages.h"
 
 #include <QInputDialog>

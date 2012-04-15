@@ -19,11 +19,11 @@
 
 #include "prefgeneral.h"
 #include "preferences.h"
-#include "filedialog.h"
+#include "dialogs/filedialog.h"
 #include "images.h"
 #include "mediasettings.h"
 #include "paths.h"
-#include "vdpauproperties.h"
+#include "dialogs/vdpauproperties.h"
 
 #if USE_ALSA_DEVICES || USE_DSOUND_DEVICES
 #include "deviceinfo.h"

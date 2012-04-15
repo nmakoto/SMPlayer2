@@ -42,7 +42,7 @@
 
 #include "mytablewidget.h"
 #include "myaction.h"
-#include "filedialog.h"
+#include "dialogs/filedialog.h"
 #include "helper.h"
 #include "images.h"
 #include "preferences.h"

@@ -17,7 +17,7 @@
 */
 
 #include "tvlist.h"
-#include "favoriteeditor.h"
+#include "dialogs/favoriteeditor.h"
 #include "images.h"
 
 #include <QFile>

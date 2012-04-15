@@ -120,9 +120,45 @@ set(smplayer2_widgets_FORMS
 	widgets/seekwidget.ui
 )
 #---------------------------------------------------------------------------<<<1
+# dialogs ------------------------------------------------------------------>>>1
+set(smplayer2_dialogs_SOURCES
+	dialogs/about.cpp
+	dialogs/errordialog.cpp
+	dialogs/favoriteeditor.cpp
+	dialogs/filedialog.cpp
+	dialogs/filepropertiesdialog.cpp
+	dialogs/inputdvddirectory.cpp
+	dialogs/inputurl.cpp
+	dialogs/shortcutgetter.cpp
+	dialogs/timedialog.cpp
+	dialogs/vdpauproperties.cpp
+)
+
+set(smplayer2_dialogs_HEADERS
+	dialogs/about.h
+	dialogs/errordialog.h
+	dialogs/favoriteeditor.h
+	dialogs/filepropertiesdialog.h
+	dialogs/inputdvddirectory.h
+	dialogs/inputurl.h
+	dialogs/shortcutgetter.h
+	dialogs/timedialog.h
+	dialogs/vdpauproperties.h
+)
+
+set(smplayer2_dialogs_FORMS
+	dialogs/about.ui
+	dialogs/errordialog.ui
+	dialogs/favoriteeditor.ui
+	dialogs/filepropertiesdialog.ui
+	dialogs/inputdvddirectory.ui
+	dialogs/inputurl.ui
+	dialogs/timedialog.ui
+	dialogs/vdpauproperties.ui
+)
+#---------------------------------------------------------------------------<<<1
 # main --------------------------------------------------------------------->>>1
 set(smplayer2_SOURCES
-	about.cpp
 	assstyles.cpp
 	clhelp.cpp
 	colorutils.cpp
@@ -130,12 +166,8 @@ set(smplayer2_SOURCES
 	desktopinfo.cpp
 	deviceinfo.cpp
 	discname.cpp
-	errordialog.cpp
 	extensions.cpp
-	favoriteeditor.cpp
 	favorites.cpp
-	filedialog.cpp
-	filepropertiesdialog.cpp
 	filesettings.cpp
 	filesettingsbase.cpp
 	filesettingshash.cpp
@@ -150,8 +182,6 @@ set(smplayer2_SOURCES
 	infofile.cpp
 	infoprovider.cpp
 	inforeader.cpp
-	inputdvddirectory.cpp
-	inputurl.cpp
 	languages.cpp
 	main.cpp
 	mediadata.cpp
@@ -165,10 +195,8 @@ set(smplayer2_SOURCES
 	paths.cpp
 	preferences.cpp
 	recents.cpp
-	shortcutgetter.cpp
 	smplayer2.cpp
 	subtracks.cpp
-	timedialog.cpp
 	titletracks.cpp
 	toolbareditor.cpp
 	tracks.cpp
@@ -176,60 +204,45 @@ set(smplayer2_SOURCES
 	tvlist.cpp
 	tvsettings.cpp
 	urlhistory.cpp
-	vdpauproperties.cpp
 	videopreview/videopreview.cpp
 	videopreview/videopreviewconfigdialog.cpp
 	widgetactions.cpp
 	${smplayer2_gui_SOURCES}
 	${smplayer2_prefui_SOURCES}
 	${smplayer2_widgets_SOURCES}
+	${smplayer2_dialogs_SOURCES}
 )
 
 set(smplayer2_HEADERS
-	about.h
 	core.h
-	errordialog.h
-	favoriteeditor.h
 	favorites.h
-	filepropertiesdialog.h
 	filters.h
 	findsubtitles/findsubtitlesconfigdialog.h
 	findsubtitles/findsubtitleswindow.h
 	findsubtitles/simplehttp.h
 	inforeader.h
-	inputdvddirectory.h
-	inputurl.h
 	languages.h
 	mplayerprocess.h
 	myactiongroup.h
 	myprocess.h
 	myserver.h
-	shortcutgetter.h
-	timedialog.h
 	tvlist.h
-	vdpauproperties.h
 	videopreview/videopreview.h
 	videopreview/videopreviewconfigdialog.h
 	widgetactions.h
 	${smplayer2_gui_HEADERS}
 	${smplayer2_prefui_HEADERS}
 	${smplayer2_widgets_HEADERS}
+	${smplayer2_dialogs_HEADERS}
 )
 
 set(smplayer2_FORMS
-	about.ui
-	errordialog.ui
-	favoriteeditor.ui
-	filepropertiesdialog.ui
 	findsubtitles/findsubtitlesconfigdialog.ui
 	findsubtitles/findsubtitleswindow.ui
-	inputdvddirectory.ui
-	inputurl.ui
-	timedialog.ui
-	vdpauproperties.ui
 	videopreview/videopreviewconfigdialog.ui
 	${smplayer2_prefui_FORMS}
 	${smplayer2_widgets_FORMS}
+	${smplayer2_dialogs_FORMS}
 )
 #---------------------------------------------------------------------------<<<1
 
@@ -241,6 +254,7 @@ set(smplayer2_NOMOC_HEADERS
 	widgets/mytablewidget.h
 	widgets/prefwidget.h
 	widgets/verticaltext.h
+	dialogs/filedialog.h
 )
 
 set(smplayer2_RESOURCES icons.qrc)
@@ -267,16 +281,16 @@ if(WIN32)
 	add_definitions(-DSCREENSAVER_OFF)
 	add_definitions(-DUSE_ASSOCIATIONS)
 	set(smplayer2_SOURCES ${smplayer2_SOURCES}
-	screensaver.cpp
-	prefui/prefassociations.cpp
-	winfileassoc.cpp
-	smplayer2.rc
+		screensaver.cpp
+		prefui/prefassociations.cpp
+		winfileassoc.cpp
+		smplayer2.rc
 	)
 	set(smplayer2_HEADERS ${smplayer2_HEADERS}
-	prefui/prefassociations.h
+		prefui/prefassociations.h
 	)
 	set(smplayer2_FORMS ${smplayer2_FORMS}
-	prefui/prefassociations.ui
+		prefui/prefassociations.ui
 	)
 endif()
 

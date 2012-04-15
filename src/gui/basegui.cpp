@@ -18,7 +18,7 @@
 
 #include "gui/basegui.h"
 
-#include "filedialog.h"
+#include "dialogs/filedialog.h"
 #include <QMessageBox>
 #include <QLabel>
 #include <QMenu>
@@ -53,17 +53,17 @@
 #include "widgets/timeslider.h"
 #include "widgets/logwindow.h"
 #include "widgets/playlist.h"
-#include "filepropertiesdialog.h"
+#include "dialogs/filepropertiesdialog.h"
 #include "widgets/eqslider.h"
 #include "widgets/videoequalizer.h"
 #include "widgets/audioequalizer.h"
-#include "inputdvddirectory.h"
-#include "inputurl.h"
+#include "dialogs/inputdvddirectory.h"
+#include "dialogs/inputurl.h"
 #include "recents.h"
 #include "urlhistory.h"
-#include "about.h"
-#include "errordialog.h"
-#include "timedialog.h"
+#include "dialogs/about.h"
+#include "dialogs/errordialog.h"
+#include "dialogs/timedialog.h"
 #include "clhelp.h"
 #include "findsubtitles/findsubtitleswindow.h"
 #include "videopreview/videopreview.h"

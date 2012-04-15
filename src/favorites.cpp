@@ -17,7 +17,7 @@
 */
 
 #include "favorites.h"
-#include "favoriteeditor.h"
+#include "dialogs/favoriteeditor.h"
 
 #include <QAction>
 #include <QSettings>

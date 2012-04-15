@@ -38,10 +38,10 @@
 #include <QAction>
 
 #include "images.h"
-#include "filedialog.h"
+#include "dialogs/filedialog.h"
 #include "paths.h"
 
-#include "shortcutgetter.h"
+#include "dialogs/shortcutgetter.h"
 
 
 /*
