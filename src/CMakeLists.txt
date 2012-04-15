@@ -310,6 +310,8 @@ else ()
 endif ()
 endif ()
 
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+
 qt4_wrap_cpp(smplayer2_HEADERS_MOC ${smplayer2_HEADERS})
 qt4_wrap_ui(smplayer2_FORMS_HEADERS ${smplayer2_FORMS})
 qt4_add_translation(smplayer2_TRANSLATIONS ${smplayer2_LANGUAGES})
@@ -326,7 +328,6 @@ add_executable(smplayer2 WIN32
 
 add_dependencies(smplayer2 translations)
 target_link_libraries(smplayer2 ${smplayer2_LIBS})
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 install(TARGETS smplayer2 RUNTIME DESTINATION bin)
 install(FILES ${smplayer2_TRANSLATIONS} DESTINATION share/smplayer2/translations)
