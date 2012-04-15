@@ -16,35 +16,32 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "inputurl.h"
-#include "images.h"
-#include "widgets/mylineedit.h"
+#ifndef _PLAYLIST_DOCK_H_
+#define _PLAYLIST_DOCK_H_
 
-InputURL::InputURL(QWidget *parent, Qt::WindowFlags f)
-    : QDialog(parent, f)
+#include <QDockWidget>
+#include "../gui/guiconfig.h"
+
+class PlaylistDock : public QDockWidget
 {
-    setupUi(this);
+    Q_OBJECT
 
-    setMinimumSize(QSize(500, 140));
-    setMaximumSize(QSize(600, 170));
-    url_icon->setPixmap(Images::icon("url_big", 48));
-    url_edit->setFocus();
+public:
+    PlaylistDock(QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    ~PlaylistDock();
 
-    MyLineEdit *edit = new MyLineEdit(this);
-    url_edit->setLineEdit(edit);
-}
+signals:
+    void closed();
+#if QT_VERSION < 0x040300
+    void visibilityChanged(bool visible);
+#endif
 
-InputURL::~InputURL()
-{
-}
+protected:
+    virtual void closeEvent(QCloseEvent *e);
+#if QT_VERSION < 0x040300
+    virtual void showEvent(QShowEvent *event);
+    virtual void hideEvent(QHideEvent *event);
+#endif
+};
 
-void InputURL::setURL(QString url)
-{
-    url_edit->addItem(url);
-}
-
-QString InputURL::url()
-{
-    return url_edit->currentText().trimmed();
-}
-
+#endif

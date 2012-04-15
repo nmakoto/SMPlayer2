@@ -105,8 +105,8 @@
         <file>icons-png/video_preview.png</file>
         <file>icons-png/volume.png</file>
         <file>icons-png/warning.png</file>
-        <file>mpcgui/mpc_toolbar.png</file>
-        <file>mpcgui/mpc_mono.png</file>
-        <file>mpcgui/mpc_stereo.png</file>
+        <file>gui/mpcgui/mpc_toolbar.png</file>
+        <file>gui/mpcgui/mpc_mono.png</file>
+        <file>gui/mpcgui/mpc_stereo.png</file>
     </qresource>
 </RCC>

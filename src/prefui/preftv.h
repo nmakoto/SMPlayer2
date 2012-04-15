@@ -16,35 +16,43 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "inputurl.h"
-#include "images.h"
-#include "widgets/mylineedit.h"
+#ifndef _PREFTV_H_
+#define _PREFTV_H_
 
-InputURL::InputURL(QWidget *parent, Qt::WindowFlags f)
-    : QDialog(parent, f)
+#include "ui_preftv.h"
+#include "widgets/prefwidget.h"
+
+class Preferences;
+
+class PrefTV : public PrefWidget, public Ui::PrefTV
 {
-    setupUi(this);
+    Q_OBJECT
 
-    setMinimumSize(QSize(500, 140));
-    setMaximumSize(QSize(600, 170));
-    url_icon->setPixmap(Images::icon("url_big", 48));
-    url_edit->setFocus();
+public:
+    PrefTV(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ~PrefTV();
 
-    MyLineEdit *edit = new MyLineEdit(this);
-    url_edit->setLineEdit(edit);
-}
+    virtual QString sectionName();
+    virtual QPixmap sectionIcon();
 
-InputURL::~InputURL()
-{
-}
+    // Pass data to the dialog
+    void setData(Preferences *pref);
 
-void InputURL::setURL(QString url)
-{
-    url_edit->addItem(url);
-}
+    // Apply changes
+    void getData(Preferences *pref);
 
-QString InputURL::url()
-{
-    return url_edit->currentText().trimmed();
-}
+protected:
+    virtual void createHelp();
 
+    void setInitialDeinterlace(int ID);
+    int initialDeinterlace();
+
+    void setRescan(bool b);
+    bool rescan();
+
+
+protected:
+    virtual void retranslateStrings();
+};
+
+#endif

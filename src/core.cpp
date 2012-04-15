@@ -25,7 +25,7 @@
 
 #include <cmath>
 
-#include "mplayerwindow.h"
+#include "widgets/mplayerwindow.h"
 #include "desktopinfo.h"
 #include "helper.h"
 #include "paths.h"
