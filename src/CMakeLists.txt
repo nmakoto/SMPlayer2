@@ -29,6 +29,46 @@ set(smplayer2_gui_HEADERS
 	gui/mpcgui/mpcstyles.h
 )
 
+set(smplayer2_prefui_SOURCES
+	prefui/prefadvanced.cpp
+	prefui/prefdrives.cpp
+	prefui/preferencesdialog.cpp
+	prefui/prefgeneral.cpp
+	prefui/prefinput.cpp
+	prefui/prefinterface.cpp
+	prefui/prefperformance.cpp
+	prefui/prefplaylist.cpp
+	prefui/prefsubtitles.cpp
+	prefui/preftv.cpp
+)
+
+set(smplayer2_prefui_HEADERS
+	prefui/prefadvanced.h
+	prefui/prefdrives.h
+	prefui/preferencesdialog.h
+	prefui/prefgeneral.h
+	prefui/prefinput.h
+	prefui/prefinterface.h
+	prefui/prefperformance.h
+	prefui/prefplaylist.h
+	prefui/prefsubtitles.h
+	prefui/preftv.h
+)
+
+set(smplayer2_prefui_FORMS
+	prefui/prefadvanced.ui
+	prefui/prefdrives.ui
+	prefui/preferencesdialog.ui
+	prefui/prefgeneral.ui
+	prefui/prefinput.ui
+	prefui/prefinterface.ui
+	prefui/prefperformance.ui
+	prefui/prefplaylist.ui
+	prefui/prefsubtitles.ui
+	prefui/preftv.ui
+)
+
+
 set(smplayer2_SOURCES
 	about.cpp
 	actionseditor.cpp
@@ -85,17 +125,7 @@ set(smplayer2_SOURCES
 	paths.cpp
 	playlist.cpp
 	playlistdock.cpp
-	prefadvanced.cpp
-	prefdrives.cpp
 	preferences.cpp
-	preferencesdialog.cpp
-	prefgeneral.cpp
-	prefinput.cpp
-	prefinterface.cpp
-	prefperformance.cpp
-	prefplaylist.cpp
-	prefsubtitles.cpp
-	preftv.cpp
 	prefwidget.cpp
 	recents.cpp
 	seekwidget.cpp
@@ -120,6 +150,7 @@ set(smplayer2_SOURCES
 	videopreview/videopreviewconfigdialog.cpp
 	widgetactions.cpp
 	${smplayer2_gui_SOURCES}
+	${smplayer2_prefui_SOURCES}
 )
 
 set(smplayer2_HEADERS
@@ -153,16 +184,6 @@ set(smplayer2_HEADERS
 	myslider.h
 	playlist.h
 	playlistdock.h
-	prefadvanced.h
-	prefdrives.h
-	preferencesdialog.h
-	prefgeneral.h
-	prefinput.h
-	prefinterface.h
-	prefperformance.h
-	prefplaylist.h
-	prefsubtitles.h
-	preftv.h
 	seekwidget.h
 	selectcolorbutton.h
 	shortcutgetter.h
@@ -176,6 +197,7 @@ set(smplayer2_HEADERS
 	videopreview/videopreviewconfigdialog.h
 	widgetactions.h
 	${smplayer2_gui_HEADERS}
+	${smplayer2_prefui_HEADERS}
 )
 
 set(smplayer2_FORMS
@@ -189,24 +211,16 @@ set(smplayer2_FORMS
 	inputdvddirectory.ui
 	inputurl.ui
 	logwindowbase.ui
-	prefadvanced.ui
-	prefdrives.ui
-	preferencesdialog.ui
-	prefgeneral.ui
-	prefinput.ui
-	prefinterface.ui
-	prefperformance.ui
-	prefplaylist.ui
-	prefsubtitles.ui
-	preftv.ui
 	seekwidget.ui
 	timedialog.ui
 	vdpauproperties.ui
 	videopreview/videopreviewconfigdialog.ui
+	${smplayer2_prefui_FORMS}
 )
 
 set(smplayer2_OTHER_HEADERS
 	gui/guiconfig.h
+	preferences.h
 )
 
 set(smplayer2_RESOURCES icons.qrc)
@@ -234,15 +248,15 @@ if(WIN32)
 	add_definitions(-DUSE_ASSOCIATIONS)
 	set(smplayer2_SOURCES ${smplayer2_SOURCES}
 	screensaver.cpp
-	prefassociations.cpp
+	prefui/prefassociations.cpp
 	winfileassoc.cpp
 	smplayer2.rc
 	)
 	set(smplayer2_HEADERS ${smplayer2_HEADERS}
-	prefassociations.h
+	prefui/prefassociations.h
 	)
 	set(smplayer2_FORMS ${smplayer2_FORMS}
-	prefassociations.ui
+	prefui/prefassociations.ui
 	)
 endif()
 

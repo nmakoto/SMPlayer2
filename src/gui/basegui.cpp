@@ -75,14 +75,14 @@
 
 #include "tvlist.h"
 
-#include "preferencesdialog.h"
+#include "prefui/preferencesdialog.h"
 #ifndef NO_USE_INI_FILES
-#include "prefgeneral.h"
+#include "prefui/prefgeneral.h"
 #endif
-#include "prefinterface.h"
-#include "prefinput.h"
-#include "prefadvanced.h"
-#include "prefplaylist.h"
+#include "prefui/prefinterface.h"
+#include "prefui/prefinput.h"
+#include "prefui/prefadvanced.h"
+#include "prefui/prefplaylist.h"
 
 #include "myaction.h"
 #include "myactiongroup.h"
