@@ -18,9 +18,9 @@
 
 #include "gui/minigui.h"
 #include "widgetactions.h"
-#include "floatingwidget.h"
+#include "widgets/floatingwidget.h"
 #include "myaction.h"
-#include "mplayerwindow.h"
+#include "widgets/mplayerwindow.h"
 #include "global.h"
 #include "helper.h"
 #include "toolbareditor.h"

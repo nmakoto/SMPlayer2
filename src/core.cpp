@@ -25,7 +25,7 @@
 
 #include <cmath>
 
-#include "mplayerwindow.h"
+#include "widgets/mplayerwindow.h"
 #include "desktopinfo.h"
 #include "helper.h"
 #include "paths.h"
@@ -419,11 +419,11 @@ void Core::open(QString file, int seek)
         QString f = file.lower();
         QRegExp s("^dvd://(\\d+)");
         if (s.indexIn(f) != -1) {
-        	int title = s.cap(1).toInt();
-        	openDVD(title);
+            int title = s.cap(1).toInt();
+            openDVD(title);
         } else {
-        	qWarning("Core::open: couldn't parse dvd title, playing first one");
-        	openDVD();
+            qWarning("Core::open: couldn't parse dvd title, playing first one");
+            openDVD();
         }
         */
     } else if (file.toLower().startsWith("vcd:")) {
@@ -1080,7 +1080,7 @@ void Core::play()
             /*
             qDebug( "current_sec: %f, duration: %f", mset.current_sec, mdat.duration);
             if ( (floor(mset.current_sec)) >= (floor(mdat.duration)) ) {
-            	mset.current_sec = 0;
+                mset.current_sec = 0;
             }
             */
             restartPlay();
@@ -1194,9 +1194,9 @@ void Core::fileReachedEnd()
 {
     /*
     if (mdat.type == TYPE_VCD) {
-    	// If the first vcd title has nothing, it doesn't start to play
+        // If the first vcd title has nothing, it doesn't start to play
         // and menus are not initialized.
-    	initializeMenus();
+        initializeMenus();
     }
     */
 
@@ -3820,17 +3820,17 @@ void Core::changeClosedCaptionChannel(int c)
 
 /*
 void Core::nextClosedCaptionChannel() {
-	int c = mset.closed_caption_channel;
-	c++;
-	if (c > 4) c = 0;
-	changeClosedCaptionChannel(c);
+    int c = mset.closed_caption_channel;
+    c++;
+    if (c > 4) c = 0;
+    changeClosedCaptionChannel(c);
 }
 
 void Core::prevClosedCaptionChannel() {
-	int c = mset.closed_caption_channel;
-	c--;
-	if (c < 0) c = 4;
-	changeClosedCaptionChannel(c);
+    int c = mset.closed_caption_channel;
+    c--;
+    if (c < 0) c = 4;
+    changeClosedCaptionChannel(c);
 }
 */
 

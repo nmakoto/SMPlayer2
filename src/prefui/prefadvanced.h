@@ -20,7 +20,7 @@
 #define _PREFADVANCED_H_
 
 #include "ui_prefadvanced.h"
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 #include "preferences.h"
 
 class Preferences;

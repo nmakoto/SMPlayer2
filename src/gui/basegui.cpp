@@ -40,7 +40,7 @@
 
 #include <cmath>
 
-#include "mplayerwindow.h"
+#include "widgets/mplayerwindow.h"
 #include "desktopinfo.h"
 #include "helper.h"
 #include "paths.h"
@@ -50,13 +50,13 @@
 #include "images.h"
 #include "preferences.h"
 #include "discname.h"
-#include "timeslider.h"
-#include "logwindow.h"
-#include "playlist.h"
+#include "widgets/timeslider.h"
+#include "widgets/logwindow.h"
+#include "widgets/playlist.h"
 #include "filepropertiesdialog.h"
-#include "eqslider.h"
-#include "videoequalizer.h"
-#include "audioequalizer.h"
+#include "widgets/eqslider.h"
+#include "widgets/videoequalizer.h"
+#include "widgets/audioequalizer.h"
 #include "inputdvddirectory.h"
 #include "inputurl.h"
 #include "recents.h"
@@ -69,7 +69,7 @@
 #include "videopreview/videopreview.h"
 
 #include "config.h"
-#include "actionseditor.h"
+#include "widgets/actionseditor.h"
 
 #include "myserver.h"
 
@@ -86,7 +86,7 @@
 
 #include "myaction.h"
 #include "myactiongroup.h"
-#include "playlist.h"
+#include "widgets/playlist.h"
 
 #include "constants.h"
 

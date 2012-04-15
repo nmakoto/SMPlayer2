@@ -18,7 +18,7 @@
 
 #include "inputurl.h"
 #include "images.h"
-#include "mylineedit.h"
+#include "widgets/mylineedit.h"
 
 InputURL::InputURL(QWidget *parent, Qt::WindowFlags f)
     : QDialog(parent, f)

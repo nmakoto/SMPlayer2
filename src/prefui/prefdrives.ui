@@ -303,7 +303,7 @@
   <customwidget>
    <class>MyComboBox</class>
    <extends>QComboBox</extends>
-   <header>mycombobox.h</header>
+   <header>widgets/mycombobox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

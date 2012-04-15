@@ -20,7 +20,7 @@
 #define _PREFDRIVES_H_
 
 #include "ui_prefdrives.h"
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 #include "config.h"
 
 class Preferences;

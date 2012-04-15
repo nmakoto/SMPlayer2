@@ -557,12 +557,12 @@
   <customwidget>
    <class>MyComboBox</class>
    <extends>QComboBox</extends>
-   <header>mycombobox.h</header>
+   <header>widgets/mycombobox.h</header>
   </customwidget>
   <customwidget>
    <class>ActionsEditor</class>
    <extends>QWidget</extends>
-   <header>actionseditor.h</header>
+   <header>widgets/actionseditor.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

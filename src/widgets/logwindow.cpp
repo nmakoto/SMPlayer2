@@ -43,7 +43,7 @@ LogWindow::~LogWindow()
 
 /*
 QTextEdit * LogWindow::editor() {
-	return browser;
+    return browser;
 }
 */
 

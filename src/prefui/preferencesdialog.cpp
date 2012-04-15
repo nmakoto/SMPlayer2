@@ -19,7 +19,7 @@
 
 #include "preferencesdialog.h"
 
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 #include "prefgeneral.h"
 #include "prefdrives.h"
 #include "prefinterface.h"

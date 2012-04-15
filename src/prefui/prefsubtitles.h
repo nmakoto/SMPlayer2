@@ -20,7 +20,7 @@
 #define _PREFSUBTITLES_H_
 
 #include "ui_prefsubtitles.h"
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 
 class Preferences;
 class Encodings;

@@ -20,7 +20,7 @@
 #define _PREFGENERAL_H_
 
 #include "ui_prefgeneral.h"
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 #include "inforeader.h"
 #include "deviceinfo.h"
 #include "preferences.h"

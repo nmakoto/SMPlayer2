@@ -21,7 +21,7 @@
 
 #include "ui_prefinput.h"
 #include "preferences.h"
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 #include <QStringList>
 
 class Preferences;

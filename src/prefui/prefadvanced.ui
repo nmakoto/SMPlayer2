@@ -679,12 +679,12 @@ Example: resample=44100:0:0,volnorm</string>
   <customwidget>
    <class>MyComboBox</class>
    <extends>QComboBox</extends>
-   <header>mycombobox.h</header>
+   <header>widgets/mycombobox.h</header>
   </customwidget>
   <customwidget>
    <class>TristateCombo</class>
    <extends>QComboBox</extends>
-   <header>tristatecombo.h</header>
+   <header>widgets/tristatecombo.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

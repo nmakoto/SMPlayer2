@@ -20,7 +20,7 @@
 #define _PREFPLAYLIST_H_
 
 #include "ui_prefplaylist.h"
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 
 class Preferences;
 

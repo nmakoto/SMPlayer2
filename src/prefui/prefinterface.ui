@@ -779,12 +779,12 @@
   <customwidget>
    <class>MyComboBox</class>
    <extends>QComboBox</extends>
-   <header>mycombobox.h</header>
+   <header>widgets/mycombobox.h</header>
   </customwidget>
   <customwidget>
    <class>SeekWidget</class>
    <extends>QWidget</extends>
-   <header>seekwidget.h</header>
+   <header>widgets/seekwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

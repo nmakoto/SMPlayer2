@@ -22,16 +22,16 @@
 #include "core.h"
 #include "global.h"
 #include "widgetactions.h"
-#include "playlist.h"
-#include "mplayerwindow.h"
+#include "widgets/playlist.h"
+#include "widgets/mplayerwindow.h"
 #include "myaction.h"
 #include "images.h"
-#include "floatingwidget.h"
+#include "widgets/floatingwidget.h"
 #include "toolbareditor.h"
 #include "desktopinfo.h"
 
 #if DOCK_PLAYLIST
-#include "playlistdock.h"
+#include "widgets/playlistdock.h"
 #endif
 
 #include <QMenu>

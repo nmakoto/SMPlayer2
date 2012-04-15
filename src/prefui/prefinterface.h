@@ -20,7 +20,7 @@
 #define _PREFINTERFACE_H_
 
 #include "ui_prefinterface.h"
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 
 class Preferences;
 

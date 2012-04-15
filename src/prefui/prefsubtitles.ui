@@ -1144,17 +1144,17 @@
   <customwidget>
    <class>FileChooser</class>
    <extends>QLineEdit</extends>
-   <header>filechooser.h</header>
+   <header>widgets/filechooser.h</header>
   </customwidget>
   <customwidget>
    <class>MyFontComboBox</class>
    <extends>QFontComboBox</extends>
-   <header>mycombobox.h</header>
+   <header>widgets/mycombobox.h</header>
   </customwidget>
   <customwidget>
    <class>SelectColorButton</class>
    <extends>QPushButton</extends>
-   <header>selectcolorbutton.h</header>
+   <header>widgets/selectcolorbutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -20,7 +20,7 @@
 #define _PREFPERFORMANCE_H_
 
 #include "ui_prefperformance.h"
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 
 #include "preferences.h"
 #include "config.h"

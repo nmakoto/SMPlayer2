@@ -320,7 +320,7 @@
   <customwidget>
    <class>FileChooser</class>
    <extends>QLineEdit</extends>
-   <header>filechooser.h</header>
+   <header>widgets/filechooser.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

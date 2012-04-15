@@ -21,7 +21,7 @@
 #include "myaction.h"
 #include "global.h"
 #include "images.h"
-#include "playlist.h"
+#include "widgets/playlist.h"
 
 #ifdef Q_OS_WIN
 #include "favorites.h"
@@ -38,7 +38,7 @@
 
 #if DOCK_PLAYLIST
 #include <QDockWidget>
-#include "playlistdock.h"
+#include "widgets/playlistdock.h"
 #include "desktopinfo.h"
 
 #define PLAYLIST_ON_SIDES 1

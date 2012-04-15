@@ -1093,12 +1093,12 @@ For translators: don't translate this text, it will be replaced with another one
   <customwidget>
    <class>TristateCombo</class>
    <extends>QComboBox</extends>
-   <header>tristatecombo.h</header>
+   <header>widgets/tristatecombo.h</header>
   </customwidget>
   <customwidget>
    <class>FileChooser</class>
    <extends>QLineEdit</extends>
-   <header>filechooser.h</header>
+   <header>widgets/filechooser.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

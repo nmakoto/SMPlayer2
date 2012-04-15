@@ -95,11 +95,11 @@
   <customwidget>
    <class>VerticalText</class>
    <extends>QWidget</extends>
-   <header>verticaltext.h</header>
+   <header>widgets/verticaltext.h</header>
   </customwidget>
  </customwidgets>
  <includes>
-  <include location="local" >verticaltext.h</include>
+  <include location="local" >widgets/verticaltext.h</include>
  </includes>
  <resources/>
  <connections>

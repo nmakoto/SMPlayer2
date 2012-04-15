@@ -24,7 +24,7 @@
 #include <QWidget>
 #include <QList>
 #include <QStringList>
-#include "gui/guiconfig.h"
+#include "../gui/guiconfig.h"
 
 class QTableWidget;
 class QTableWidgetItem;

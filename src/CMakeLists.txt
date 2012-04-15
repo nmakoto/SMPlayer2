@@ -11,6 +11,7 @@ set(QT_USE_QTXML TRUE)
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
 
+# gui ---------------------------------------------------------------------->>>1
 set(smplayer2_gui_SOURCES
 	gui/basegui.cpp
 	gui/baseguiplus.cpp
@@ -28,7 +29,8 @@ set(smplayer2_gui_HEADERS
 	gui/mpcgui/mpcgui.h
 	gui/mpcgui/mpcstyles.h
 )
-
+#---------------------------------------------------------------------------<<<1
+# prefui ------------------------------------------------------------------->>>1
 set(smplayer2_prefui_SOURCES
 	prefui/prefadvanced.cpp
 	prefui/prefdrives.cpp
@@ -67,25 +69,71 @@ set(smplayer2_prefui_FORMS
 	prefui/prefsubtitles.ui
 	prefui/preftv.ui
 )
+#---------------------------------------------------------------------------<<<1
+# widgets ------------------------------------------------------------------>>>1
+set(smplayer2_widgets_SOURCES
+	widgets/actionseditor.cpp
+	widgets/audioequalizer.cpp
+	widgets/eqslider.cpp
+	widgets/filechooser.cpp
+	widgets/floatingwidget.cpp
+	widgets/lineedit_with_icon.cpp
+	widgets/logwindow.cpp
+	widgets/mplayerwindow.cpp
+	widgets/mycombobox.cpp
+	widgets/mylineedit.cpp
+	widgets/myslider.cpp
+	widgets/mytablewidget.cpp
+	widgets/playlist.cpp
+	widgets/playlistdock.cpp
+	widgets/prefwidget.cpp
+	widgets/seekwidget.cpp
+	widgets/selectcolorbutton.cpp
+	widgets/timeslider.cpp
+	widgets/tristatecombo.cpp
+	widgets/verticaltext.cpp
+	widgets/videoequalizer.cpp
+)
 
-
+set(smplayer2_widgets_HEADERS
+	widgets/actionseditor.h
+	widgets/audioequalizer.h
+	widgets/eqslider.h
+	widgets/filechooser.h
+	widgets/floatingwidget.h
+	widgets/lineedit_with_icon.h
+	widgets/logwindow.h
+	widgets/mplayerwindow.h
+	widgets/mylineedit.h
+	widgets/myslider.h
+	widgets/playlist.h
+	widgets/playlistdock.h
+	widgets/seekwidget.h
+	widgets/selectcolorbutton.h
+	widgets/timeslider.h
+	widgets/tristatecombo.h
+	widgets/videoequalizer.h
+)
+set(smplayer2_widgets_FORMS
+	widgets/eqslider.ui
+	widgets/logwindowbase.ui
+	widgets/seekwidget.ui
+)
+#---------------------------------------------------------------------------<<<1
+# main --------------------------------------------------------------------->>>1
 set(smplayer2_SOURCES
 	about.cpp
-	actionseditor.cpp
 	assstyles.cpp
-	audioequalizer.cpp
 	clhelp.cpp
 	colorutils.cpp
 	core.cpp
 	desktopinfo.cpp
 	deviceinfo.cpp
 	discname.cpp
-	eqslider.cpp
 	errordialog.cpp
 	extensions.cpp
 	favoriteeditor.cpp
 	favorites.cpp
-	filechooser.cpp
 	filedialog.cpp
 	filepropertiesdialog.cpp
 	filesettings.cpp
@@ -96,7 +144,6 @@ set(smplayer2_SOURCES
 	findsubtitles/findsubtitleswindow.cpp
 	findsubtitles/osparser.cpp
 	findsubtitles/simplehttp.cpp
-	floatingwidget.cpp
 	global.cpp
 	helper.cpp
 	images.cpp
@@ -106,103 +153,71 @@ set(smplayer2_SOURCES
 	inputdvddirectory.cpp
 	inputurl.cpp
 	languages.cpp
-	lineedit_with_icon.cpp
-	logwindow.cpp
 	main.cpp
 	mediadata.cpp
 	mediasettings.cpp
 	mplayerprocess.cpp
-	mplayerwindow.cpp
 	myaction.cpp
 	myactiongroup.cpp
 	myclient.cpp
-	mycombobox.cpp
-	mylineedit.cpp
 	myprocess.cpp
 	myserver.cpp
-	myslider.cpp
-	mytablewidget.cpp
 	paths.cpp
-	playlist.cpp
-	playlistdock.cpp
 	preferences.cpp
-	prefwidget.cpp
 	recents.cpp
-	seekwidget.cpp
-	selectcolorbutton.cpp
 	shortcutgetter.cpp
 	smplayer2.cpp
 	subtracks.cpp
 	timedialog.cpp
-	timeslider.cpp
 	titletracks.cpp
 	toolbareditor.cpp
 	tracks.cpp
 	translator.cpp
-	tristatecombo.cpp
 	tvlist.cpp
 	tvsettings.cpp
 	urlhistory.cpp
 	vdpauproperties.cpp
-	verticaltext.cpp
-	videoequalizer.cpp
 	videopreview/videopreview.cpp
 	videopreview/videopreviewconfigdialog.cpp
 	widgetactions.cpp
 	${smplayer2_gui_SOURCES}
 	${smplayer2_prefui_SOURCES}
+	${smplayer2_widgets_SOURCES}
 )
 
 set(smplayer2_HEADERS
 	about.h
-	actionseditor.h
-	audioequalizer.h
 	core.h
-	eqslider.h
 	errordialog.h
 	favoriteeditor.h
 	favorites.h
-	filechooser.h
 	filepropertiesdialog.h
 	filters.h
 	findsubtitles/findsubtitlesconfigdialog.h
 	findsubtitles/findsubtitleswindow.h
 	findsubtitles/simplehttp.h
-	floatingwidget.h
 	inforeader.h
 	inputdvddirectory.h
 	inputurl.h
 	languages.h
-	lineedit_with_icon.h
-	logwindow.h
 	mplayerprocess.h
-	mplayerwindow.h
 	myactiongroup.h
-	mylineedit.h
 	myprocess.h
 	myserver.h
-	myslider.h
-	playlist.h
-	playlistdock.h
-	seekwidget.h
-	selectcolorbutton.h
 	shortcutgetter.h
 	timedialog.h
-	timeslider.h
-	tristatecombo.h
 	tvlist.h
 	vdpauproperties.h
-	videoequalizer.h
 	videopreview/videopreview.h
 	videopreview/videopreviewconfigdialog.h
 	widgetactions.h
 	${smplayer2_gui_HEADERS}
 	${smplayer2_prefui_HEADERS}
+	${smplayer2_widgets_HEADERS}
 )
 
 set(smplayer2_FORMS
 	about.ui
-	eqslider.ui
 	errordialog.ui
 	favoriteeditor.ui
 	filepropertiesdialog.ui
@@ -210,17 +225,22 @@ set(smplayer2_FORMS
 	findsubtitles/findsubtitleswindow.ui
 	inputdvddirectory.ui
 	inputurl.ui
-	logwindowbase.ui
-	seekwidget.ui
 	timedialog.ui
 	vdpauproperties.ui
 	videopreview/videopreviewconfigdialog.ui
 	${smplayer2_prefui_FORMS}
+	${smplayer2_widgets_FORMS}
 )
+#---------------------------------------------------------------------------<<<1
 
-set(smplayer2_OTHER_HEADERS
+set(smplayer2_NOMOC_HEADERS
 	gui/guiconfig.h
 	preferences.h
+	audioequalizerlist.h
+	widgets/mycombobox.h
+	widgets/mytablewidget.h
+	widgets/prefwidget.h
+	widgets/verticaltext.h
 )
 
 set(smplayer2_RESOURCES icons.qrc)
@@ -287,7 +307,7 @@ add_executable(smplayer2 WIN32
 	${smplayer2_HEADERS_MOC}
 	${smplayer2_FORMS_HEADERS}
 	${smplayer2_RESOURCES_RCC}
-	${smplayer2_OTHER_HEADERS}
+	${smplayer2_NOMOC_HEADERS}
 )
 
 add_dependencies(smplayer2 translations)

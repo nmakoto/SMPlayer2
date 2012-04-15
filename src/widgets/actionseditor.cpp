@@ -51,11 +51,11 @@
 class MyDelegate : public QItemDelegate
 {
 public:
-	MyDelegate(QObject *parent = 0);
+    MyDelegate(QObject *parent = 0);
 
-	QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                            const QModelIndex &index) const;
-		virtual void setModelData(QWidget * editor, QAbstractItemModel * model,
+        virtual void setModelData(QWidget * editor, QAbstractItemModel * model,
                               const QModelIndex & index ) const;
 };
 
@@ -66,29 +66,29 @@ MyDelegate::MyDelegate(QObject *parent) : QItemDelegate(parent)
 static QString old_accel_text;
 
 QWidget * MyDelegate::createEditor(QWidget *parent,
-								   const QStyleOptionViewItem & option,
-	                               const QModelIndex & index) const
+                                   const QStyleOptionViewItem & option,
+                                   const QModelIndex & index) const
 {
-	qDebug("MyDelegate::createEditor");
+    qDebug("MyDelegate::createEditor");
 
-	old_accel_text = index.model()->data(index, Qt::DisplayRole).toString();
-	//qDebug( "text: %s", old_accel_text.toUtf8().data());
+    old_accel_text = index.model()->data(index, Qt::DisplayRole).toString();
+    //qDebug( "text: %s", old_accel_text.toUtf8().data());
 
-	return QItemDelegate::createEditor(parent, option, index);
+    return QItemDelegate::createEditor(parent, option, index);
 }
 
 void MyDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                               const QModelIndex &index) const
 {
-	QLineEdit *line_edit = static_cast<QLineEdit*>(editor);
+    QLineEdit *line_edit = static_cast<QLineEdit*>(editor);
 
-	QString accelText = QKeySequence(line_edit->text()).toString();
-	if (accelText.isEmpty() && !line_edit->text().isEmpty()) {
-		model->setData(index, old_accel_text);
-	}
-	else {
-		model->setData(index, accelText);
-	}
+    QString accelText = QKeySequence(line_edit->text()).toString();
+    if (accelText.isEmpty() && !line_edit->text().isEmpty()) {
+        model->setData(index, old_accel_text);
+    }
+    else {
+        model->setData(index, accelText);
+    }
 }
 */
 
@@ -245,7 +245,7 @@ void ActionsEditor::addActions(QWidget *widget)
 
         /*
         if (!action->objectName().isEmpty()) {
-        	qDebug("ActionsEditor::addActions: action # %d: '%s' menu: %d", n, action->objectName().toUtf8().constData(), action->menu()!=0);
+            qDebug("ActionsEditor::addActions: action # %d: '%s' menu: %d", n, action->objectName().toUtf8().constData(), action->menu()!=0);
         }
         */
         if (!action->objectName().isEmpty() && !action->inherits("QWidgetAction") && (action->menu() == 0))

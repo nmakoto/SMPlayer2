@@ -22,7 +22,7 @@
 #include <QHeaderView>
 #include <QFileDialog>
 #include <QItemDelegate>
-#include "filechooser.h"
+#include "widgets/filechooser.h"
 
 #define COL_ICON 0
 #define COL_NAME 1

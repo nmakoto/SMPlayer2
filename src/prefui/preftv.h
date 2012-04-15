@@ -20,7 +20,7 @@
 #define _PREFTV_H_
 
 #include "ui_preftv.h"
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 
 class Preferences;
 
