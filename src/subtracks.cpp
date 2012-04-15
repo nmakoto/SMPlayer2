@@ -264,22 +264,22 @@ SubTracks::ParseResult SubTracks::parse(QString text)
 
 /*
 void SubTracks::test() {
-	process("ID_SUBTITLE_ID=0");
-	process("ID_SID_0_NAME=Arabic");
-	process("ID_SID_0_LANG=ara");
-	process("ID_SUBTITLE_ID=1");
-	process("ID_SID_1_NAME=Catalan");
-	process("ID_SID_1_LANG=cat");
+    process("ID_SUBTITLE_ID=0");
+    process("ID_SID_0_NAME=Arabic");
+    process("ID_SID_0_LANG=ara");
+    process("ID_SUBTITLE_ID=1");
+    process("ID_SID_1_NAME=Catalan");
+    process("ID_SID_1_LANG=cat");
 
-	process("ID_VOBSUB_ID=0");
-	process("ID_VSID_0_LANG=en");
-	process("ID_VOBSUB_ID=1");
-	process("ID_VSID_1_LANG=fr");
+    process("ID_VOBSUB_ID=0");
+    process("ID_VSID_0_LANG=en");
+    process("ID_VOBSUB_ID=1");
+    process("ID_VSID_1_LANG=fr");
 
-	process("ID_FILE_SUB_ID=1");
-	process("ID_FILE_SUB_FILENAME=./lost313_es.sub");
+    process("ID_FILE_SUB_ID=1");
+    process("ID_FILE_SUB_FILENAME=./lost313_es.sub");
 
-	list();
-	listNames();
+    list();
+    listNames();
 }
 */

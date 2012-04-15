@@ -23,7 +23,7 @@
     Copyright (C) 2006 FullMetalCoder
     License: GPL
 
-	I've just made a little few changes on it.
+    I've just made a little few changes on it.
 */
 
 
@@ -69,7 +69,7 @@ static void initKeyMap()
         return;
 
     /*
-    	I'm a bit unsure about these one...
+        I'm a bit unsure about these one...
     */
     keyMap[Qt::Key_Escape] = "Escape";
     keyMap[Qt::Key_Return] = "Return";
@@ -89,7 +89,7 @@ static void initKeyMap()
     keyMap[Qt::Key_ScrollLock] = "ScrollLock";
 
     /*
-    	These one are quite sure...
+        These one are quite sure...
     */
     keyMap[Qt::Key_F1] = "F1";
     keyMap[Qt::Key_F2] = "F2";
@@ -378,7 +378,7 @@ bool ShortcutGetter::event(QEvent *e)
         break;
 
         /*
-        		case QEvent::ShortcutOverride :
+                case QEvent::ShortcutOverride :
         leKey->setText("Shortcut override");
         break;
         */

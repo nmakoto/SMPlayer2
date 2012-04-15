@@ -93,16 +93,16 @@ void MyAction::change(const QString &text)
 
     /*
     if (text.isEmpty()) {
-    	QString s = menuText;
-    	s = s.replace("&","");
-    	setText( s );
+        QString s = menuText;
+        s = s.replace("&","");
+        setText( s );
 
-    	if (!accel_text.isEmpty())
-    		setToolTip( s + " ("+ accel_text +")");
+        if (!accel_text.isEmpty())
+            setToolTip( s + " ("+ accel_text +")");
     } else {
-    	setText( text );
-    	if (!accel_text.isEmpty())
-    		setToolTip( text + " ("+ accel_text +")");
+        setText( text );
+        if (!accel_text.isEmpty())
+            setToolTip( text + " ("+ accel_text +")");
     }
     */
 }

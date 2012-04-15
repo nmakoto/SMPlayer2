@@ -35,7 +35,7 @@
 
 /*
 QString Helper::dvdForPref(const QString & dvd_id, int title) {
-	return  QString("DVD_%1_%2").arg(dvd_id).arg(title);
+    return  QString("DVD_%1_%2").arg(dvd_id).arg(title);
 }
 */
 
@@ -95,18 +95,18 @@ QString Helper::shortPathName(QString long_path)
 
 /*
 void Helper::setScreensaverEnabled(bool b) {
-	qDebug("Helper::setScreensaverEnabled: %d", b);
+    qDebug("Helper::setScreensaverEnabled: %d", b);
 
-	if (b) {
-		// Activate screensaver
-		SystemParametersInfo( SPI_SETSCREENSAVEACTIVE, true, 0, SPIF_SENDWININICHANGE);
-		SystemParametersInfo( SPI_SETLOWPOWERACTIVE, 1, NULL, 0);
-		SystemParametersInfo( SPI_SETPOWEROFFACTIVE, 1, NULL, 0);
-	} else {
-		SystemParametersInfo( SPI_SETSCREENSAVEACTIVE, false, 0, SPIF_SENDWININICHANGE);
-		SystemParametersInfo( SPI_SETLOWPOWERACTIVE, 0, NULL, 0);
-		SystemParametersInfo( SPI_SETPOWEROFFACTIVE, 0, NULL, 0);
-	}
+    if (b) {
+        // Activate screensaver
+        SystemParametersInfo( SPI_SETSCREENSAVEACTIVE, true, 0, SPIF_SENDWININICHANGE);
+        SystemParametersInfo( SPI_SETLOWPOWERACTIVE, 1, NULL, 0);
+        SystemParametersInfo( SPI_SETPOWEROFFACTIVE, 1, NULL, 0);
+    } else {
+        SystemParametersInfo( SPI_SETSCREENSAVEACTIVE, false, 0, SPIF_SENDWININICHANGE);
+        SystemParametersInfo( SPI_SETLOWPOWERACTIVE, 0, NULL, 0);
+        SystemParametersInfo( SPI_SETPOWEROFFACTIVE, 0, NULL, 0);
+    }
 }
 */
 #endif

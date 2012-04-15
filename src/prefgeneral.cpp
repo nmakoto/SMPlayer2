@@ -448,8 +448,8 @@ QString PrefGeneral::VO()
         vo = vo_user_defined_edit->text();
         /*
         if (vo.isEmpty()) {
-        	vo = vo_combo->itemData(0).toString();
-        	qDebug("PrefGeneral::VO: user defined vo is empty, using %s", vo.toUtf8().constData());
+            vo = vo_combo->itemData(0).toString();
+            qDebug("PrefGeneral::VO: user defined vo is empty, using %s", vo.toUtf8().constData());
         }
         */
     }
@@ -465,8 +465,8 @@ QString PrefGeneral::AO()
         ao = ao_user_defined_edit->text();
         /*
         if (ao.isEmpty()) {
-        	ao = ao_combo->itemData(0).toString();
-        	qDebug("PrefGeneral::AO: user defined ao is empty, using %s", ao.toUtf8().constData());
+            ao = ao_combo->itemData(0).toString();
+            qDebug("PrefGeneral::AO: user defined ao is empty, using %s", ao.toUtf8().constData());
         }
         */
     }
@@ -937,7 +937,7 @@ void PrefGeneral::createHelp()
 #ifndef Q_OS_WIN
     /*
     setWhatsThis(vdpau_filters_check, tr("Disable video filters when using vdpau"),
-    	tr("Usually video filters won't work when using vdpau as video output "
+        tr("Usually video filters won't work when using vdpau as video output "
            "driver, so it's wise to keep this option checked.") );
     */
 #endif
@@ -981,7 +981,7 @@ void PrefGeneral::createHelp()
                  tr("If this option is enabled, black borders will be added to the "
                     "image in fullscreen mode. This allows subtitles to be displayed "
                     "on the black borders.") /* + "<br>" +
- 		tr("This option will be ignored if mplayer2 uses its own window, as "
+        tr("This option will be ignored if mplayer2 uses its own window, as "
            "some video drivers (like gl) are already able to display the "
            "subtitles automatically in the black borders.") */);
 

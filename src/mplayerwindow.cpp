@@ -314,7 +314,7 @@ void MplayerWindow::setLogoVisible(bool b)
 
 /*
 void MplayerWindow::changePolicy() {
-	setSizePolicy( QSizePolicy::Preferred , QSizePolicy::Preferred  );
+    setSizePolicy( QSizePolicy::Preferred , QSizePolicy::Preferred  );
 }
 */
 

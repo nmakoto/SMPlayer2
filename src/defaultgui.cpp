@@ -95,10 +95,10 @@ DefaultGui::~DefaultGui()
 
 /*
 void DefaultGui::closeEvent( QCloseEvent * ) {
-	qDebug("DefaultGui::closeEvent");
+    qDebug("DefaultGui::closeEvent");
 
-	//BaseGuiPlus::closeEvent(e);
-	qDebug("w: %d h: %d", width(), height() );
+    //BaseGuiPlus::closeEvent(e);
+    qDebug("w: %d h: %d", width(), height() );
 }
 */
 

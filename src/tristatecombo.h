@@ -17,7 +17,7 @@
 */
 
 /*!
-	This class is to replace some QCheckBox with a combo with three possible
+    This class is to replace some QCheckBox with a combo with three possible
     values: true, false or autodetect
 */
 

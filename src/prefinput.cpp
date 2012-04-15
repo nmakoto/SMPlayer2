@@ -196,8 +196,8 @@ void PrefInput::getData(Preferences *pref)
 
 /*
 void PrefInput::setActionsList(QStringList l) {
-	left_click_combo->insertStringList( l );
-	double_click_combo->insertStringList( l );
+    left_click_combo->insertStringList( l );
+    double_click_combo->insertStringList( l );
 }
 */
 

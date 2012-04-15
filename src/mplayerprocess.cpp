@@ -689,7 +689,7 @@ void MplayerProcess::parseLine(QByteArray ba)
                                                                                                                 /*
                                                                                                                 pos = rx_play.indexIn(line);
                                                                                                                 if (pos > -1) {
-                                                                                                                	emit mplayerFullyLoaded();
+                                                                                                                    emit mplayerFullyLoaded();
                                                                                                                 }
                                                                                                                 */
 

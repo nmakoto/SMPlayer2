@@ -369,7 +369,7 @@ void Favorites::edit()
         updateMenu();
         /*
         for (int n = 0; n < f_list.count(); n++) {
-        	qDebug("item %d: name: '%s' file: '%s'", n, f_list[n].name().toUtf8().constData(), f_list[n].file().toUtf8().constData());
+            qDebug("item %d: name: '%s' file: '%s'", n, f_list[n].name().toUtf8().constData(), f_list[n].file().toUtf8().constData());
         }
         */
     }
