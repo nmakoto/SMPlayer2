@@ -3127,7 +3127,7 @@ void BaseGui::initializeMenus()
     // Subtitles
     subtitleTrackGroup->clear(true);
     subDisabledAct = new MyAction(this);
-    subDisabledAct->setText(tr("Subtitles off"));
+    subDisabledAct->setText(tr("Subtitles disabled"));
     subtitleTrackGroup->addAction(subDisabledAct);
     subDisabledAct->setDisabled(true);
     subDisabledAct->setVisible(false);
