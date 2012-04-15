@@ -49,7 +49,7 @@
 #include "global.h"
 #include "core.h"
 #include "extensions.h"
-#include "../gui/guiconfig.h"
+#include "gui/guiconfig.h"
 
 #include <stdlib.h>
 

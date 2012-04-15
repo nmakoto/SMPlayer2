@@ -20,7 +20,7 @@
 #define _PLAYLIST_DOCK_H_
 
 #include <QDockWidget>
-#include "../gui/guiconfig.h"
+#include "gui/guiconfig.h"
 
 class PlaylistDock : public QDockWidget
 {
