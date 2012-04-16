@@ -17,7 +17,11 @@
 */
 
 #include "myprocess.h"
+#ifndef Q_OS_WIN
 #include <cinttypes>
+#else
+#include <cstdint>
+#endif
 
 #ifdef Q_OS_WIN
 
@@ -172,7 +176,7 @@ void MyProcess::procFinished()
     qDebug("MyProcess::procFinished");
 
 #if !USE_TEMP_FILE
-    qDebug("MyProcess::procFinished: Bytes available: %" PRId64, (int64_t)bytesAvailable());
+    qDebug("MyProcess::procFinished: Bytes available: %ld", (int64_t)bytesAvailable());
 
     if (bytesAvailable() > 0) readStdOut();
 

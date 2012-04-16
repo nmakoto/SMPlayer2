@@ -28,10 +28,9 @@
 
 #ifdef Q_OS_WIN
 #include <windows.h> // For the screensaver stuff
-#endif
-
+#else
 #include <unistd.h>
-
+#endif
 
 /*
 QString Helper::dvdForPref(const QString & dvd_id, int title) {
@@ -114,7 +113,18 @@ void Helper::setScreensaverEnabled(bool b) {
 void Helper::msleep(int ms)
 {
     //qDebug("Helper::msleep: %d (using usleep)", ms);
+#ifndef Q_OS_WIN
     usleep(ms * 1000);
+#else
+    __int64 time1 = 0, time2 = 0, sysFreq = 0;
+
+    QueryPerformanceCounter((LARGE_INTEGER *) &time1);
+    QueryPerformanceFrequency((LARGE_INTEGER *)&sysFreq);
+
+    do {
+        QueryPerformanceCounter((LARGE_INTEGER *) &time2);
+    } while((time2-time1) < ms);
+#endif
 }
 
 QString Helper::changeSlashes(QString filename)

@@ -39,6 +39,7 @@
 
 #ifdef Q_OS_WIN
 #include <windows.h> // To change app priority
+#include <cstdint>
 #include <QSysInfo> // To get Windows version
 #ifdef SCREENSAVER_OFF
 #include "screensaver.h"
