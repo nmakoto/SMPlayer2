@@ -32,7 +32,7 @@ class MyActionGroupItem : public MyAction
 public:
     //! Creates a new item.
     /*! \a group is the group where the action will be added, \a data is
-       the ID of the item. If \autoadd is true the action will be added to
+       the ID of the item. If \a autoadd is true the action will be added to
        the parent (if it's a QWidget), so the shortcut could work. */
     MyActionGroupItem(QObject *parent, MyActionGroup *group,
                       const char *name, int data, bool autoadd = true);
