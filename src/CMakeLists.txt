@@ -1,18 +1,18 @@
-add_definitions("-DSMPLAYER2_VERSION=\"${SMPLAYER2_VERSION}\"")
-if(NOT WIN32)
-	add_definitions("-DDATA_PATH=\"${CMAKE_INSTALL_PREFIX}/share/smplayer2\"")
+add_definitions( "-DSMPLAYER2_VERSION=\"${SMPLAYER2_VERSION}\"" )
+if( NOT WIN32 )
+	add_definitions( "-DDATA_PATH=\"${CMAKE_INSTALL_PREFIX}/share/smplayer2\"" )
 endif()
 
-find_package(Qt4 REQUIRED QtCore QtGui QtNetwork QtXml)
-find_package(ZLIB REQUIRED)
-set(QT_USE_QTNETWORK TRUE)
-set(QT_USE_QTXML TRUE)
+find_package( Qt4 REQUIRED QtCore QtGui QtNetwork QtXml )
+find_package( ZLIB REQUIRED )
+set( QT_USE_QTNETWORK TRUE )
+set( QT_USE_QTXML TRUE )
 
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
+include( ${QT_USE_FILE} )
+add_definitions( ${QT_DEFINITIONS} )
 
 # gui ---------------------------------------------------------------------->>>1
-set(smplayer2_gui_SOURCES
+set( smplayer2_gui_SOURCES
 	gui/basegui.cpp
 	gui/baseguiplus.cpp
 	gui/defaultgui.cpp
@@ -21,7 +21,7 @@ set(smplayer2_gui_SOURCES
 	gui/mpcgui/mpcstyles.cpp
 )
 
-set(smplayer2_gui_HEADERS
+set( smplayer2_gui_HEADERS
 	gui/basegui.h
 	gui/baseguiplus.h
 	gui/defaultgui.h
@@ -29,9 +29,13 @@ set(smplayer2_gui_HEADERS
 	gui/mpcgui/mpcgui.h
 	gui/mpcgui/mpcstyles.h
 )
+
+set( smplayer2_gui_NOMOC_HEADERS
+	gui/guiconfig.h
+)
 #---------------------------------------------------------------------------<<<1
 # prefui ------------------------------------------------------------------->>>1
-set(smplayer2_prefui_SOURCES
+set( smplayer2_prefui_SOURCES
 	prefui/prefadvanced.cpp
 	prefui/prefdrives.cpp
 	prefui/preferencesdialog.cpp
@@ -44,7 +48,7 @@ set(smplayer2_prefui_SOURCES
 	prefui/preftv.cpp
 )
 
-set(smplayer2_prefui_HEADERS
+set( smplayer2_prefui_HEADERS
 	prefui/prefadvanced.h
 	prefui/prefdrives.h
 	prefui/preferencesdialog.h
@@ -57,7 +61,7 @@ set(smplayer2_prefui_HEADERS
 	prefui/preftv.h
 )
 
-set(smplayer2_prefui_FORMS
+set( smplayer2_prefui_FORMS
 	prefui/prefadvanced.ui
 	prefui/prefdrives.ui
 	prefui/preferencesdialog.ui
@@ -71,7 +75,7 @@ set(smplayer2_prefui_FORMS
 )
 #---------------------------------------------------------------------------<<<1
 # widgets ------------------------------------------------------------------>>>1
-set(smplayer2_widgets_SOURCES
+set( smplayer2_widgets_SOURCES
 	widgets/actionseditor.cpp
 	widgets/audioequalizer.cpp
 	widgets/eqslider.cpp
@@ -95,7 +99,7 @@ set(smplayer2_widgets_SOURCES
 	widgets/videoequalizer.cpp
 )
 
-set(smplayer2_widgets_HEADERS
+set( smplayer2_widgets_HEADERS
 	widgets/actionseditor.h
 	widgets/audioequalizer.h
 	widgets/eqslider.h
@@ -114,14 +118,21 @@ set(smplayer2_widgets_HEADERS
 	widgets/tristatecombo.h
 	widgets/videoequalizer.h
 )
-set(smplayer2_widgets_FORMS
+set( smplayer2_widgets_FORMS
 	widgets/eqslider.ui
 	widgets/logwindowbase.ui
 	widgets/seekwidget.ui
 )
+
+set( smplayer2_widgets_NOMOC_HEADERS
+	widgets/mycombobox.h
+	widgets/mytablewidget.h
+	widgets/prefwidget.h
+	widgets/verticaltext.h
+)
 #---------------------------------------------------------------------------<<<1
 # dialogs ------------------------------------------------------------------>>>1
-set(smplayer2_dialogs_SOURCES
+set( smplayer2_dialogs_SOURCES
 	dialogs/about.cpp
 	dialogs/errordialog.cpp
 	dialogs/favoriteeditor.cpp
@@ -134,7 +145,7 @@ set(smplayer2_dialogs_SOURCES
 	dialogs/vdpauproperties.cpp
 )
 
-set(smplayer2_dialogs_HEADERS
+set( smplayer2_dialogs_HEADERS
 	dialogs/about.h
 	dialogs/errordialog.h
 	dialogs/favoriteeditor.h
@@ -146,7 +157,7 @@ set(smplayer2_dialogs_HEADERS
 	dialogs/vdpauproperties.h
 )
 
-set(smplayer2_dialogs_FORMS
+set( smplayer2_dialogs_FORMS
 	dialogs/about.ui
 	dialogs/errordialog.ui
 	dialogs/favoriteeditor.ui
@@ -156,9 +167,13 @@ set(smplayer2_dialogs_FORMS
 	dialogs/timedialog.ui
 	dialogs/vdpauproperties.ui
 )
+
+set( smplayer2_dialogs_NOMOC_HEADERS
+	dialogs/filedialog.h
+)
 #---------------------------------------------------------------------------<<<1
 # main --------------------------------------------------------------------->>>1
-set(smplayer2_SOURCES
+set( smplayer2_SOURCES
 	assstyles.cpp
 	clhelp.cpp
 	colorutils.cpp
@@ -213,7 +228,7 @@ set(smplayer2_SOURCES
 	${smplayer2_dialogs_SOURCES}
 )
 
-set(smplayer2_HEADERS
+set( smplayer2_HEADERS
 	core.h
 	favorites.h
 	filters.h
@@ -236,7 +251,7 @@ set(smplayer2_HEADERS
 	${smplayer2_dialogs_HEADERS}
 )
 
-set(smplayer2_FORMS
+set( smplayer2_FORMS
 	findsubtitles/findsubtitlesconfigdialog.ui
 	findsubtitles/findsubtitleswindow.ui
 	videopreview/videopreviewconfigdialog.ui
@@ -245,89 +260,112 @@ set(smplayer2_FORMS
 	${smplayer2_dialogs_FORMS}
 )
 #---------------------------------------------------------------------------<<<1
-
-set(smplayer2_NOMOC_HEADERS
-	gui/guiconfig.h
-	preferences.h
+# no moc headers ----------------------------------------------------------->>>1
+set( smplayer2_NOMOC_HEADERS
 	audioequalizerlist.h
-	widgets/mycombobox.h
-	widgets/mytablewidget.h
-	widgets/prefwidget.h
-	widgets/verticaltext.h
-	dialogs/filedialog.h
+	config.h
+	constants.h
+	preferences.h
+	${smplayer2_gui_NOMOC_HEADERS}
+	${smplayer2_widgets_NOMOC_HEADERS}
+	${smplayer2_dialogs_NOMOC_HEADERS}
 )
+#---------------------------------------------------------------------------<<<1
 
-set(smplayer2_RESOURCES icons.qrc)
-set(smplayer2_LIBS ${QT_LIBRARIES} ${ZLIB_LIBRARY})
+set( smplayer2_RESOURCES icons.qrc )
+set( smplayer2_LIBS ${QT_LIBRARIES} ${ZLIB_LIBRARY} )
 
-if(HAVE_DOWNLOAD_SUBS)
-	add_definitions(-DDOWNLOAD_SUBS)
-	set(smplayer2_LIBS ${smplayer2_LIBS} ${QUAZIP_LIBRARY})
-	set(smplayer2_HEADERS ${smplayer2_HEADERS}
+if( HAVE_DOWNLOAD_SUBS )
+	add_definitions( -DDOWNLOAD_SUBS )
+	set( smplayer2_LIBS
+		${smplayer2_LIBS}
+		${QUAZIP_LIBRARY}
+	)
+	set( smplayer2_HEADERS
+		${smplayer2_HEADERS}
 		findsubtitles/filedownloader/filedownloader.h
-		findsubtitles/subchooserdialog.h)
-	set(smplayer2_SOURCES ${smplayer2_SOURCES}
+		findsubtitles/subchooserdialog.h
+	)
+	set( smplayer2_SOURCES
+		${smplayer2_SOURCES}
 		findsubtitles/filedownloader/filedownloader.cpp
-		findsubtitles/subchooserdialog.cpp)
-	set(smplayer2_FORMS ${smplayer2_FORMS}
-		findsubtitles/subchooserdialog.ui)
+		findsubtitles/subchooserdialog.cpp
+	)
+	set( smplayer2_FORMS
+		${smplayer2_FORMS}
+		findsubtitles/subchooserdialog.ui
+	)
 endif()
 
-if(WIN32)
-	string(REPLACE "gcc" "windres" CMAKE_RC_COMPILER_INIT ${CMAKE_C_COMPILER})
-	enable_language(RC)
-	set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff -o <OBJECT> <SOURCE>")
-
-	add_definitions(-DSCREENSAVER_OFF)
-	add_definitions(-DUSE_ASSOCIATIONS)
-	set(smplayer2_SOURCES ${smplayer2_SOURCES}
-		screensaver.cpp
-		prefui/prefassociations.cpp
-		winfileassoc.cpp
-		smplayer2.rc
+if( WIN32 )
+	string( REPLACE "gcc" "windres" CMAKE_RC_COMPILER_INIT ${CMAKE_C_COMPILER} )
+	enable_language( RC )
+	set( CMAKE_RC_COMPILE_OBJECT
+		"<CMAKE_RC_COMPILER> -O coff -o <OBJECT> <SOURCE>"
 	)
-	set(smplayer2_HEADERS ${smplayer2_HEADERS}
+
+	add_definitions( -DSCREENSAVER_OFF )
+	add_definitions( -DUSE_ASSOCIATIONS )
+	set( smplayer2_SOURCES
+		${smplayer2_SOURCES}
+		prefui/prefassociations.cpp
+		screensaver.cpp
+		smplayer2.rc
+		winfileassoc.cpp
+	)
+	set( smplayer2_HEADERS
+		${smplayer2_HEADERS}
 		prefui/prefassociations.h
 	)
-	set(smplayer2_FORMS ${smplayer2_FORMS}
+	set( smplayer2_FORMS
+		${smplayer2_FORMS}
 		prefui/prefassociations.ui
 	)
 endif()
 
-set(LINGUAS "All" CACHE STRING "\"All\", a space-seperated list of translations to install with SMPlayer2, or \"None\".")
-if (LINGUAS STREQUAL "All")
-	file(GLOB smplayer2_LANGUAGES translations/*.ts)
-else ()
-if (NOT LINGUAS OR LINGUAS STREQUAL "None")
-	set (smplayer2_LANGUAGES "")
-else ()
-	string(REGEX MATCHALL [a-zA-Z_]+
-			langs ${LINGUAS})
-	foreach(lang ${langs})
-		list(APPEND langs translations/smplayer2_${lang}.ts)
-	endforeach()
-	file(GLOB smplayer2_LANGUAGES ${langs})
-endif ()
-endif ()
+set( LINGUASINFO "\"All\", a space-seperated list of translations" )
+set( LINGUASINFO "${LINGUASINFO} to install with SMPlayer2, or \"None\"." )
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+set( LINGUAS
+	"All"
+	CACHE STRING ${LINGUASINFO}
+)
+if( LINGUAS STREQUAL "All" )
+	file( GLOB smplayer2_LANGUAGES translations/*.ts )
+else()
+	if( NOT LINGUAS OR LINGUAS STREQUAL "None" )
+		set( smplayer2_LANGUAGES "" )
+	else()
+		string( REGEX MATCHALL [a-zA-Z_]+ langs ${LINGUAS} )
+		foreach( lang ${langs} )
+			list( APPEND langs translations/smplayer2_${lang}.ts )
+		endforeach()
+		file( GLOB smplayer2_LANGUAGES ${langs} )
+	endif()
+endif()
 
-qt4_wrap_cpp(smplayer2_HEADERS_MOC ${smplayer2_HEADERS})
-qt4_wrap_ui(smplayer2_FORMS_HEADERS ${smplayer2_FORMS})
-qt4_add_translation(smplayer2_TRANSLATIONS ${smplayer2_LANGUAGES})
-qt4_add_resources(smplayer2_RESOURCES_RCC ${smplayer2_RESOURCES})
-add_custom_target(translations DEPENDS ${smplayer2_TRANSLATIONS})
+include_directories( ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
+
+qt4_wrap_cpp( smplayer2_HEADERS_MOC ${smplayer2_HEADERS} )
+qt4_wrap_ui( smplayer2_FORMS_HEADERS ${smplayer2_FORMS} )
+qt4_add_translation( smplayer2_TRANSLATIONS ${smplayer2_LANGUAGES} )
+qt4_add_resources( smplayer2_RESOURCES_RCC ${smplayer2_RESOURCES} )
+add_custom_target( translations DEPENDS ${smplayer2_TRANSLATIONS} )
 
 add_executable(smplayer2 WIN32
 	${smplayer2_SOURCES}
 	${smplayer2_HEADERS_MOC}
 	${smplayer2_FORMS_HEADERS}
 	${smplayer2_RESOURCES_RCC}
+	# Next line only needed to show files in QtCreator source list
 	${smplayer2_NOMOC_HEADERS}
 )
 
-add_dependencies(smplayer2 translations)
-target_link_libraries(smplayer2 ${smplayer2_LIBS})
+add_dependencies( smplayer2 translations )
+target_link_libraries( smplayer2 ${smplayer2_LIBS} )
 
-install(TARGETS smplayer2 RUNTIME DESTINATION bin)
-install(FILES ${smplayer2_TRANSLATIONS} DESTINATION share/smplayer2/translations)
+install( TARGETS smplayer2 RUNTIME DESTINATION bin )
+install(
+	FILES ${smplayer2_TRANSLATIONS}
+	DESTINATION share/smplayer2/translations
+)
