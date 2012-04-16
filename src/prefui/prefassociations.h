@@ -16,16 +16,16 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-	prefassociations.h
-	Handles file associations in Windows
-	Author: Florin Braghis (florin@libertv.ro)
+    prefassociations.h
+    Handles file associations in Windows
+    Author: Florin Braghis (florin@libertv.ro)
 */
 
 #ifndef _PREFASSOCIATIONS_H_
 #define _PREFASSOCIATIONS_H_
 
 #include "ui_prefassociations.h"
-#include "prefwidget.h"
+#include "widgets/prefwidget.h"
 
 class Preferences;
 
