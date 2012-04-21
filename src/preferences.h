@@ -181,7 +181,7 @@ public:
     QString font_file;
     QString font_name;
     bool use_fontconfig;
-    QString subcp; // -subcp
+    QString sub_encoding; // -subcp
     bool use_enca;
     QString enca_lang;
     int font_autoscale; // -subfont-autoscale

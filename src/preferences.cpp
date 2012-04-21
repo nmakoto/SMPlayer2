@@ -184,7 +184,7 @@ void Preferences::reset()
     font_file = "";
     font_name = "";
     use_fontconfig = false;
-    subcp = "ISO-8859-1";
+    sub_encoding = "";
     use_enca = false;
     enca_lang = QString(QLocale::system().name()).section("_", 0, 0);
     font_autoscale = 1;
@@ -569,7 +569,7 @@ void Preferences::save()
     set->setValue("font_name", font_name);
 
     set->setValue("use_fontconfig", use_fontconfig);
-    set->setValue("subcp", subcp);
+    set->setValue("sub_encoding", sub_encoding);
     set->setValue("use_enca", use_enca);
     set->setValue("enca_lang", enca_lang);
     set->setValue("font_autoscale", font_autoscale);
@@ -958,7 +958,7 @@ void Preferences::load()
     font_name = set->value("font_name", font_name).toString();
 
     use_fontconfig = set->value("use_fontconfig", use_fontconfig).toBool();
-    subcp = set->value("subcp", subcp).toString();
+    sub_encoding = set->value("sub_encoding", sub_encoding).toString();
     use_enca = set->value("use_enca", use_enca).toBool();
     enca_lang = set->value("enca_lang", enca_lang).toString();
     font_autoscale = set->value("font_autoscale", font_autoscale).toInt();

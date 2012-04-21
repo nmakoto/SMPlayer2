@@ -1642,11 +1642,11 @@ void Core::startMplayer(QString file, double seek)
         if ((pref->use_enca) && (!pref->enca_lang.isEmpty())) {
             encoding = "enca:" + pref->enca_lang;
 
-            if (!pref->subcp.isEmpty()) {
-                encoding += ":" + pref->subcp;
+            if (!pref->sub_encoding.isEmpty()) {
+                encoding += ":" + pref->sub_encoding;
             }
-        } else if (!pref->subcp.isEmpty()) {
-            encoding = pref->subcp;
+        } else if (!pref->sub_encoding.isEmpty()) {
+            encoding = pref->sub_encoding;
         }
 
         if (!encoding.isEmpty()) {

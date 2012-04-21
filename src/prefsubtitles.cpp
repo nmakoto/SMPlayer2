@@ -69,18 +69,19 @@ void PrefSubtitles::retranslateStrings()
     font_autoload_combo->setCurrentIndex(font_autoload_item);
 
     // Encodings combo
-    //int font_encoding_item = font_encoding_combo->currentIndex();
     QString current_encoding = fontEncoding();
     QString current_enca_lang = encaLang();
     font_encoding_combo->clear();
     enca_lang_combo->clear();
+
+    font_encoding_combo->addItem(tr("Default"), "");
 
     QMap<QString, QString> l = Languages::encodings();
     QMapIterator<QString, QString> i(l);
 
     while (i.hasNext()) {
         i.next();
-        font_encoding_combo->addItem(i.value() + " (" + i.key() + ")", i.key());
+        font_encoding_combo->addItem(i.key() + " (" + i.value() + ")", i.key());
     }
 
     l = Languages::list();
@@ -91,9 +92,7 @@ void PrefSubtitles::retranslateStrings()
         enca_lang_combo->addItem(i.value() + " (" + i.key() + ")", i.key());
     }
 
-    font_encoding_combo->model()->sort(0);
     enca_lang_combo->model()->sort(0);
-    //font_encoding_combo->setCurrentIndex(font_encoding_item);
     setFontEncoding(current_encoding);
     setEncaLang(current_enca_lang);
 
@@ -138,7 +137,7 @@ void PrefSubtitles::setData(Preferences *pref)
     setAutoloadSub(pref->autoload_sub);
     setPreferExternal(pref->prefer_external);
     setFontFuzziness(pref->subfuzziness);
-    setFontEncoding(pref->subcp);
+    setFontEncoding(pref->sub_encoding);
     setUseEnca(pref->use_enca);
     setEncaLang(pref->enca_lang);
     setUseFontASS(pref->use_ass_subtitles);
@@ -182,7 +181,7 @@ void PrefSubtitles::getData(Preferences *pref)
     TEST_AND_SET(pref->autoload_sub, autoloadSub());
     TEST_AND_SET(pref->prefer_external, preferExternal());
     TEST_AND_SET(pref->subfuzziness, fontFuzziness());
-    TEST_AND_SET(pref->subcp, fontEncoding());
+    TEST_AND_SET(pref->sub_encoding, fontEncoding());
     TEST_AND_SET(pref->use_enca, useEnca());
     TEST_AND_SET(pref->enca_lang, encaLang());
     TEST_AND_SET(pref->use_ass_subtitles, useFontASS());
