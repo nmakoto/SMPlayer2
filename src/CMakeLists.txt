@@ -3,7 +3,25 @@ if(NOT WIN32)
 	add_definitions("-DDATA_PATH=\"${CMAKE_INSTALL_PREFIX}/share/smplayer2\"")
 endif()
 
-find_package(Qt4 REQUIRED QtCore QtGui QtNetwork QtXml)
+if (ENABLE_DBUS)
+	set(smplayer2_mpris2_SOURCES
+		mpris2/mediaplayer2.cpp
+		mpris2/mediaplayer2player.cpp
+		mpris2/mpris2.cpp
+	)
+
+	set(smplayer2_mpris2_HEADERS
+		mpris2/mediaplayer2.h
+		mpris2/mediaplayer2player.h
+		mpris2/mpris2.h
+	)
+
+	set(QT_DBUS QtDBus)
+
+	add_definitions("-DHAVE_QTDBUS")
+ENDIF(ENABLE_DBUS)
+
+find_package(Qt4 REQUIRED QtCore QtGui QtNetwork QtXml ${QT_DBUS})
 find_package(ZLIB REQUIRED)
 set(QT_USE_QTNETWORK TRUE)
 set(QT_USE_QTXML TRUE)
@@ -107,6 +125,7 @@ set(smplayer2_SOURCES
 	clhelp.cpp
 	smplayer2.cpp
 	main.cpp
+	${smplayer2_mpris2_SOURCES}
 )
 
 set(smplayer2_HEADERS
@@ -168,6 +187,7 @@ set(smplayer2_HEADERS
 	videopreview/videopreviewconfigdialog.h
 	videopreview/videopreview.h
 	widgetactions.h
+	${smplayer2_mpris2_HEADERS}
 )
 
 set(smplayer2_FORMS

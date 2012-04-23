@@ -41,9 +41,12 @@ if (NOT DEBUG_OUTPUT)
 	add_definitions(-DNO_DEBUG_ON_CONSOLE)
 endif()
 
+option(ENABLE_DBUS "Enable D-Bus. Required for MPRIS2 support." ON)
+
 add_subdirectory(src)
 add_subdirectory(icons)
 
+summary_add("MPRIS2 Support" ENABLE_DBUS)
 summary_add("Subtitle downloader" HAVE_DOWNLOAD_SUBS)
 summary_show()
 
