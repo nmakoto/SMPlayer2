@@ -91,6 +91,9 @@
 #include "constants.h"
 
 #include "extensions.h"
+#ifdef HAVE_QTDBUS
+#include "mpris2/mpris2.h"
+#endif
 
 #ifdef Q_OS_WIN
 #include "deviceinfo.h"
@@ -182,6 +185,10 @@ BaseGui::BaseGui(bool use_server, QWidget *parent, Qt::WindowFlags flags)
     panel->setFocus();
 
     initializeGui();
+
+#ifdef HAVE_QTDBUS
+    new Mpris2(core, this, this);
+#endif
 }
 
 void BaseGui::initializeGui()
