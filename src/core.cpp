@@ -1494,18 +1494,6 @@ void Core::startMplayer(QString file, double seek)
         proc->addArgument(QString::number(pref->mc_value));
     }
 
-    if (pref->use_direct_rendering) {
-        proc->addArgument("-dr");
-    } else {
-        proc->addArgument("-nodr");
-    }
-
-    if (pref->use_double_buffer) {
-        proc->addArgument("-double");
-    } else {
-        proc->addArgument("-nodouble");
-    }
-
 #ifndef Q_OS_WIN
 
     if (!pref->use_mplayer_window) {
@@ -1890,8 +1878,6 @@ void Core::startMplayer(QString file, double seek)
         }
     }
 
-    bool force_noslices = false;
-
 #ifndef Q_OS_WIN
 
     if ((pref->vdpau.disable_video_filters) && (pref->vo.startsWith("vdpau"))) {
@@ -2015,8 +2001,6 @@ void Core::startMplayer(QString file, double seek)
         } else {
             proc->addArgument("-vf-add");
             proc->addArgument("expand=osd=1");
-            //proc->addArgument("-noslices");
-            force_noslices = true;
         }
     }
 
@@ -2049,14 +2033,6 @@ void Core::startMplayer(QString file, double seek)
 #ifndef Q_OS_WIN
 end_video_filters:
 #endif
-
-    // slices
-    if ((pref->use_slices) && (!force_noslices)) {
-        proc->addArgument("-slices");
-    } else {
-        proc->addArgument("-noslices");
-    }
-
 
     // Audio channels
     if (mset.audio_use_channels != 0) {

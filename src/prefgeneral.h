@@ -155,15 +155,6 @@ protected:
     void setInitialZoom(double v);
     double initialZoom();
 
-    void setDirectRendering(bool b);
-    bool directRendering();
-
-    void setDoubleBuffer(bool b);
-    bool doubleBuffer();
-
-    void setUseSlices(bool b);
-    bool useSlices();
-
     void setAmplification(int n);
     int amplification();
 

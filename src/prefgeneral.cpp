@@ -187,9 +187,6 @@ void PrefGeneral::setData(Preferences *pref)
     setAmplification(pref->softvol_max);
     setInitialDeinterlace(pref->initial_deinterlace);
     setInitialZoom(pref->initial_zoom_factor);
-    setDirectRendering(pref->use_direct_rendering);
-    setDoubleBuffer(pref->use_double_buffer);
-    setUseSlices(pref->use_slices);
     setStartInFullscreen(pref->start_in_fullscreen);
     setBlackbordersOnFullscreen(pref->add_blackborders_on_fullscreen);
 
@@ -265,9 +262,6 @@ void PrefGeneral::getData(Preferences *pref)
     TEST_AND_SET(pref->softvol_max, amplification());
     pref->initial_deinterlace = initialDeinterlace();
     pref->initial_zoom_factor = initialZoom();
-    TEST_AND_SET(pref->use_direct_rendering, directRendering());
-    TEST_AND_SET(pref->use_double_buffer, doubleBuffer());
-    TEST_AND_SET(pref->use_slices, useSlices());
     pref->start_in_fullscreen = startInFullscreen();
 
     if (pref->add_blackborders_on_fullscreen != blackbordersOnFullscreen()) {
@@ -701,36 +695,6 @@ double PrefGeneral::initialZoom()
     return zoom_spin->value();
 }
 
-void PrefGeneral::setDirectRendering(bool b)
-{
-    direct_rendering_check->setChecked(b);
-}
-
-bool PrefGeneral::directRendering()
-{
-    return direct_rendering_check->isChecked();
-}
-
-void PrefGeneral::setDoubleBuffer(bool b)
-{
-    double_buffer_check->setChecked(b);
-}
-
-bool PrefGeneral::doubleBuffer()
-{
-    return double_buffer_check->isChecked();
-}
-
-void PrefGeneral::setUseSlices(bool b)
-{
-    use_slices_check->setChecked(b);
-}
-
-bool PrefGeneral::useSlices()
-{
-    return use_slices_check->isChecked();
-}
-
 void PrefGeneral::setAmplification(int n)
 {
     softvol_max_spin->setValue(n);
@@ -956,22 +920,6 @@ void PrefGeneral::createHelp()
                     "your graphic card or the selected video output driver.<br>"
                     "<b>Note:</b> this option can be incompatible with some video "
                     "output drivers."));
-
-    setWhatsThis(direct_rendering_check, tr("Direct rendering"),
-                 tr("If checked, turns on direct rendering (not supported by all "
-                    "codecs and video outputs)<br>"
-                    "<b>Warning:</b> May cause OSD/SUB corruption!"));
-
-    setWhatsThis(double_buffer_check, tr("Double buffering"),
-                 tr("Double buffering fixes flicker by storing two frames in memory, "
-                    "and displaying one while decoding another. If disabled it can "
-                    "affect OSD negatively, but often removes OSD flickering."));
-
-    setWhatsThis(use_slices_check, tr("Draw video using slices"),
-                 tr("Enable/disable drawing video by 16-pixel height slices/bands. "
-                    "If disabled, the whole frame is drawn in a single run. "
-                    "May be faster or slower, depending on video card and available "
-                    "cache. It has effect only with libmpeg2 and libavcodec codecs."));
 
     setWhatsThis(start_fullscreen_check, tr("Start videos in fullscreen"),
                  tr("If this option is checked, all videos will start to play in "

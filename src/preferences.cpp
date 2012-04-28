@@ -84,11 +84,7 @@ void Preferences::reset()
     audio_lang = "";
     subtitle_lang = "";
 
-    use_direct_rendering = true;
-    use_double_buffer = true;
-
     use_soft_video_eq = false;
-    use_slices = false;
     add_blackborders_on_fullscreen = false;
 
 #ifdef Q_OS_WIN
@@ -465,10 +461,7 @@ void Preferences::save()
     set->setValue("audio_lang", audio_lang);
     set->setValue("subtitle_lang", subtitle_lang);
 
-    set->setValue("use_direct_rendering", use_direct_rendering);
-    set->setValue("use_double_buffer", use_double_buffer);
     set->setValue("use_soft_video_eq", use_soft_video_eq);
-    set->setValue("use_slices", use_slices);
     set->setValue("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen);
 
 #ifdef Q_OS_WIN
@@ -853,11 +846,7 @@ void Preferences::load()
     audio_lang = set->value("audio_lang", audio_lang).toString();
     subtitle_lang = set->value("subtitle_lang", subtitle_lang).toString();
 
-    use_direct_rendering = set->value("use_direct_rendering", use_direct_rendering).toBool();
-    use_double_buffer = set->value("use_double_buffer", use_double_buffer).toBool();
-
     use_soft_video_eq = set->value("use_soft_video_eq", use_soft_video_eq).toBool();
-    use_slices = set->value("use_slices", use_slices).toBool();
     add_blackborders_on_fullscreen = set->value("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen).toBool();
 
 #ifdef Q_OS_WIN

@@ -385,27 +385,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="direct_rendering_check">
-         <property name="text">
-          <string>D&amp;irect rendering</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="double_buffer_check">
-         <property name="text">
-          <string>Dou&amp;ble buffering</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="use_slices_check">
-         <property name="text">
-          <string>Dra&amp;w video using slices</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="Line" name="line_3">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1117,9 +1096,6 @@ For translators: don't translate this text, it will be replaced with another one
   <tabstop>deinterlace_combo</tabstop>
   <tabstop>zoom_spin</tabstop>
   <tabstop>eq2_check</tabstop>
-  <tabstop>direct_rendering_check</tabstop>
-  <tabstop>double_buffer_check</tabstop>
-  <tabstop>use_slices_check</tabstop>
   <tabstop>start_fullscreen_check</tabstop>
   <tabstop>blackborders_on_fs_check</tabstop>
   <tabstop>screensaver_check</tabstop>
