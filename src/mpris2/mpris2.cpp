@@ -28,6 +28,8 @@
 #include <QMetaClassInfo>
 #include <QStringList>
 
+#include <unistd.h>
+
 Mpris2::Mpris2(Core* core, BaseGui* gui, QObject* parent)
     : QObject(parent)
 {
