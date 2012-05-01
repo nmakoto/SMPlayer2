@@ -129,7 +129,7 @@ static QRegExp rx_ac_key("^ID_AUDIO_CODECS");
 static QRegExp rx_vc_key("^ID_VIDEO_CODECS");
 
 static QRegExp rx_driver("\\t(.*)\\t(.*)");
-static QRegExp rx_demuxer("^\\s+([A-Z,a-z,0-9]+)\\s+(\\d+)\\s+(\\S.*)");
+static QRegExp rx_demuxer("^\\s+([A-Z,a-z,0-9]+)\\s+(\\S.*)");
 static QRegExp rx_codec("^([A-Z,a-z,0-9]+)\\s+([A-Z,a-z,0-9]+)\\s+([A-Z,a-z,0-9]+)\\s+(\\S.*)");
 
 void InfoReader::readLine(QByteArray ba)
@@ -160,7 +160,7 @@ void InfoReader::readLine(QByteArray ba)
                 qWarning("InfoReader::readLine: Unknown type! Ignoring");
         } else if (rx_demuxer.indexIn(line) > -1) {
             QString name = rx_demuxer.cap(1);
-            QString desc = rx_demuxer.cap(3);
+            QString desc = rx_demuxer.cap(2);
             qDebug("InfoReader::readLine: found demuxer: '%s' '%s'", name.toUtf8().data(), desc.toUtf8().data());
             demuxer_list.append(InfoData(name, desc));
         } else if (rx_codec.indexIn(line) > -1) {
