@@ -43,7 +43,6 @@ class FilePropertiesDialog;
 class VideoEqualizer;
 class AudioEqualizer;
 class FindSubtitlesWindow;
-class VideoPreview;
 class Playlist;
 
 class MyAction;
@@ -108,8 +107,6 @@ public slots:
 
     virtual void showFindSubtitlesDialog();
     virtual void openUploadSubtitlesPage(); //turbos
-
-    virtual void showVideoPreviewDialog();
 
     virtual void showPlaylist();
     virtual void showPlaylist(bool b);
@@ -377,7 +374,6 @@ protected:
     MyAction *videoEqualizerAct;
     MyAction *screenshotAct;
     MyAction *screenshotsAct;
-    MyAction *videoPreviewAct;
     MyAction *flipAct;
     MyAction *mirrorAct;
     MyAction *postProcessingAct;
@@ -655,7 +651,6 @@ protected:
     VideoEqualizer *video_equalizer;
     AudioEqualizer *audio_equalizer;
     FindSubtitlesWindow *find_subs_dialog;
-    VideoPreview *video_preview;
 
     Core *core;
     MplayerWindow *mplayerwindow;

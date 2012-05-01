@@ -108,8 +108,6 @@ set(smplayer2_SOURCES
 	findsubtitles/osparser.cpp
 	findsubtitles/findsubtitlesconfigdialog.cpp
 	findsubtitles/findsubtitleswindow.cpp
-	videopreview/videopreview.cpp
-	videopreview/videopreviewconfigdialog.cpp
 	favorites.cpp
 	tvlist.cpp
 	favoriteeditor.cpp
@@ -184,8 +182,6 @@ set(smplayer2_HEADERS
 	tristatecombo.h
 	tvlist.h
 	videoequalizer.h
-	videopreview/videopreviewconfigdialog.h
-	videopreview/videopreview.h
 	widgetactions.h
 	${smplayer2_mpris2_HEADERS}
 )
@@ -214,7 +210,6 @@ set(smplayer2_FORMS
 	timedialog.ui
 	findsubtitles/findsubtitleswindow.ui
 	findsubtitles/findsubtitlesconfigdialog.ui
-	videopreview/videopreviewconfigdialog.ui
 )
 
 set(smplayer2_RESOURCES icons.qrc)

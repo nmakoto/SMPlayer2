@@ -66,7 +66,6 @@
 #include "timedialog.h"
 #include "clhelp.h"
 #include "findsubtitles/findsubtitleswindow.h"
-#include "videopreview/videopreview.h"
 
 #include "config.h"
 #include "actionseditor.h"
@@ -126,7 +125,6 @@ BaseGui::BaseGui(bool use_server, QWidget *parent, Qt::WindowFlags flags)
     file_dialog = 0;
     clhelp_window = 0;
     find_subs_dialog = 0;
-    video_preview = 0;
 
     // Create objects:
     createPanel();
@@ -443,10 +441,6 @@ BaseGui::~BaseGui()
         delete find_subs_dialog;
         find_subs_dialog = 0; // Necessary?
     }
-
-    if (video_preview) {
-        delete video_preview;
-    }
 }
 
 void BaseGui::createActions()
@@ -676,10 +670,6 @@ void BaseGui::createActions()
     screenshotsAct = new MyAction(QKeySequence("Shift+D"), this, "multiple_screenshots");
     connect(screenshotsAct, SIGNAL(triggered()),
             core, SLOT(screenshots()));
-
-    videoPreviewAct = new MyAction(this, "video_preview");
-    connect(videoPreviewAct, SIGNAL(triggered()),
-            this, SLOT(showVideoPreviewDialog()));
 
     flipAct = new MyAction(this, "flip");
     flipAct->setCheckable(true);
@@ -1611,7 +1601,6 @@ void BaseGui::retranslateStrings()
     videoEqualizerAct->change(Images::icon("equalizer"), tr("&Equalizer"));
     screenshotAct->change(Images::icon("screenshot"), tr("&Screenshot"));
     screenshotsAct->change(Images::icon("screenshots"), tr("Start/stop takin&g screenshots"));
-    videoPreviewAct->change(Images::icon("video_preview"), tr("Pre&view..."));
     flipAct->change(Images::icon("flip"), tr("Fli&p image"));
     mirrorAct->change(Images::icon("mirror"), tr("Mirr&or image"));
     motionVectorsAct->change(Images::icon("motion_vectors"),
@@ -2422,8 +2411,6 @@ void BaseGui::createMenus()
 
     videoMenu->addMenu(ontop_menu);
 
-    videoMenu->addSeparator();
-    videoMenu->addAction(videoPreviewAct);
     videoMenu->addSeparator();
     videoMenu->addAction(motionVectorsAct);
 
@@ -4848,44 +4835,6 @@ void BaseGui::openUploadSubtitlesPage()
     //QDesktopServices::openUrl( QUrl("http://ds6.ovh.org/hashsubtitles/upload.php") );
     //QDesktopServices::openUrl( QUrl("http://www.opensubtitles.com/upload") );
     QDesktopServices::openUrl(QUrl("http://www.opensubtitles.org/uploadjava"));
-}
-
-void BaseGui::showVideoPreviewDialog()
-{
-    qDebug("BaseGui::showVideoPreviewDialog");
-
-    if (video_preview == 0) {
-        video_preview = new VideoPreview(pref->mplayer_bin, this);
-        video_preview->setSettings(Global::settings);
-    }
-
-    if (!core->mdat.filename.isEmpty()) {
-        video_preview->setVideoFile(core->mdat.filename);
-
-        // DVD
-        if (core->mdat.type == TYPE_DVD) {
-            QString file = core->mdat.filename;
-            DiscData disc_data = DiscName::split(file);
-            QString dvd_folder = disc_data.device;
-
-            if (dvd_folder.isEmpty()) dvd_folder = pref->dvd_device;
-
-            int dvd_title = disc_data.title;
-            file = disc_data.protocol + "://" + QString::number(dvd_title);
-
-            video_preview->setVideoFile(file);
-            video_preview->setDVDDevice(dvd_folder);
-        } else {
-            video_preview->setDVDDevice("");
-        }
-    }
-
-    video_preview->setMplayerPath(pref->mplayer_bin);
-
-    if ((video_preview->showConfigDialog(this)) && (video_preview->createThumbnails())) {
-        video_preview->show();
-        video_preview->adjustWindowSize();
-    }
 }
 
 // Language change stuff
