@@ -3014,6 +3014,8 @@ void Core::changeSubVisibility(bool visible)
         displayMessage(tr("Subtitles on"));
     else
         displayMessage(tr("Subtitles off"));
+
+    updateWidgets();
 }
 
 // Audio equalizer functions
@@ -3234,6 +3236,8 @@ void Core::changeSubtitle(int ID)
         } else {
             qWarning("Core::changeSubtitle: subtitle list is empty!");
         }
+
+        changeSubVisibility(true);
     }
 
     updateWidgets();

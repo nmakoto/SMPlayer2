@@ -3315,7 +3315,12 @@ void BaseGui::updateWidgets()
     qDebug("BaseGui::updateWidgets");
 
     // Subtitles menu
-    subtitleTrackGroup->setChecked(core->mset.current_sub_id);
+    if (pref->sub_visibility) {
+        subtitleTrackGroup->setChecked(core->mset.current_sub_id);
+    }
+    else {
+        subtitleTrackGroup->setChecked(MediaSettings::SubNone);
+    }
 
     // Disable the unload subs action if there's no external subtitles
     unloadSubsAct->setEnabled(!core->mset.external_subtitles.isEmpty());
