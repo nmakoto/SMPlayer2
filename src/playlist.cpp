@@ -1120,7 +1120,19 @@ void Playlist::addFiles(QStringList files, AutoGetInfo auto_get_info)
 
     QStringList::Iterator it = files.begin();
 
-    int placePos = current_item + 1;
+    int placePos = pl.count();
+    if (current_item >= 0 && current_item < pl.count() &&
+        pref->add_to_playlist_consecutive_files
+    ) {
+        PlaylistItem plitem = pl.at(current_item);
+        QFileInfo fi = QFileInfo((*it));
+        QString item_dir = fi.absolutePath();
+
+        fi = QFileInfo(plitem.filename());
+        if(0 == item_dir.compare(fi.absolutePath()))
+            placePos = current_item + 1;
+    }
+
     while (it != files.end()) {
 #if USE_INFOPROVIDER
 
