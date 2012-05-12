@@ -3993,7 +3993,7 @@ void BaseGui::toggleFullscreen(bool b)
 
 #endif
 
-        showFullScreen();
+        setWindowState( windowState() | Qt::WindowFullScreen );
 
     } else {
         showNormal();
